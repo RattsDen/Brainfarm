@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="BrainfarmService.BrainfarmService" CodeBehind="BrainfarmService.svc.cs" %>

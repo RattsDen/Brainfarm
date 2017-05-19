@@ -1,0 +1,17 @@
+﻿#div-register {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#div-register table {
+    width: 100%;
+}
+
+#div-register .text-field {
+    font-size: 14pt;
+    border-radius: 2px;
+    border: 1px solid lightgray;
+    padding: 5px;
+    width: calc(100% - 12px);
+}

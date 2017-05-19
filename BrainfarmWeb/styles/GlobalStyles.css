@@ -1,0 +1,77 @@
+﻿body {
+    background-color: #48adc3;
+
+    font-family: Calibri;
+    color: #404040;
+
+    margin:0px;
+    padding:0px;
+}
+
+#div-header {
+    background-color: #4fc8e2;
+    color: white;
+    overflow: auto;
+    padding: 5px;
+}
+    #div-header #div-logo {
+        float: left;
+    }
+    #div-header #div-login {
+        float: right;
+    }
+    #div-header #chkRemember {
+        
+    }
+    #div-header #lblLoginError {
+        font-size: small;
+        background-color: #ff2323;
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        border-radius: 4px;
+    }
+
+h1 {
+    margin: 0px;
+}
+
+.panel {
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px;
+    border: 0px;
+    border-radius: 2px;
+    background-color: #4fc8e2;
+    color: white;
+    text-decoration: none;
+
+    /* Taken from <input> tag to make <a> tags look like buttons */
+    font: 13.3333px Arial;
+    display: inline-block;
+    box-sizing: border-box;
+    align-items: flex-start;
+    text-align: center;
+    cursor: default;
+}
+    .btn:hover {
+        background-color: #48adc3;
+    }
+    .btn.btn-dark {
+        background-color: #48adc3;
+    }
+        .btn.btn-dark:hover {
+            background-color: #4fc8e2;
+        }
+    .btn.btn-wide {
+        width: 100%;
+    }
+
+.text-field {
+    width: calc(100% - 5px);
+}

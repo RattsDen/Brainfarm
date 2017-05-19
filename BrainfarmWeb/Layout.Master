@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Layout.master.cs" Inherits="BrainfarmWeb.Layout" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Brainfarm</title>
+    <link rel="stylesheet" href="/styles/GlobalStyles.css"/>
+
+    <script src="/plugins/jquery-3.2.1.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+
+        <div id="div-header">
+            <div id="div-logo">
+                <!--<h1>Brain Farm.</h1>-->
+                <a href="/Default.aspx"><img src="/img/logo_d.png" height="80" /></a>
+            </div>
+
+            <div id="div-login">
+                <asp:Panel runat="server" ID="panelLogin">
+                    <table>
+                        <tr>
+                            <td><asp:TextBox runat="server" ID="txtUsername" placeholder="Username" CssClass="text-field"></asp:TextBox></td>
+                            <td><asp:TextBox runat="server" ID="txtPassword" TextMode="Password" placeholder="Password" CssClass="text-field"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><asp:CheckBox runat="server" ID="chkRemember" Text="Remember me" /></td>
+                            <td><asp:Label runat="server" ID="lblLoginError"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Register.aspx" class="btn btn-wide btn-dark">Register</a></td>
+                            <td><asp:Button runat="server" ID="btnLogin" Text="Login" OnClick="btnLogin_Click" CssClass="btn btn-wide btn-dark" /></td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+                <asp:Panel runat="server" ID="panelCurrentUser" Visible="false">
+                    <table>
+                        <tr><td colspan="2"><asp:Label runat="server" ID="lblCurrentUser" Text="Welcome, "></asp:Label></td></tr>
+                        <tr>
+                            <td><a class="btn btn-wide btn-dark">Manage Account</a></td>
+                            <td><asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark" /></td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+            </div>
+
+        </div>
+
+        <asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
+        </asp:ContentPlaceHolder>
+
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1eff2a6c-58f7-491a-b1ff-b3b782d810b5" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:59006/BrainfarmService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BrainfarmService2.xsd" MetadataType="Schema" ID="fb35e8ff-35bf-481b-a939-169b9c77c9f4" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BrainfarmService.xsd" MetadataType="Schema" ID="5050f37e-1c28-4912-9349-4572dd09e844" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BrainfarmService.wsdl" MetadataType="Wsdl" ID="0a9b05ac-d341-4599-acb8-9f4657c3474c" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?wsdl" />
+    <MetadataFile FileName="BrainfarmService.disco" MetadataType="Disco" ID="69b4c9c1-234d-4c36-aa97-528e03c4e877" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?disco" />
+    <MetadataFile FileName="BrainfarmService1.xsd" MetadataType="Schema" ID="6859dabe-981f-4373-abf8-bb6f182c77e4" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
