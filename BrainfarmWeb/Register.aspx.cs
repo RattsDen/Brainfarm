@@ -21,7 +21,7 @@ namespace BrainfarmWeb
             {
                 try
                 {
-                    bool success = svc.RegisterUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
+                    bool success = svc.RegisterUser(txtUsername.Text, txtNewPassword.Text, txtEmail.Text);
                     if (success)
                     {
                         Response.Redirect("Default.aspx");
@@ -45,7 +45,7 @@ namespace BrainfarmWeb
 
         private void ClearPasswordFields()
         {
-            txtPassword.Text = "";
+            txtNewPassword.Text = "";
             txtPasswordConfirm.Text = "";
         }
     }

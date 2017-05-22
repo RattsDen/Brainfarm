@@ -8,6 +8,7 @@ using BrainfarmClassLibrary;
 
 namespace BrainfarmService
 {
+    // Static class to consolidate database access functions for Users
     public static class UserDBAccess
     {
         public static User ReadUser(SqlDataReader reader)

@@ -76,8 +76,15 @@ namespace BrainfarmService
 
             string passwordHash = HashPassword(password);
 
-            bool result = UserDBAccess.InsertUser(username, passwordHash, email);
-            return result;
+            try
+            {
+                bool result = UserDBAccess.InsertUser(username, passwordHash, email);
+                return result;
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database", new FaultCode("DATABASE_ERROR"));
+            }
         }
 
         private bool CheckUsernameRequirements(string username)
@@ -116,10 +123,20 @@ namespace BrainfarmService
             string passwordHash = HashPassword(password);
 
             // Validate supplied credentials
-            User user = UserDBAccess.ValidateCredentials(username, passwordHash);
+            User user;
+            try
+            {
+                user = UserDBAccess.ValidateCredentials(username, passwordHash);
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database", 
+                    new FaultCode("DATABASE_ERROR"));
+            }
             if (user == null) // If credentials did not match a user
             {
-                throw new FaultException("Incorrect username or password", new FaultCode("BAD_CREDENTIALS"));
+                throw new FaultException("Incorrect username or password", 
+                    new FaultCode("BAD_CREDENTIALS"));
             }
 
             // Create the user session, idenitfied by a session token
@@ -145,5 +162,28 @@ namespace BrainfarmService
         {
             UserSessionManager.ClearSession(sessionToken);
         }
+
+        public void CreateProject(string sessionToken, string title, string[] tags, 
+            string firstCommentBody)
+        {
+            // Get user session
+            UserSession session = UserSessionManager.GetUserSession(sessionToken);
+            if (session == null)
+                throw new FaultException("Session not valid", new FaultCode("INVALID_SESSION"));
+
+            try
+            {
+                // Insert project, its tags, and its first comment
+                // Implemented in the ProjectDBAccess class so it doesn't clutter this class
+                //and to keep DB stuff out of this class
+                ProjectDBAccess.CreateProject(session.User.UserID, title, tags, firstCommentBody);
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database", 
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
     }
 }

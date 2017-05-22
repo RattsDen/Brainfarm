@@ -62,7 +62,7 @@ namespace BrainfarmWeb
             {
                 panelLogin.Visible = false;
                 panelCurrentUser.Visible = true;
-                lblCurrentUser.Text = "Welcome, " + currentUser.Username + "!";
+                lblCurrentUser.Text = currentUser.Username;
             }
             else
             {
@@ -73,17 +73,17 @@ namespace BrainfarmWeb
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            Login(txtUsername.Text, txtPassword.Text);
+            Login(txtUsername.Text, txtPassword.Text, chkRemember.Checked);
             SetHeaderContent();
         }
 
-        private void Login(string username, string password)
+        private void Login(string username, string password, bool remember)
         {
             using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
             {
                 try
                 {
-                    string serviceSessionToken = svc.Login(username, password, false);
+                    string serviceSessionToken = svc.Login(username, password, remember);
                     Session["ServiceSessionToken"] = serviceSessionToken;
                 }
                 catch (FaultException ex)

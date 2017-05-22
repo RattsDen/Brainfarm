@@ -31,6 +31,16 @@
         text-align: center;
         border-radius: 4px;
     }
+    #div-header #div-current-user {
+        height: 45px;
+        width: 350px;
+        display: inline-block;
+    }
+        #div-header #div-current-user #lblCurrentUser {
+            font-size: 16pt;
+            font-weight: bold;
+        }
+
 
 h1 {
     margin: 0px;
@@ -74,4 +84,12 @@ h1 {
 
 .text-field {
     width: calc(100% - 5px);
+}
+
+.error-message {
+    color: white;
+    background-color: #ff2323;
+    display: inline-block;
+    width: 100%;
+    padding-left: 2px;
 }

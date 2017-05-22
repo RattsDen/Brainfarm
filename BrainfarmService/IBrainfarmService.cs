@@ -58,5 +58,9 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         void Logout(string sessionToken);
+
+        [OperationContract]
+        [WebInvoke]
+        void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
     }
 }

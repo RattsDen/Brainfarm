@@ -41,7 +41,14 @@
                 </asp:Panel>
                 <asp:Panel runat="server" ID="panelCurrentUser" Visible="false">
                     <table>
-                        <tr><td colspan="2"><asp:Label runat="server" ID="lblCurrentUser" Text="Welcome, "></asp:Label></td></tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="div-current-user">
+                                    Welcome, <br />
+                                    <asp:Label runat="server" ID="lblCurrentUser"></asp:Label>
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <td><a class="btn btn-wide btn-dark">Manage Account</a></td>
                             <td><asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark" /></td>
