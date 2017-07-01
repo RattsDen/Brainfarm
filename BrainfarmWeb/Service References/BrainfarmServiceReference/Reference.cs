@@ -116,12 +116,6 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetTimestamp", ReplyAction="http://tempuri.org/IBrainfarmService/GetTimestampResponse")]
         System.Threading.Tasks.Task<string> GetTimestampAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetAllUsers", ReplyAction="http://tempuri.org/IBrainfarmService/GetAllUsersResponse")]
-        BrainfarmWeb.BrainfarmServiceReference.User[] GetAllUsers();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetAllUsers", ReplyAction="http://tempuri.org/IBrainfarmService/GetAllUsersResponse")]
-        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User[]> GetAllUsersAsync();
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RegisterUser", ReplyAction="http://tempuri.org/IBrainfarmService/RegisterUserResponse")]
         bool RegisterUser(string username, string password, string email);
         
@@ -192,14 +186,6 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public System.Threading.Tasks.Task<string> GetTimestampAsync() {
             return base.Channel.GetTimestampAsync();
-        }
-        
-        public BrainfarmWeb.BrainfarmServiceReference.User[] GetAllUsers() {
-            return base.Channel.GetAllUsers();
-        }
-        
-        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User[]> GetAllUsersAsync() {
-            return base.Channel.GetAllUsersAsync();
         }
         
         public bool RegisterUser(string username, string password, string email) {

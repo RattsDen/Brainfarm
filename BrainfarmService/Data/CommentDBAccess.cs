@@ -7,15 +7,16 @@ using System.Web;
 
 namespace BrainfarmService.Data
 {
-    // Static class to consolidate database access functions for Comments
-    public static class CommentDBAccess
+    public class CommentDBAccess : DBAccess
     {
+
+        public CommentDBAccess() : base() { }
+        public CommentDBAccess(DBAccess parent) : base(parent) { }
 
         // Insert the first comment on a project that should contain the project description.
         // Takes connection and transaction arguments so that if this part fails, the whole 
         //project posting operation can fail too.
-        public static void InsertInitialProjectComment(int projectID, int userID, string bodyText, 
-            SqlConnection conn, SqlTransaction trans)
+        public void InsertInitialProjectComment(int projectID, int userID, string bodyText)
         {
             string sql = @"
 INSERT INTO Comment
@@ -38,7 +39,7 @@ VALUES(@ProjectID
       ,0
       ,0)
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@ProjectID", projectID);
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -48,58 +49,48 @@ VALUES(@ProjectID
             }
         }
 
-        public static void CreateComment(int projectID, int userID, int parentCommentID,
+        public void CreateComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             Dictionary<int, string> syntheses, Dictionary<string, byte[]> fileUploads)
         {
             // TODO: Implement this method
 
-            // Open connection and transaction
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            BeginTransaction();
+
+            try
             {
-                conn.Open();
-                using (SqlTransaction trans = conn.BeginTransaction())
+                int commentID = InsertComment(projectID, userID, parentCommentID, 
+                    bodyText, isSynthesis, isContribution, isSpecification);
+
+                // Insert each synthesis junction if isSynthesis == true
+                if (isSynthesis)
                 {
-                    try
+                    foreach (KeyValuePair<int, string> synthesis in syntheses)
                     {
-                        int commentID = InsertComment(projectID, userID, parentCommentID, 
-                            bodyText, isSynthesis, isContribution, isSpecification, 
-                            conn, trans);
-
-                        // Insert each synthesis junction if isSynthesis == true
-                        if (isSynthesis)
-                        {
-                            foreach (KeyValuePair<int, string> synthesis in syntheses)
-                            {
-                                InsertSynthesisJunction(commentID, synthesis.Key, synthesis.Value, 
-                                    conn, trans);
-                            }
-                        }
-
-                        // Insert each contribution file if isContribution == true
-                        if (isContribution)
-                        {
-                            foreach (KeyValuePair<string, byte[]> upload in fileUploads)
-                            {
-                                // TODO: Insert contribution files
-                            }
-                        }
-
-                        trans.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        trans.Rollback();
-                        throw ex;
+                        InsertSynthesisJunction(commentID, synthesis.Key, synthesis.Value);
                     }
                 }
-                conn.Close();
+
+                // Insert each contribution file if isContribution == true
+                if (isContribution)
+                {
+                    foreach (KeyValuePair<string, byte[]> upload in fileUploads)
+                    {
+                        // TODO: Insert contribution files
+                    }
+                }
+
+                Commit();
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
             }
         }
 
-        public static int InsertComment(int projectID, int userID, int parentCommentID,
-            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SqlConnection conn, SqlTransaction trans)
+        public int InsertComment(int projectID, int userID, int parentCommentID,
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
         {
             string sql = @"
 INSERT INTO Comment
@@ -123,7 +114,7 @@ VALUES(@ProjectID
       ,@IsSpecification);
 SELECT SCOPE_IDENTITY();
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@ProjectID", projectID);
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -138,8 +129,8 @@ SELECT SCOPE_IDENTITY();
             }
         }
 
-        public static void InsertSynthesisJunction(int synthesisCommentID, int linkedCommentID, 
-            string summaryBlurb, SqlConnection conn, SqlTransaction trans)
+        public void InsertSynthesisJunction(int synthesisCommentID, int linkedCommentID, 
+            string summaryBlurb)
         {
             string sql = @"
 INSERT INTO SynthesisJunction
@@ -150,7 +141,7 @@ VALUES(@SynthesisCommentID
       ,@LinkedCommentID
       ,@SummaryBlurb)
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@SynthesisCommentID", synthesisCommentID);
                 command.Parameters.AddWithValue("@LinkedCommentID", linkedCommentID);

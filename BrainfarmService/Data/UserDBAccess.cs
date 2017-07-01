@@ -8,8 +8,11 @@ using System.Web;
 namespace BrainfarmService.Data
 {
     // Static class to consolidate database access functions for Users
-    public static class UserDBAccess
+    public class UserDBAccess : DBAccess
     {
+        public UserDBAccess() : base() { }
+        public UserDBAccess(DBAccess parent) : base(parent) { }
+
         public static User ReadUser(SqlDataReader reader)
         {
             User user = new User();
@@ -20,57 +23,38 @@ namespace BrainfarmService.Data
             return user;
         }
 
-        public static bool UsernameExists(string username)
+        public bool UsernameExists(string username)
         {
-            bool result;
             string sql = @"
 SELECT COUNT(*)
   FROM [User]
  WHERE Username = @Username
 ";
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            using (SqlCommand command = GetNewCommand(sql))
             {
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql, conn))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-
-                    // The username exists if count is greater than 0
-                    result = Convert.ToInt32(command.ExecuteScalar()) != 0;
-                }
-                conn.Close();
+                command.Parameters.AddWithValue("@Username", username);
+                // The username exists if count is greater than 0
+                return Convert.ToInt32(command.ExecuteScalar()) != 0;
             }
-
-            return result;
         }
 
-        public static bool EmailExists(string email)
+        public bool EmailExists(string email)
         {
-            bool result;
             string sql = @"
 SELECT COUNT(*)
   FROM [User]
  WHERE Email = @Email
 ";
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            using (SqlCommand command = GetNewCommand(sql))
             {
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql, conn))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-
-                    // The email exists if count is greater than 0
-                    result = Convert.ToInt32(command.ExecuteScalar()) != 0;
-                }
-                conn.Close();
+                command.Parameters.AddWithValue("@Email", email);
+                // The email exists if count is greater than 0
+                return Convert.ToInt32(command.ExecuteScalar()) != 0;
             }
-
-            return result;
         }
 
-        public static bool InsertUser(string username, string passwordHash, string email)
+        public bool InsertUser(string username, string passwordHash, string email)
         {
-            int result;
             string sql = @"
 INSERT INTO [User]
       (Username
@@ -82,27 +66,19 @@ VALUES(@Username
       ,@CreationDate
       ,@Email)
 ";
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            using (SqlCommand command = GetNewCommand(sql))
             {
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql, conn))
-                {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@PasswordHash", passwordHash);
-                    command.Parameters.AddWithValue("@CreationDate", DateTime.Now);
-                    command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+                command.Parameters.AddWithValue("@CreationDate", DateTime.Now);
+                command.Parameters.AddWithValue("@Email", email);
 
-                    result = command.ExecuteNonQuery(); // Result = number of rows affected
-                }
-                conn.Close();
+                return command.ExecuteNonQuery() > 0; // Result = number of rows affected > 0
             }
-
-            return result > 0;
         }
 
-        public static User ValidateCredentials(string username, string passwordHash)
+        public User AuthenticateUser(string username, string passwordHash)
         {
-            User resultUser;
             string sql = @"
 SELECT UserID
       ,Username
@@ -112,26 +88,19 @@ SELECT UserID
  WHERE Username = @Username
    AND PasswordHash = @PasswordHash
 ";
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            using (SqlCommand command = GetNewCommand(sql))
             {
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql, conn))
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@PasswordHash", passwordHash);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read()) // Only read one result (there should only be one at max)
-                            resultUser = ReadUser(reader); // Credentials matched - return user
-                        else
-                            resultUser = null; // No match - return null
-                    }
+                    if (reader.Read()) // Only read one result (there should only be one at max)
+                        return ReadUser(reader); // Credentials matched - return user
+                    else
+                        return null; // TODO: Throw exception here
                 }
-                conn.Close();
             }
-
-            return resultUser;
         }
     }
 }

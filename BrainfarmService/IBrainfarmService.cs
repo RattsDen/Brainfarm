@@ -38,11 +38,6 @@ namespace BrainfarmService
         [WebInvoke]
         string GetTimestamp();
 
-        // Another testing method
-        [OperationContract]
-        [WebInvoke]
-        List<User> GetAllUsers();
-
         [OperationContract]
         [WebInvoke]
         bool RegisterUser(string username, string password, string email);

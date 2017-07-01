@@ -9,8 +9,11 @@ namespace BrainfarmService.Data
 {
     // Static class to consolidate database access functions for Projects
     // Also has some Tag access functions since they are so closely related
-    public static class ProjectDBAccess
+    public class ProjectDBAccess : DBAccess
     {
+        public ProjectDBAccess() : base() { }
+        public ProjectDBAccess(DBAccess parent) : base(parent) { }
+
         public static Project ReadProject(SqlDataReader reader)
         {
             Project project = new Project();
@@ -21,43 +24,35 @@ namespace BrainfarmService.Data
             return project;
         }
 
-
-        public static void CreateProject(int userID, string title, string[] tags, string firstCommentBody)
+        public void CreateProject(int userID, string title, string[] tags, string firstCommentBody)
         {
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
+            BeginTransaction();
+            try
             {
-                conn.Open();
-                using (SqlTransaction trans = conn.BeginTransaction())
+                // Insert project, get its ID
+                int projectID = InsertProject(userID, title);
+
+                // Get ID for each tag and insert a link between the project and the tag
+                foreach (string tag in tags)
                 {
-                    try
-                    {
-                        // Insert project, get its ID
-                        int projectID = InsertProject(userID, title, conn, trans);
-
-                        // Get ID for each tag and insert a link between the project and the tag
-                        foreach (string tag in tags)
-                        {
-                            int tagID = GetOrCreateTagID(tag, conn, trans);
-                            InsertProjectTag(projectID, tagID, conn, trans);
-                        }
-
-                        // Insert inital comment
-                        CommentDBAccess.InsertInitialProjectComment(projectID, userID, firstCommentBody, 
-                            conn, trans);
-
-                        trans.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        trans.Rollback();
-                        throw ex;
-                    }
+                    int tagID = GetOrCreateTagID(tag);
+                    InsertProjectTag(projectID, tagID);
                 }
-                conn.Close();
+
+                // Insert inital comment
+                CommentDBAccess commentDBAccess = new CommentDBAccess(this);
+                commentDBAccess.InsertInitialProjectComment(projectID, userID, firstCommentBody);
+
+                Commit();
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
             }
         }
 
-        public static int InsertProject(int userID, string title, SqlConnection conn, SqlTransaction trans)
+        public int InsertProject(int userID, string title)
         {
             // Insert new project then select its ID.
             string sql = @"
@@ -70,7 +65,7 @@ VALUES(@UserID
       ,@CreationDate);
 SELECT SCOPE_IDENTITY();
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
                 command.Parameters.AddWithValue("@Title", title);
@@ -79,7 +74,7 @@ SELECT SCOPE_IDENTITY();
             }
         }
 
-        public static int GetOrCreateTagID(string tag, SqlConnection conn, SqlTransaction trans)
+        public int GetOrCreateTagID(string tag)
         {
             // SQL Translation: Insert tag if it doesn't exist already, then get its ID.
             string sql = @"
@@ -90,14 +85,14 @@ SELECT TagID
   FROM Tag
  WHERE Text = @Text;
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@Text", tag);
                 return Convert.ToInt32(command.ExecuteScalar());
             }
         }
 
-        public static void InsertProjectTag(int projectID, int tagID, SqlConnection conn, SqlTransaction trans)
+        public void InsertProjectTag(int projectID, int tagID)
         {
             string sql = @"
 INSERT INTO ProjectTag
@@ -106,7 +101,7 @@ INSERT INTO ProjectTag
 VALUES(@ProjectID
       ,@TagID)
 ";
-            using (SqlCommand command = new SqlCommand(sql, conn, trans))
+            using (SqlCommand command = GetNewCommand(sql))
             {
                 command.Parameters.AddWithValue("@ProjectID", projectID);
                 command.Parameters.AddWithValue("@TagID", tagID);

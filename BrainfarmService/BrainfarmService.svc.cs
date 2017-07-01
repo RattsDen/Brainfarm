@@ -28,30 +28,6 @@ namespace BrainfarmService
             return DateTime.Now.ToString();
         }
 
-        // Another testing method
-        public List<User> GetAllUsers()
-        {
-            List<User> users = new List<User>();
-            string sql = @"SELECT * FROM [User]";
-            using (SqlConnection conn = BrainfarmDBHelper.GetNewConnection())
-            {
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql, conn))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            User u = UserDBAccess.ReadUser(reader);
-                            users.Add(u);
-                        }
-                    }
-                }
-                conn.Close();
-            }
-            return users;
-        }
-
         public bool RegisterUser(string username, string password, string email)
         {
             // If not valid (empty) username, throw exception
@@ -66,20 +42,25 @@ namespace BrainfarmService
             if (!CheckEmailRequirements(email))
                 throw new FaultException("Invalid email address", new FaultCode("BAD_EMAIL"));
 
-            // If username already exists, throw exception
-            if (UserDBAccess.UsernameExists(username))
-                throw new FaultException("Username already in use", new FaultCode("USERNAME_UNAVAILABLE"));
-
-            // If email already exists, throw exception
-            if (UserDBAccess.EmailExists(email))
-                throw new FaultException("Email address already in use", new FaultCode("EMAIL_UNAVAILABLE"));
-
-            string passwordHash = HashPassword(password);
-
             try
             {
-                bool result = UserDBAccess.InsertUser(username, passwordHash, email);
-                return result;
+                using (UserDBAccess userDBAccess = new UserDBAccess())
+                {
+                    // If username already exists, throw exception
+                    if (userDBAccess.UsernameExists(username))
+                        throw new FaultException("Username already in use", new FaultCode("USERNAME_UNAVAILABLE"));
+
+                    // If email already exists, throw exception
+                    if (userDBAccess.EmailExists(email))
+                        throw new FaultException("Email address already in use", new FaultCode("EMAIL_UNAVAILABLE"));
+
+                    // Get hash of password
+                    string passwordHash = HashPassword(password);
+
+                    // Insert the user into the database
+                    bool result = userDBAccess.InsertUser(username, passwordHash, email);
+                    return result;
+                }
             }
             catch (SqlException)
             {
@@ -126,13 +107,17 @@ namespace BrainfarmService
             User user;
             try
             {
-                user = UserDBAccess.ValidateCredentials(username, passwordHash);
+                using (UserDBAccess userDBAccess = new UserDBAccess())
+                {
+                    user = userDBAccess.AuthenticateUser(username, passwordHash);
+                }
             }
             catch (SqlException)
             {
-                throw new FaultException("Error while communicating with database", 
+                throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
             }
+            // TODO: catch exception instead of checking for null user
             if (user == null) // If credentials did not match a user
             {
                 throw new FaultException("Incorrect username or password", 
@@ -173,10 +158,13 @@ namespace BrainfarmService
 
             try
             {
-                // Insert project, its tags, and its first comment
-                // Implemented in the ProjectDBAccess class so it doesn't clutter this class
-                //and to keep DB stuff out of this class
-                ProjectDBAccess.CreateProject(session.User.UserID, title, tags, firstCommentBody);
+                using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
+                {
+                    // Insert project, its tags, and its first comment
+                    // Implemented in the ProjectDBAccess class so it doesn't clutter this class
+                    //and to keep DB stuff out of this class
+                    projectDBAccess.CreateProject(session.User.UserID, title, tags, firstCommentBody);
+                }
             }
             catch (SqlException)
             {
@@ -198,9 +186,12 @@ namespace BrainfarmService
 
             try
             {
-                CommentDBAccess.CreateComment(projectID, session.User.UserID, parentCommentID,
-                    bodyText, isSynthesis, isContribution, isSpecification,
-                    syntheses, fileUploads);
+                using (CommentDBAccess commentDBAccess = new CommentDBAccess())
+                {
+                    commentDBAccess.CreateComment(projectID, session.User.UserID, parentCommentID,
+                        bodyText, isSynthesis, isContribution, isSpecification,
+                        syntheses, fileUploads);
+                }
             }
             catch (SqlException)
             {

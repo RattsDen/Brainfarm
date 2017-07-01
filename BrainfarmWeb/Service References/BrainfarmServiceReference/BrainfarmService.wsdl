@@ -14,12 +14,6 @@
   <wsdl:message name="IBrainfarmService_GetTimestamp_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTimestampResponse" />
   </wsdl:message>
-  <wsdl:message name="IBrainfarmService_GetAllUsers_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllUsers" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_GetAllUsers_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
-  </wsdl:message>
   <wsdl:message name="IBrainfarmService_RegisterUser_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUser" />
   </wsdl:message>
@@ -61,10 +55,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetTimestamp" message="tns:IBrainfarmService_GetTimestamp_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetTimestampResponse" message="tns:IBrainfarmService_GetTimestamp_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllUsers">
-      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetAllUsers" message="tns:IBrainfarmService_GetAllUsers_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetAllUsersResponse" message="tns:IBrainfarmService_GetAllUsers_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="RegisterUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RegisterUser" message="tns:IBrainfarmService_RegisterUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RegisterUserResponse" message="tns:IBrainfarmService_RegisterUser_OutputMessage" />
@@ -94,15 +84,6 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetTimestamp">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetTimestamp" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllUsers">
-      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetAllUsers" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
