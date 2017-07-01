@@ -9,7 +9,102 @@
 //------------------------------------------------------------------------------
 
 namespace BrainfarmWeb.BrainfarmServiceReference {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class User : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime CreationDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EmailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime CreationDate {
+            get {
+                return this.CreationDateField;
+            }
+            set {
+                if ((this.CreationDateField.Equals(value) != true)) {
+                    this.CreationDateField = value;
+                    this.RaisePropertyChanged("CreationDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Email {
+            get {
+                return this.EmailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
+                    this.EmailField = value;
+                    this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserID {
+            get {
+                return this.UserIDField;
+            }
+            set {
+                if ((this.UserIDField.Equals(value) != true)) {
+                    this.UserIDField = value;
+                    this.RaisePropertyChanged("UserID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BrainfarmServiceReference.IBrainfarmService")]
@@ -22,10 +117,10 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         System.Threading.Tasks.Task<string> GetTimestampAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetAllUsers", ReplyAction="http://tempuri.org/IBrainfarmService/GetAllUsersResponse")]
-        BrainfarmClassLibrary.User[] GetAllUsers();
+        BrainfarmWeb.BrainfarmServiceReference.User[] GetAllUsers();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetAllUsers", ReplyAction="http://tempuri.org/IBrainfarmService/GetAllUsersResponse")]
-        System.Threading.Tasks.Task<BrainfarmClassLibrary.User[]> GetAllUsersAsync();
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User[]> GetAllUsersAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RegisterUser", ReplyAction="http://tempuri.org/IBrainfarmService/RegisterUserResponse")]
         bool RegisterUser(string username, string password, string email);
@@ -40,16 +135,28 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         System.Threading.Tasks.Task<string> LoginAsync(string username, string password, bool keepLoggedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetCurrentUser", ReplyAction="http://tempuri.org/IBrainfarmService/GetCurrentUserResponse")]
-        BrainfarmClassLibrary.User GetCurrentUser(string sessionToken);
+        BrainfarmWeb.BrainfarmServiceReference.User GetCurrentUser(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetCurrentUser", ReplyAction="http://tempuri.org/IBrainfarmService/GetCurrentUserResponse")]
-        System.Threading.Tasks.Task<BrainfarmClassLibrary.User> GetCurrentUserAsync(string sessionToken);
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> GetCurrentUserAsync(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Logout", ReplyAction="http://tempuri.org/IBrainfarmService/LogoutResponse")]
         void Logout(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Logout", ReplyAction="http://tempuri.org/IBrainfarmService/LogoutResponse")]
         System.Threading.Tasks.Task LogoutAsync(string sessionToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
+        void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
+        System.Threading.Tasks.Task CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
+        void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
+        System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -87,11 +194,11 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.GetTimestampAsync();
         }
         
-        public BrainfarmClassLibrary.User[] GetAllUsers() {
+        public BrainfarmWeb.BrainfarmServiceReference.User[] GetAllUsers() {
             return base.Channel.GetAllUsers();
         }
         
-        public System.Threading.Tasks.Task<BrainfarmClassLibrary.User[]> GetAllUsersAsync() {
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User[]> GetAllUsersAsync() {
             return base.Channel.GetAllUsersAsync();
         }
         
@@ -111,11 +218,11 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.LoginAsync(username, password, keepLoggedIn);
         }
         
-        public BrainfarmClassLibrary.User GetCurrentUser(string sessionToken) {
+        public BrainfarmWeb.BrainfarmServiceReference.User GetCurrentUser(string sessionToken) {
             return base.Channel.GetCurrentUser(sessionToken);
         }
         
-        public System.Threading.Tasks.Task<BrainfarmClassLibrary.User> GetCurrentUserAsync(string sessionToken) {
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> GetCurrentUserAsync(string sessionToken) {
             return base.Channel.GetCurrentUserAsync(sessionToken);
         }
         
@@ -125,6 +232,22 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public System.Threading.Tasks.Task LogoutAsync(string sessionToken) {
             return base.Channel.LogoutAsync(sessionToken);
+        }
+        
+        public void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody) {
+            base.Channel.CreateProject(sessionToken, title, tags, firstCommentBody);
+        }
+        
+        public System.Threading.Tasks.Task CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody) {
+            return base.Channel.CreateProjectAsync(sessionToken, title, tags, firstCommentBody);
+        }
+        
+        public void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads) {
+            base.Channel.CreateComment(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, synthesizedCommentIDs, fileUploads);
+        }
+        
+        public System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads) {
+            return base.Channel.CreateCommentAsync(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, synthesizedCommentIDs, fileUploads);
         }
     }
 }

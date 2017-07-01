@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using BrainfarmClassLibrary;
+using BrainfarmService.Data;
 
 namespace BrainfarmService
 {
@@ -181,6 +181,30 @@ namespace BrainfarmService
             catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database", 
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+
+
+        public void CreateComment(string sessionToken, int projectID, int parentCommentID, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
+            Dictionary<int, string> syntheses, Dictionary<string, byte[]> fileUploads)
+        {
+            // Get user session
+            UserSession session = UserSessionManager.GetUserSession(sessionToken);
+            if (session == null)
+                throw new FaultException("Session not valid", new FaultCode("INVALID_SESSION"));
+
+            try
+            {
+                CommentDBAccess.CreateComment(projectID, session.User.UserID, parentCommentID,
+                    bodyText, isSynthesis, isContribution, isSpecification,
+                    syntheses, fileUploads);
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
             }
         }

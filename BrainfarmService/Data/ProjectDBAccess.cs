@@ -4,9 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using BrainfarmClassLibrary;
 
-namespace BrainfarmService
+namespace BrainfarmService.Data
 {
     // Static class to consolidate database access functions for Projects
     // Also has some Tag access functions since they are so closely related

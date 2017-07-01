@@ -66,6 +66,12 @@
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\BrainfarmServiceReference\BrainfarmService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -133,12 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\BrainfarmServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BrainfarmClassLibrary\BrainfarmClassLibrary.csproj">
-      <Project>{55d87d56-c303-418b-b97a-dcbb392bdd7e}</Project>
-      <Name>BrainfarmClassLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

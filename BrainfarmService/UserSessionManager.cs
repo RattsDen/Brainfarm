@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using BrainfarmClassLibrary;
 using System.ServiceModel;
+using System.Web;
+using BrainfarmService.Data;
 
 namespace BrainfarmService
 {

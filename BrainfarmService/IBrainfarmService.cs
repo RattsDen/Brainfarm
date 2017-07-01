@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-using BrainfarmClassLibrary;
+using BrainfarmService.Data;
 
 namespace BrainfarmService
 {
@@ -62,5 +62,14 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
+
+
+        
+        [OperationContract]
+        [WebInvoke]
+        void CreateComment(string sessionToken, int projectID, int parentCommentID, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, 
+            Dictionary<int, string> synthesizedCommentIDs, Dictionary<string, byte[]> fileUploads);
+
     }
 }

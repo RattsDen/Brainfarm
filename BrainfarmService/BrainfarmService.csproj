@@ -77,23 +77,23 @@
     <Compile Include="BrainfarmService.svc.cs">
       <DependentUpon>BrainfarmService.svc</DependentUpon>
     </Compile>
-    <Compile Include="BrainfarmDBHelper.cs" />
-    <Compile Include="CommentDBAccess.cs" />
+    <Compile Include="Data\BrainfarmDBHelper.cs" />
+    <Compile Include="Data\CommentDBAccess.cs" />
+    <Compile Include="Data\Bookmark.cs" />
+    <Compile Include="Data\Comment.cs" />
+    <Compile Include="Data\ContributionFile.cs" />
+    <Compile Include="Data\Project.cs" />
+    <Compile Include="Data\SynthesisJunction.cs" />
+    <Compile Include="Data\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IBrainfarmService.cs" />
-    <Compile Include="ProjectDBAccess.cs" />
+    <Compile Include="Data\ProjectDBAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserDBAccess.cs" />
+    <Compile Include="Data\UserDBAccess.cs" />
     <Compile Include="UserSession.cs" />
     <Compile Include="UserSessionManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BrainfarmClassLibrary\BrainfarmClassLibrary.csproj">
-      <Project>{55d87d56-c303-418b-b97a-dcbb392bdd7e}</Project>
-      <Name>BrainfarmClassLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
