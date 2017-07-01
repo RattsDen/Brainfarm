@@ -1,5 +1,0 @@
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmClassLibrary\bin\Debug\BrainfarmClassLibrary.dll
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmClassLibrary\bin\Debug\BrainfarmClassLibrary.pdb
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmClassLibrary\obj\Debug\BrainfarmClassLibrary.csprojResolveAssemblyReference.cache
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmClassLibrary\obj\Debug\BrainfarmClassLibrary.dll
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmClassLibrary\obj\Debug\BrainfarmClassLibrary.pdb
