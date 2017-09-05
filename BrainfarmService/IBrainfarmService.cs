@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using BrainfarmService.Data;
+using System.IO;
 
 namespace BrainfarmService
 {
@@ -64,7 +65,19 @@ namespace BrainfarmService
         [WebInvoke]
         void CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, 
-            Dictionary<int, string> synthesizedCommentIDs, Dictionary<string, byte[]> fileUploads);
+            SynthesisRequest[] syntheses, string[] fileUploads);
+
+        [OperationContract]
+        [WebInvoke] // WebInvoke might not work here without some tinkering
+        void UploadFile(Stream stream);
+
+        [OperationContract]
+        [WebInvoke] // WebInvoke might not work here without some tinkering
+        Stream DownloadFile(int contributionFileID);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Comment> GetComments(string sessionToken, int projectID, int? parentCommentID);
 
     }
 }

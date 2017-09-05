@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace BrainfarmService.Data
 {
-    public class SynthesisJunction
+    public class SynthesisRequest
     {
-        // Database fields
-        public int SynthesisCommentID { get; set; }
         public int LinkedCommentID { get; set; }
         public string Subject { get; set; }
     }

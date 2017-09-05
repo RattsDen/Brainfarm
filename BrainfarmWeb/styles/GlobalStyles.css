@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #48adc3;
+    background-color: #006980;
 
     font-family: Calibri;
     color: #404040;
@@ -9,16 +9,35 @@
 }
 
 #div-header {
-    background-color: #4fc8e2;
+    background-color: #00c6d8;
     color: white;
     overflow: auto;
     padding: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: space-between;
 }
     #div-header #div-logo {
-        float: left;
+        /*float: left;*/
     }
     #div-header #div-login {
-        float: right;
+        /*float: right;*/
+        width: 350px;
+        height: 80px;
+    }
+    #div-header #div-login .div-login-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80px;
+    }
+    #div-header #div-login .div-login-row {
+        display: flex;
+        justify-content: space-between;
+    }
+    #div-header #div-login .login-control {
+        width: 172px;
     }
     #div-header #chkRemember {
         
@@ -51,13 +70,14 @@ h1 {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 .btn {
     padding: 10px;
     border: 0px;
     border-radius: 2px;
-    background-color: #4fc8e2;
+    background-color: #00c6d8;
     color: white;
     text-decoration: none;
 
@@ -70,13 +90,13 @@ h1 {
     cursor: default;
 }
     .btn:hover {
-        background-color: #48adc3;
+        background-color: #00809c;
     }
     .btn.btn-dark {
-        background-color: #48adc3;
+        background-color: #00809c;
     }
         .btn.btn-dark:hover {
-            background-color: #4fc8e2;
+            background-color: #006980;
         }
     .btn.btn-wide {
         width: 100%;
@@ -84,6 +104,7 @@ h1 {
 
 .text-field {
     width: calc(100% - 5px);
+    box-sizing: border-box;
 }
 
 .error-message {
@@ -92,4 +113,8 @@ h1 {
     display: inline-block;
     width: 100%;
     padding-left: 2px;
+}
+
+.hidden {
+    display: none;
 }

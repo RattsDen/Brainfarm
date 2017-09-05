@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JWT, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\JWT.1.3.4\lib\3.5\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -61,6 +65,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -84,16 +89,20 @@
     <Compile Include="Data\ContributionFile.cs" />
     <Compile Include="Data\Project.cs" />
     <Compile Include="Data\SynthesisJunction.cs" />
+    <Compile Include="Data\SynthesisRequest.cs" />
     <Compile Include="Data\User.cs" />
+    <Compile Include="FileUploadManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IBrainfarmService.cs" />
     <Compile Include="Data\ProjectDBAccess.cs" />
+    <Compile Include="LoginTokenManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\UserDBAccess.cs" />
     <Compile Include="UserSession.cs" />
     <Compile Include="UserSessionManager.cs" />
+    <Compile Include="UserUtils.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

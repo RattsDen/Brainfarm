@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using BrainfarmService.Data;
+using System.IO;
 
 namespace BrainfarmService
 {
@@ -31,15 +32,15 @@ namespace BrainfarmService
         public bool RegisterUser(string username, string password, string email)
         {
             // If not valid (empty) username, throw exception
-            if (!CheckUsernameRequirements(username))
+            if (!UserUtils.CheckUsernameRequirements(username))
                 throw new FaultException("Username does not meet requirements", new FaultCode("BAD_USERNAME"));
 
             // If password does not meet requirements, throw exception
-            if (!CheckPasswordRequirements(password))
+            if (!UserUtils.CheckPasswordRequirements(password))
                 throw new FaultException("Password does not meet requirements", new FaultCode("BAD_PASSWORD"));
 
             // If not valid email address, throw exception
-            if (!CheckEmailRequirements(email))
+            if (!UserUtils.CheckEmailRequirements(email))
                 throw new FaultException("Invalid email address", new FaultCode("BAD_EMAIL"));
 
             try
@@ -55,7 +56,7 @@ namespace BrainfarmService
                         throw new FaultException("Email address already in use", new FaultCode("EMAIL_UNAVAILABLE"));
 
                     // Get hash of password
-                    string passwordHash = HashPassword(password);
+                    string passwordHash = UserUtils.HashPassword(password);
 
                     // Insert the user into the database
                     bool result = userDBAccess.InsertUser(username, passwordHash, email);
@@ -68,40 +69,9 @@ namespace BrainfarmService
             }
         }
 
-        private bool CheckUsernameRequirements(string username)
-        {
-            return !string.IsNullOrEmpty(username);
-        }
-
-        private bool CheckEmailRequirements(string email)
-        {
-            // Regex is easy to read ;)
-            // address@domain.tld
-            string pattern = @"^.+?@.+?\..+?$";
-            return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
-        }
-
-        private bool CheckPasswordRequirements(string password)
-        {
-            // This check could stand to be better
-            return password.Length >= 8;
-        }
-
-        // Hash the input string using SHA512 hashing algorithm
-        private string HashPassword(string password)
-        {
-            byte[] bytes = new UTF8Encoding().GetBytes(password);
-            byte[] hash;
-            using (var algorithm = new System.Security.Cryptography.SHA512Managed())
-            {
-                hash = algorithm.ComputeHash(bytes);
-            }
-            return Convert.ToBase64String(hash);
-        }
-
         public string Login(string username, string password, bool keepLoggedIn)
         {
-            string passwordHash = HashPassword(password);
+            string passwordHash = UserUtils.HashPassword(password);
 
             // Validate supplied credentials
             User user;
@@ -177,7 +147,7 @@ namespace BrainfarmService
 
         public void CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            Dictionary<int, string> syntheses, Dictionary<string, byte[]> fileUploads)
+            SynthesisRequest[] syntheses, string[] fileUploads)
         {
             // Get user session
             UserSession session = UserSessionManager.GetUserSession(sessionToken);
@@ -191,6 +161,44 @@ namespace BrainfarmService
                     commentDBAccess.CreateComment(projectID, session.User.UserID, parentCommentID,
                         bodyText, isSynthesis, isContribution, isSpecification,
                         syntheses, fileUploads);
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public void UploadFile(Stream stream)
+        {
+            // TODO: implement file uploads
+            throw new NotImplementedException();
+        }
+
+        public Stream DownloadFile(int contributionFileID)
+        {
+            // TODO: implement file downloads
+            throw new NotImplementedException();
+        }
+
+        public List<Comment> GetComments(string sessionToken, int projectID, int? parentCommentID)
+        {
+            // TODO: Flesh all of this out much further
+
+            // Get user session
+            // User does not need to be logged in to view comments - session token can be null
+            UserSession session;
+            if (sessionToken != null)
+                session = UserSessionManager.GetUserSession(sessionToken);
+            else
+                session = null;
+
+            try
+            {
+                using (CommentDBAccess commentDBAccess = new CommentDBAccess())
+                {
+                    return (commentDBAccess.GetComments(projectID, parentCommentID));
                 }
             }
             catch (SqlException)

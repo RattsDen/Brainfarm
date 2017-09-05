@@ -7,6 +7,16 @@ using BrainfarmService.Data;
 
 namespace BrainfarmService
 {
+    /*
+     * This class stores user session information in memory, providing
+     * tokens to access the session information.
+     * 
+     * Because it is stored in memory, it is not particularly scalable. 
+     * (Other instances of the service won't be able to share sessions 
+     * with eachother.) This can be relieved somewhat by storing it in 
+     * a database, using a centralized session storing server, or by 
+     * storing session information client side instead
+     */
     public static class UserSessionManager
     {
         // Table storing user sessions

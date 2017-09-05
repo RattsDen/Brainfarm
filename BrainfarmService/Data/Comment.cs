@@ -11,7 +11,7 @@ namespace BrainfarmService.Data
         // Database fields
         public int CommentID { get; set; }
         public int UserID { get; set; }
-        public int ParentCommentID { get; set; }
+        public int? ParentCommentID { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? EditedDate { get; set; }
         public string BodyText { get; set; }

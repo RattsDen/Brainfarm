@@ -23,37 +23,31 @@
             </div>
 
             <div id="div-login">
-                <asp:Panel runat="server" ID="panelLogin">
-                    <table>
-                        <tr>
-                            <td><asp:TextBox runat="server" ID="txtUsername" placeholder="Username" CssClass="text-field"></asp:TextBox></td>
-                            <td><asp:TextBox runat="server" ID="txtPassword" TextMode="Password" placeholder="Password" CssClass="text-field"></asp:TextBox></td>
-                        </tr>
-                        <tr>
-                            <td><asp:CheckBox runat="server" ID="chkRemember" Text="Remember me" /></td>
-                            <td><asp:Label runat="server" ID="lblLoginError"></asp:Label></td>
-                        </tr>
-                        <tr>
-                            <td><a href="/Register.aspx" class="btn btn-wide btn-dark">Register</a></td>
-                            <td><asp:Button runat="server" ID="btnLogin" Text="Login" OnClick="btnLogin_Click" CssClass="btn btn-wide btn-dark" /></td>
-                        </tr>
-                    </table>
+                <asp:Panel runat="server" ID="panelLogin" CssClass="div-login-panel">
+                    <div class="div-login-row">
+                        <asp:TextBox runat="server" ID="txtUsername" placeholder="Username" CssClass="text-field login-control login-control-left"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" placeholder="Password" CssClass="text-field login-control login-control-right"></asp:TextBox>
+                    </div>
+                    <div class="div-login-row">
+                        <asp:CheckBox runat="server" ID="chkRemember" Text="Remember me" CssClass="login-control login-control-left" />
+                        <asp:Label runat="server" ID="lblLoginError" CssClass="login-control login-control-right" Visible="false"></asp:Label>
+                    </div>
+                    <div class="div-login-row">
+                        <a href="/Register.aspx" class="btn btn-wide btn-dark login-control login-control-left">Register</a>
+                        <asp:Button runat="server" ID="btnLogin" Text="Login" OnClick="btnLogin_Click" CssClass="btn btn-wide btn-dark login-control login-control-right" />
+                    </div>
                 </asp:Panel>
-                <asp:Panel runat="server" ID="panelCurrentUser" Visible="false">
-                    <table>
-                        <tr>
-                            <td colspan="2">
-                                <div id="div-current-user">
-                                    Welcome, <br />
-                                    <asp:Label runat="server" ID="lblCurrentUser"></asp:Label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a class="btn btn-wide btn-dark">Manage Account</a></td>
-                            <td><asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark" /></td>
-                        </tr>
-                    </table>
+                <asp:Panel runat="server" ID="panelCurrentUser" CssClass="div-login-panel" Visible="false">
+                    <div class="div-login-row">
+                        <div id="div-current-user">
+                            Welcome, <br />
+                            <asp:Label runat="server" ID="lblCurrentUser"></asp:Label>
+                        </div>
+                    </div>
+                    <div class="div-login-row">
+                        <a class="btn btn-wide btn-dark login-control">Manage Account</a>
+                        <asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark login-control" />
+                    </div>
                 </asp:Panel>
             </div>
 

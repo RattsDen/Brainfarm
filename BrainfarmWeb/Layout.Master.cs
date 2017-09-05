@@ -88,6 +88,7 @@ namespace BrainfarmWeb
                 catch (FaultException ex)
                 {
                     lblLoginError.Text = ex.Message;
+                    lblLoginError.Visible = true;
                 }
                 catch
                 {
@@ -116,6 +117,7 @@ namespace BrainfarmWeb
                     catch (FaultException ex)
                     {
                         lblLoginError.Text = ex.Message;
+                        lblLoginError.Visible = true;
                     }
                     catch
                     {
