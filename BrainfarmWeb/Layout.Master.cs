@@ -108,23 +108,8 @@ namespace BrainfarmWeb
         {
             if (Session["ServiceSessionToken"] != null)
             {
-                using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                {
-                    try
-                    {
-                        svc.Logout((string)Session["ServiceSessionToken"]);
-                    }
-                    catch (FaultException ex)
-                    {
-                        lblLoginError.Text = ex.Message;
-                        lblLoginError.Visible = true;
-                    }
-                    catch
-                    {
-                        Response.StatusCode = 500;
-                        Response.Redirect("/500.html");
-                    }
-                }
+                // Service uses JWTs to track state. 
+                // Logging out using JWTs simply meants throwing away your token.
                 Session.Remove("ServiceSessionToken");
             }
         }

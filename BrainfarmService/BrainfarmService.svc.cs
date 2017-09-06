@@ -8,6 +8,7 @@ using System.ServiceModel;
 using System.Text;
 using BrainfarmService.Data;
 using System.IO;
+using BrainfarmService.Exceptions;
 
 namespace BrainfarmService
 {
@@ -95,36 +96,58 @@ namespace BrainfarmService
             }
 
             // Create the user session, idenitfied by a session token
-            string sessionToken = UserSessionManager.CreateUserSession(user, keepLoggedIn);
+            string sessionToken = LoginTokenManager.GenerateToken(user.UserID, keepLoggedIn);
             // Return the session token to the consumer
             return sessionToken;
         }
 
-        public User GetCurrentUser(string sessionToken)
+        public string RenewToken(string sessionToken)
         {
-            UserSession session = UserSessionManager.GetUserSession(sessionToken);
-            if (session != null)
-            {
-                return session.User; // Session valid - return user
-            }
-            else
-            {
-                return null; // Session invalid - return null
-            }
+            return LoginTokenManager.RenewToken(sessionToken);
         }
 
-        public void Logout(string sessionToken)
+        public User GetCurrentUser(string sessionToken)
         {
-            UserSessionManager.ClearSession(sessionToken);
+            // Get user ID out of token
+            int userId;
+            try
+            {
+                userId = LoginTokenManager.ValidateToken(sessionToken);
+            }
+            catch (TokenExpiredException)
+            {
+                throw new FaultException("Your session has expired", new FaultCode("SESSION_EXPIRED"));
+            }
+            catch (MalformedTokenException)
+            {
+                throw new FaultException("Invalid session token", new FaultCode("INVALID_SESSION"));
+            }
+
+            // Find the user in the database
+            try
+            {
+                using (UserDBAccess userDBAccess = new UserDBAccess())
+                {
+                    User user = userDBAccess.GetUser(userId);
+                    return user;
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("User could not be found", new FaultCode("UNKNOWN_USER"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
         }
 
         public void CreateProject(string sessionToken, string title, string[] tags, 
             string firstCommentBody)
         {
-            // Get user session
-            UserSession session = UserSessionManager.GetUserSession(sessionToken);
-            if (session == null)
-                throw new FaultException("Session not valid", new FaultCode("INVALID_SESSION"));
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
 
             try
             {
@@ -133,7 +156,7 @@ namespace BrainfarmService
                     // Insert project, its tags, and its first comment
                     // Implemented in the ProjectDBAccess class so it doesn't clutter this class
                     //and to keep DB stuff out of this class
-                    projectDBAccess.CreateProject(session.User.UserID, title, tags, firstCommentBody);
+                    projectDBAccess.CreateProject(user.UserID, title, tags, firstCommentBody);
                 }
             }
             catch (SqlException)
@@ -149,16 +172,14 @@ namespace BrainfarmService
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, string[] fileUploads)
         {
-            // Get user session
-            UserSession session = UserSessionManager.GetUserSession(sessionToken);
-            if (session == null)
-                throw new FaultException("Session not valid", new FaultCode("INVALID_SESSION"));
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
 
             try
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
-                    commentDBAccess.CreateComment(projectID, session.User.UserID, parentCommentID,
+                    commentDBAccess.CreateComment(projectID, user.UserID, parentCommentID,
                         bodyText, isSynthesis, isContribution, isSpecification,
                         syntheses, fileUploads);
                 }
@@ -185,14 +206,6 @@ namespace BrainfarmService
         public List<Comment> GetComments(string sessionToken, int projectID, int? parentCommentID)
         {
             // TODO: Flesh all of this out much further
-
-            // Get user session
-            // User does not need to be logged in to view comments - session token can be null
-            UserSession session;
-            if (sessionToken != null)
-                session = UserSessionManager.GetUserSession(sessionToken);
-            else
-                session = null;
 
             try
             {

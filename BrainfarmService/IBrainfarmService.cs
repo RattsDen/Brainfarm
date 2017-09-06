@@ -49,11 +49,16 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        User GetCurrentUser(string sessionToken);
+        string RenewToken(string sessionToken);
 
         [OperationContract]
         [WebInvoke]
-        void Logout(string sessionToken);
+        User GetCurrentUser(string sessionToken);
+
+        // Logging out using JWTs simply means throwing away your token
+        //[OperationContract]
+        //[WebInvoke]
+        //void Logout(string sessionToken);
 
         [OperationContract]
         [WebInvoke]

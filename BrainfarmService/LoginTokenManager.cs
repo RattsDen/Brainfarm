@@ -37,7 +37,7 @@ namespace BrainfarmService
 
         private static string secret = "RicciAndrewTaylorThompsonApostropheScottDavidEricNijjar";
 
-        public static string GenerateToken(User user, bool isPersistent)
+        public static string GenerateToken(int userID, bool isPersistent)
         {
             int exp, refreshExp;
             if (isPersistent)
@@ -52,18 +52,16 @@ namespace BrainfarmService
             }
 
             Dictionary<string, object> claims = new Dictionary<string,object>();
-            claims.Add("UserID", user.UserID);
-            if (!isPersistent)
-            {
-                // Store time as seconds since unix epoch, as is JWT standard (for some reason)
-                claims.Add("exp", (int)(DateTime.UtcNow.AddMinutes(exp) - unixEpoch).TotalSeconds);
-                claims.Add("refreshExp", (int)(DateTime.UtcNow.AddMinutes(refreshExp) - unixEpoch).TotalSeconds);
-            }
+            claims.Add("UserID", userID);
+            claims.Add("IsPersistent", isPersistent);
+            // Store time as seconds since unix epoch, as is JWT standard (for some reason)
+            claims.Add("exp", (int)(DateTime.UtcNow.AddMinutes(exp) - unixEpoch).TotalSeconds);
+            claims.Add("refreshExp", (int)(DateTime.UtcNow.AddMinutes(refreshExp) - unixEpoch).TotalSeconds);
 
             return JsonWebToken.Encode(claims, secret, JwtHashAlgorithm.HS256);
         }
 
-        public static int ValidateToken(String token)
+        public static int ValidateToken(string token)
         {
             try
             {
@@ -77,9 +75,41 @@ namespace BrainfarmService
 
                 return (int)claims["UserID"];
             }
-            catch (TokenExpiredException ex)
+            catch
             {
-                throw ex;
+                throw new MalformedTokenException();
+            }
+        }
+
+        public static string RenewToken(string token)
+        {
+            try
+            {
+                Dictionary<string, object> claims
+                    = JsonWebToken.DecodeToObject<Dictionary<string, object>>(token, secret, true);
+
+                // Check whether or not the token is expired
+                DateTime exp = unixEpoch.AddSeconds((int)claims["exp"]);
+                if (exp < DateTime.UtcNow)
+                {
+                    // If the token is expired, see if it can be refreshed
+                    DateTime refreshExp = unixEpoch.AddSeconds((int)claims["refreshExp"]);
+                    if (refreshExp >= DateTime.UtcNow)
+                    {
+                        int userID = (int)claims["UserID"];
+                        bool isPersistent = (bool)claims["IsPersistent"];
+                        return GenerateToken(userID, isPersistent);
+                    }
+                    else
+                    {
+                        throw new TokenExpiredException();
+                    }
+                }
+                else
+                {
+                    // Token is not expired, return original token
+                    return token;
+                }
             }
             catch
             {

@@ -12,31 +12,6 @@ namespace BrainfarmService
 
     public class Global : System.Web.HttpApplication
     {
-        private const string CACHE_KEY_SESSION_CLEANUP = "UserSessionCleanup";
-
-        protected void Application_Start(object sender, EventArgs e)
-        {
-            // Begin scheduling user session cleanups when the service starts
-            ScheduleUserSessionCleanup();
-        }
-
-        private void ScheduleUserSessionCleanup()
-        {
-            DateTime scheduledTime = DateTime.Now.AddMinutes(60); // Every 60 minutes
-
-            HttpRuntime.Cache.Insert(CACHE_KEY_SESSION_CLEANUP, scheduledTime, null, scheduledTime, 
-                Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, 
-                new CacheItemRemovedCallback(UserSessionCleanupDelegate));
-        }
-
-        public void UserSessionCleanupDelegate(string key, object value, CacheItemRemovedReason reason)
-        {
-            // Clean up expired user sessions
-            UserSessionManager.ClearExpiredSessions();
-            // Reschedule cleanup
-            ScheduleUserSessionCleanup();
-        }
-
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             // When an http POST, PUT, or DELETE request is made to another domain via AJAX

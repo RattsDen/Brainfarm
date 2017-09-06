@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrainfarmService.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,6 +13,29 @@ namespace BrainfarmService.Data
     {
         public UserDBAccess() : base() { }
         public UserDBAccess(DBAccess parent) : base(parent) { }
+
+        public User GetUser(int userID)
+        {
+            string sql = @"
+SELECT UserID
+      ,Username
+      ,CreationDate
+      ,Email
+  FROM [User]
+ WHERE UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                        return ReadUser(reader);
+                    else
+                        throw new EntityNotFoundException();
+                }
+            }
+        }
 
         public static User ReadUser(SqlDataReader reader)
         {

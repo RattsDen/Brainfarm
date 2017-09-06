@@ -96,7 +96,7 @@ VALUES(@ProjectID
 INSERT INTO Comment
       (ProjectID
       ,UserID
-      ,ParrentCommentID
+      ,ParentCommentID
       ,CreationDate
       ,EditedDate
       ,BodyText
@@ -105,7 +105,7 @@ INSERT INTO Comment
       ,IsSpecification)
 VALUES(@ProjectID
       ,@UserID
-      ,@ParrentCommentID
+      ,@ParentCommentID
       ,@CreationDate
       ,NULL
       ,@BodyText
@@ -118,7 +118,7 @@ SELECT SCOPE_IDENTITY();
             {
                 command.Parameters.AddWithValue("@ProjectID", projectID);
                 command.Parameters.AddWithValue("@UserID", userID);
-                command.Parameters.AddWithValue("@ParrentCommentID", parentCommentID);
+                command.Parameters.AddWithValue("@ParentCommentID", parentCommentID);
                 command.Parameters.AddWithValue("@CreationDate", DateTime.Now);
                 command.Parameters.AddWithValue("@BodyText", bodyText);
                 command.Parameters.AddWithValue("@IsSynthesis", isSynthesis);
