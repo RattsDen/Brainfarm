@@ -1,0 +1,7 @@
+# Ignore any directory named "bin"
+# This should exclude the build files
+bin/
+# Ignore BrainfarmService's Web.config file. This should be added back in later
+/BrainfarmService/Web.config
+/BrainfarmService/Web.Debug.config
+/BrainfarmService/Web.Release.config
