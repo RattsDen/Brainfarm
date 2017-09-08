@@ -23,6 +23,7 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="BrainfarmService3.xsd" MetadataType="Schema" ID="48702083-e489-48fb-94bf-277d22010e07" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd3" />
+    <MetadataFile FileName="BrainfarmService4.xsd" MetadataType="Schema" ID="19195b52-90f6-40ce-ac86-be1f0b0c136e" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd4" />
     <MetadataFile FileName="BrainfarmService.xsd" MetadataType="Schema" ID="5050f37e-1c28-4912-9349-4572dd09e844" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd0" />
     <MetadataFile FileName="BrainfarmService.disco" MetadataType="Disco" ID="69b4c9c1-234d-4c36-aa97-528e03c4e877" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?disco" />
     <MetadataFile FileName="BrainfarmService2.xsd" MetadataType="Schema" ID="fb35e8ff-35bf-481b-a939-169b9c77c9f4" SourceId="1" SourceUrl="http://localhost:59006/BrainfarmService.svc?xsd=xsd2" />

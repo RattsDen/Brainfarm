@@ -6,6 +6,7 @@
       <xsd:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" />
       <xsd:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IBrainfarmService_GetTimestamp_InputMessage">
@@ -26,17 +27,17 @@
   <wsdl:message name="IBrainfarmService_Login_OutputMessage">
     <wsdl:part name="parameters" element="tns:LoginResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RenewToken_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenewToken" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RenewToken_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenewTokenResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetCurrentUser_InputMessage">
     <wsdl:part name="parameters" element="tns:GetCurrentUser" />
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetCurrentUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCurrentUserResponse" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_Logout_InputMessage">
-    <wsdl:part name="parameters" element="tns:Logout" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_Logout_OutputMessage">
-    <wsdl:part name="parameters" element="tns:LogoutResponse" />
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_CreateProject_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateProject" />
@@ -44,11 +45,35 @@
   <wsdl:message name="IBrainfarmService_CreateProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProject" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_CreateComment_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateComment" />
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_CreateComment_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_UploadFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFile" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_UploadFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_DownloadFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadFile" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_DownloadFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetComments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetComments" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetComments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCommentsResponse" />
   </wsdl:message>
   <wsdl:portType name="IBrainfarmService">
     <wsdl:operation name="GetTimestamp">
@@ -63,21 +88,37 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/Login" message="tns:IBrainfarmService_Login_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/LoginResponse" message="tns:IBrainfarmService_Login_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="RenewToken">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RenewToken" message="tns:IBrainfarmService_RenewToken_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RenewTokenResponse" message="tns:IBrainfarmService_RenewToken_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetCurrentUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetCurrentUser" message="tns:IBrainfarmService_GetCurrentUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetCurrentUserResponse" message="tns:IBrainfarmService_GetCurrentUser_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="Logout">
-      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/Logout" message="tns:IBrainfarmService_Logout_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/LogoutResponse" message="tns:IBrainfarmService_Logout_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="CreateProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProject" message="tns:IBrainfarmService_CreateProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProjectResponse" message="tns:IBrainfarmService_CreateProject_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetProject" message="tns:IBrainfarmService_GetProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetProjectResponse" message="tns:IBrainfarmService_GetProject_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="CreateComment">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateComment" message="tns:IBrainfarmService_CreateComment_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateCommentResponse" message="tns:IBrainfarmService_CreateComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/UploadFile" message="tns:IBrainfarmService_UploadFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/UploadFileResponse" message="tns:IBrainfarmService_UploadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DownloadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/DownloadFile" message="tns:IBrainfarmService_DownloadFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/DownloadFileResponse" message="tns:IBrainfarmService_DownloadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetComments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetComments" message="tns:IBrainfarmService_GetComments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetCommentsResponse" message="tns:IBrainfarmService_GetComments_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBrainfarmService" type="tns:IBrainfarmService">
@@ -109,8 +150,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCurrentUser">
-      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetCurrentUser" style="document" />
+    <wsdl:operation name="RenewToken">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/RenewToken" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -118,8 +159,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Logout">
-      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/Logout" style="document" />
+    <wsdl:operation name="GetCurrentUser">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetCurrentUser" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -136,8 +177,44 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetProject">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CreateComment">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/CreateComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/UploadFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownloadFile">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/DownloadFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetComments">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetComments" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

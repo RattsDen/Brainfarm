@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrainfarmService.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -109,6 +110,65 @@ VALUES(@ProjectID
             }
         }
 
+        public Project GetProject(int projectID)
+        {
+            Project project;
+            string sql = @"
+SELECT p.ProjectID
+      ,p.UserID
+      ,p.Title
+      ,p.CreationDate
+      ,u.Username
+  FROM Project p
+ INNER JOIN [User] u
+    ON p.UserID = u.UserID
+ WHERE p.ProjectID = @ProjectID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@ProjectID", projectID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        project = ReadProject(reader);
+                        project.Username = reader.GetString(reader.GetOrdinal("Username"));
+                    }
+                    else
+                    {
+                        throw new EntityNotFoundException();
+                    }
+                }
+            }
 
+            project.Tags.AddRange(GetProjectTags(projectID));
+
+            return project;
+        }
+
+        public List<string> GetProjectTags(int projectID)
+        {
+            List<string> tags = new List<string>();
+            string sql = @"
+SELECT Text
+  FROM Tag t
+ INNER JOIN ProjectTag pt
+    ON pt.TagID = t.TagID
+ WHERE pt.ProjectID = @ProjectID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@ProjectID", projectID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string tagText = reader.GetString(reader.GetOrdinal("Text"));
+                        tags.Add(tagText);
+                    }
+                }
+            }
+            return tags;
+        }
     }
 }

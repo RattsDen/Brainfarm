@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="User">
     <xs:sequence>
       <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
@@ -9,4 +10,82 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="Project">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ProjectID" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Tags" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Project" nillable="true" type="tns:Project" />
+  <xs:complexType name="ArrayOfSynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSynthesisRequest" nillable="true" type="tns:ArrayOfSynthesisRequest" />
+  <xs:complexType name="SynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+  <xs:complexType name="ArrayOfComment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
+  <xs:complexType name="Comment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Children" nillable="true" type="tns:ArrayOfComment" />
+      <xs:element minOccurs="0" name="CommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="ContributionFiles" nillable="true" type="tns:ArrayOfContributionFile" />
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EditedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsBookmarked" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsContribution" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSpecification" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSynthesis" type="xs:boolean" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LinkingCommentIDs" nillable="true" type="q2:ArrayOfint" />
+      <xs:element minOccurs="0" name="ParentCommentID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Syntheses" nillable="true" type="tns:ArrayOfSynthesisJunction" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Comment" nillable="true" type="tns:Comment" />
+  <xs:complexType name="ArrayOfContributionFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContributionFile" nillable="true" type="tns:ContributionFile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContributionFile" nillable="true" type="tns:ArrayOfContributionFile" />
+  <xs:complexType name="ContributionFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
+      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContributionFile" nillable="true" type="tns:ContributionFile" />
+  <xs:complexType name="ArrayOfSynthesisJunction">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSynthesisJunction" nillable="true" type="tns:ArrayOfSynthesisJunction" />
+  <xs:complexType name="SynthesisJunction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SynthesisCommentID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
 </xs:schema>

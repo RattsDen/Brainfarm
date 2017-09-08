@@ -1,0 +1,18 @@
+﻿body {
+    background-color: #006980;
+    font-family: Calibri;
+    color: white;
+    margin:0px;
+    padding:0px;
+    
+    height: 100%;
+    display: flex;
+    flex-grow: 4;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    text-align: center;
+}

@@ -64,7 +64,9 @@ namespace BrainfarmService
         [WebInvoke]
         void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
 
-
+        [OperationContract]
+        [WebInvoke]
+        Project GetProject(int projectID);
         
         [OperationContract]
         [WebInvoke]

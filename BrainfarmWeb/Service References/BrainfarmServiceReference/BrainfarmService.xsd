@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" />
   <xs:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:59006/BrainfarmService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
   <xs:element name="GetTimestamp">
     <xs:complexType>
       <xs:sequence />
@@ -46,6 +47,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="RenewToken">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenewTokenResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RenewTokenResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetCurrentUser">
     <xs:complexType>
       <xs:sequence>
@@ -58,18 +73,6 @@
       <xs:sequence>
         <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q1:User" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Logout">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="LogoutResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateProject">
@@ -87,6 +90,20 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetProjectResult" nillable="true" type="q3:Project" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="CreateComment">
     <xs:complexType>
       <xs:sequence>
@@ -97,14 +114,56 @@
         <xs:element minOccurs="0" name="isSynthesis" type="xs:boolean" />
         <xs:element minOccurs="0" name="isContribution" type="xs:boolean" />
         <xs:element minOccurs="0" name="isSpecification" type="xs:boolean" />
-        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="synthesizedCommentIDs" nillable="true" type="q3:ArrayOfKeyValueOfintstring" />
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="fileUploads" nillable="true" type="q4:ArrayOfKeyValueOfstringbase64Binary" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="syntheses" nillable="true" type="q4:ArrayOfSynthesisRequest" />
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="fileUploads" nillable="true" type="q5:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateCommentResponse">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.microsoft.com/Message" name="stream" type="q6:StreamBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadFileResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="contributionFileID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadFileResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/Message" name="DownloadFileResult" type="q7:StreamBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetComments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+        <xs:element minOccurs="0" name="parentCommentID" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCommentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCommentsResult" nillable="true" type="q8:ArrayOfComment" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

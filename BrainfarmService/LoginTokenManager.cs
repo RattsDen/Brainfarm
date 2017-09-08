@@ -18,7 +18,8 @@ namespace BrainfarmService
      * is storing it themselves.
      * 
      * JWTs can be stored on the client side safely because they are given a 
-     * cryptographic signature by the server.
+     * cryptographic signature by the server, ensuring that the token was created 
+     * by an instance of the service.
      * 
      * In exchange for scalability, the use of JWTs removes some control over 
      * sessions from the server side. For instance: logging out simply means having 
@@ -81,6 +82,9 @@ namespace BrainfarmService
             }
         }
 
+        // If token is not expired, return the same token
+        // If token is expired and valid for refresh, return new token
+        // If token is not valid for refresh, throw exception
         public static string RenewToken(string token)
         {
             try

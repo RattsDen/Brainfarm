@@ -106,6 +106,615 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Project", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class Project : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime CreationDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ProjectIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string[] TagsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TitleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime CreationDate {
+            get {
+                return this.CreationDateField;
+            }
+            set {
+                if ((this.CreationDateField.Equals(value) != true)) {
+                    this.CreationDateField = value;
+                    this.RaisePropertyChanged("CreationDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProjectID {
+            get {
+                return this.ProjectIDField;
+            }
+            set {
+                if ((this.ProjectIDField.Equals(value) != true)) {
+                    this.ProjectIDField = value;
+                    this.RaisePropertyChanged("ProjectID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string[] Tags {
+            get {
+                return this.TagsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TagsField, value) != true)) {
+                    this.TagsField = value;
+                    this.RaisePropertyChanged("Tags");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Title {
+            get {
+                return this.TitleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TitleField, value) != true)) {
+                    this.TitleField = value;
+                    this.RaisePropertyChanged("Title");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserID {
+            get {
+                return this.UserIDField;
+            }
+            set {
+                if ((this.UserIDField.Equals(value) != true)) {
+                    this.UserIDField = value;
+                    this.RaisePropertyChanged("UserID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SynthesisRequest", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class SynthesisRequest : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LinkedCommentIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SubjectField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LinkedCommentID {
+            get {
+                return this.LinkedCommentIDField;
+            }
+            set {
+                if ((this.LinkedCommentIDField.Equals(value) != true)) {
+                    this.LinkedCommentIDField = value;
+                    this.RaisePropertyChanged("LinkedCommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Subject {
+            get {
+                return this.SubjectField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SubjectField, value) != true)) {
+                    this.SubjectField = value;
+                    this.RaisePropertyChanged("Subject");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Comment", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class Comment : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BodyTextField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private BrainfarmWeb.BrainfarmServiceReference.Comment[] ChildrenField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CommentIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private BrainfarmWeb.BrainfarmServiceReference.ContributionFile[] ContributionFilesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime CreationDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> EditedDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsBookmarkedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsContributionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsSpecificationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsSynthesisField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int[] LinkingCommentIDsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ParentCommentIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private BrainfarmWeb.BrainfarmServiceReference.SynthesisJunction[] SynthesesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BodyText {
+            get {
+                return this.BodyTextField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BodyTextField, value) != true)) {
+                    this.BodyTextField = value;
+                    this.RaisePropertyChanged("BodyText");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public BrainfarmWeb.BrainfarmServiceReference.Comment[] Children {
+            get {
+                return this.ChildrenField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ChildrenField, value) != true)) {
+                    this.ChildrenField = value;
+                    this.RaisePropertyChanged("Children");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CommentID {
+            get {
+                return this.CommentIDField;
+            }
+            set {
+                if ((this.CommentIDField.Equals(value) != true)) {
+                    this.CommentIDField = value;
+                    this.RaisePropertyChanged("CommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public BrainfarmWeb.BrainfarmServiceReference.ContributionFile[] ContributionFiles {
+            get {
+                return this.ContributionFilesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ContributionFilesField, value) != true)) {
+                    this.ContributionFilesField = value;
+                    this.RaisePropertyChanged("ContributionFiles");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime CreationDate {
+            get {
+                return this.CreationDateField;
+            }
+            set {
+                if ((this.CreationDateField.Equals(value) != true)) {
+                    this.CreationDateField = value;
+                    this.RaisePropertyChanged("CreationDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> EditedDate {
+            get {
+                return this.EditedDateField;
+            }
+            set {
+                if ((this.EditedDateField.Equals(value) != true)) {
+                    this.EditedDateField = value;
+                    this.RaisePropertyChanged("EditedDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsBookmarked {
+            get {
+                return this.IsBookmarkedField;
+            }
+            set {
+                if ((this.IsBookmarkedField.Equals(value) != true)) {
+                    this.IsBookmarkedField = value;
+                    this.RaisePropertyChanged("IsBookmarked");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsContribution {
+            get {
+                return this.IsContributionField;
+            }
+            set {
+                if ((this.IsContributionField.Equals(value) != true)) {
+                    this.IsContributionField = value;
+                    this.RaisePropertyChanged("IsContribution");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsSpecification {
+            get {
+                return this.IsSpecificationField;
+            }
+            set {
+                if ((this.IsSpecificationField.Equals(value) != true)) {
+                    this.IsSpecificationField = value;
+                    this.RaisePropertyChanged("IsSpecification");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsSynthesis {
+            get {
+                return this.IsSynthesisField;
+            }
+            set {
+                if ((this.IsSynthesisField.Equals(value) != true)) {
+                    this.IsSynthesisField = value;
+                    this.RaisePropertyChanged("IsSynthesis");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int[] LinkingCommentIDs {
+            get {
+                return this.LinkingCommentIDsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LinkingCommentIDsField, value) != true)) {
+                    this.LinkingCommentIDsField = value;
+                    this.RaisePropertyChanged("LinkingCommentIDs");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ParentCommentID {
+            get {
+                return this.ParentCommentIDField;
+            }
+            set {
+                if ((this.ParentCommentIDField.Equals(value) != true)) {
+                    this.ParentCommentIDField = value;
+                    this.RaisePropertyChanged("ParentCommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public BrainfarmWeb.BrainfarmServiceReference.SynthesisJunction[] Syntheses {
+            get {
+                return this.SynthesesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SynthesesField, value) != true)) {
+                    this.SynthesesField = value;
+                    this.RaisePropertyChanged("Syntheses");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserID {
+            get {
+                return this.UserIDField;
+            }
+            set {
+                if ((this.UserIDField.Equals(value) != true)) {
+                    this.UserIDField = value;
+                    this.RaisePropertyChanged("UserID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ContributionFile", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class ContributionFile : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CommentIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ContributionFileIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FilenameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CommentID {
+            get {
+                return this.CommentIDField;
+            }
+            set {
+                if ((this.CommentIDField.Equals(value) != true)) {
+                    this.CommentIDField = value;
+                    this.RaisePropertyChanged("CommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ContributionFileID {
+            get {
+                return this.ContributionFileIDField;
+            }
+            set {
+                if ((this.ContributionFileIDField.Equals(value) != true)) {
+                    this.ContributionFileIDField = value;
+                    this.RaisePropertyChanged("ContributionFileID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Filename {
+            get {
+                return this.FilenameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FilenameField, value) != true)) {
+                    this.FilenameField = value;
+                    this.RaisePropertyChanged("Filename");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SynthesisJunction", Namespace="http://schemas.datacontract.org/2004/07/BrainfarmService.Data")]
+    [System.SerializableAttribute()]
+    public partial class SynthesisJunction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LinkedCommentIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SubjectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SynthesisCommentIDField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LinkedCommentID {
+            get {
+                return this.LinkedCommentIDField;
+            }
+            set {
+                if ((this.LinkedCommentIDField.Equals(value) != true)) {
+                    this.LinkedCommentIDField = value;
+                    this.RaisePropertyChanged("LinkedCommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Subject {
+            get {
+                return this.SubjectField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SubjectField, value) != true)) {
+                    this.SubjectField = value;
+                    this.RaisePropertyChanged("Subject");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int SynthesisCommentID {
+            get {
+                return this.SynthesisCommentIDField;
+            }
+            set {
+                if ((this.SynthesisCommentIDField.Equals(value) != true)) {
+                    this.SynthesisCommentIDField = value;
+                    this.RaisePropertyChanged("SynthesisCommentID");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BrainfarmServiceReference.IBrainfarmService")]
     public interface IBrainfarmService {
@@ -128,17 +737,17 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Login", ReplyAction="http://tempuri.org/IBrainfarmService/LoginResponse")]
         System.Threading.Tasks.Task<string> LoginAsync(string username, string password, bool keepLoggedIn);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RenewToken", ReplyAction="http://tempuri.org/IBrainfarmService/RenewTokenResponse")]
+        string RenewToken(string sessionToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RenewToken", ReplyAction="http://tempuri.org/IBrainfarmService/RenewTokenResponse")]
+        System.Threading.Tasks.Task<string> RenewTokenAsync(string sessionToken);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetCurrentUser", ReplyAction="http://tempuri.org/IBrainfarmService/GetCurrentUserResponse")]
         BrainfarmWeb.BrainfarmServiceReference.User GetCurrentUser(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetCurrentUser", ReplyAction="http://tempuri.org/IBrainfarmService/GetCurrentUserResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> GetCurrentUserAsync(string sessionToken);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Logout", ReplyAction="http://tempuri.org/IBrainfarmService/LogoutResponse")]
-        void Logout(string sessionToken);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Logout", ReplyAction="http://tempuri.org/IBrainfarmService/LogoutResponse")]
-        System.Threading.Tasks.Task LogoutAsync(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
         void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
@@ -146,11 +755,35 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
         System.Threading.Tasks.Task CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
-        void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetProjectResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Project GetProject(int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetProjectResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> GetProjectAsync(int projectID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
-        System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads);
+        void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, BrainfarmWeb.BrainfarmServiceReference.SynthesisRequest[] syntheses, string[] fileUploads);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
+        System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, BrainfarmWeb.BrainfarmServiceReference.SynthesisRequest[] syntheses, string[] fileUploads);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UploadFile", ReplyAction="http://tempuri.org/IBrainfarmService/UploadFileResponse")]
+        void UploadFile(System.IO.Stream stream);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UploadFile", ReplyAction="http://tempuri.org/IBrainfarmService/UploadFileResponse")]
+        System.Threading.Tasks.Task UploadFileAsync(System.IO.Stream stream);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/DownloadFile", ReplyAction="http://tempuri.org/IBrainfarmService/DownloadFileResponse")]
+        System.IO.Stream DownloadFile(int contributionFileID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/DownloadFile", ReplyAction="http://tempuri.org/IBrainfarmService/DownloadFileResponse")]
+        System.Threading.Tasks.Task<System.IO.Stream> DownloadFileAsync(int contributionFileID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetComments", ReplyAction="http://tempuri.org/IBrainfarmService/GetCommentsResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Comment[] GetComments(string sessionToken, int projectID, System.Nullable<int> parentCommentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetComments", ReplyAction="http://tempuri.org/IBrainfarmService/GetCommentsResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetCommentsAsync(string sessionToken, int projectID, System.Nullable<int> parentCommentID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -204,20 +837,20 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.LoginAsync(username, password, keepLoggedIn);
         }
         
+        public string RenewToken(string sessionToken) {
+            return base.Channel.RenewToken(sessionToken);
+        }
+        
+        public System.Threading.Tasks.Task<string> RenewTokenAsync(string sessionToken) {
+            return base.Channel.RenewTokenAsync(sessionToken);
+        }
+        
         public BrainfarmWeb.BrainfarmServiceReference.User GetCurrentUser(string sessionToken) {
             return base.Channel.GetCurrentUser(sessionToken);
         }
         
         public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> GetCurrentUserAsync(string sessionToken) {
             return base.Channel.GetCurrentUserAsync(sessionToken);
-        }
-        
-        public void Logout(string sessionToken) {
-            base.Channel.Logout(sessionToken);
-        }
-        
-        public System.Threading.Tasks.Task LogoutAsync(string sessionToken) {
-            return base.Channel.LogoutAsync(sessionToken);
         }
         
         public void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody) {
@@ -228,12 +861,44 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.CreateProjectAsync(sessionToken, title, tags, firstCommentBody);
         }
         
-        public void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads) {
-            base.Channel.CreateComment(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, synthesizedCommentIDs, fileUploads);
+        public BrainfarmWeb.BrainfarmServiceReference.Project GetProject(int projectID) {
+            return base.Channel.GetProject(projectID);
         }
         
-        public System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, System.Collections.Generic.Dictionary<int, string> synthesizedCommentIDs, System.Collections.Generic.Dictionary<string, byte[]> fileUploads) {
-            return base.Channel.CreateCommentAsync(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, synthesizedCommentIDs, fileUploads);
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> GetProjectAsync(int projectID) {
+            return base.Channel.GetProjectAsync(projectID);
+        }
+        
+        public void CreateComment(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, BrainfarmWeb.BrainfarmServiceReference.SynthesisRequest[] syntheses, string[] fileUploads) {
+            base.Channel.CreateComment(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, syntheses, fileUploads);
+        }
+        
+        public System.Threading.Tasks.Task CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, BrainfarmWeb.BrainfarmServiceReference.SynthesisRequest[] syntheses, string[] fileUploads) {
+            return base.Channel.CreateCommentAsync(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, syntheses, fileUploads);
+        }
+        
+        public void UploadFile(System.IO.Stream stream) {
+            base.Channel.UploadFile(stream);
+        }
+        
+        public System.Threading.Tasks.Task UploadFileAsync(System.IO.Stream stream) {
+            return base.Channel.UploadFileAsync(stream);
+        }
+        
+        public System.IO.Stream DownloadFile(int contributionFileID) {
+            return base.Channel.DownloadFile(contributionFileID);
+        }
+        
+        public System.Threading.Tasks.Task<System.IO.Stream> DownloadFileAsync(int contributionFileID) {
+            return base.Channel.DownloadFileAsync(contributionFileID);
+        }
+        
+        public BrainfarmWeb.BrainfarmServiceReference.Comment[] GetComments(string sessionToken, int projectID, System.Nullable<int> parentCommentID) {
+            return base.Channel.GetComments(sessionToken, projectID, parentCommentID);
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetCommentsAsync(string sessionToken, int projectID, System.Nullable<int> parentCommentID) {
+            return base.Channel.GetCommentsAsync(sessionToken, projectID, parentCommentID);
         }
     }
 }

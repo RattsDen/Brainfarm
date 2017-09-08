@@ -166,7 +166,26 @@ namespace BrainfarmService
             }
         }
 
-
+        public Project GetProject(int projectID)
+        {
+            try
+            {
+                using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
+                {
+                    return projectDBAccess.GetProject(projectID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("Project could not be found", 
+                    new FaultCode("UNKNOWN_PROJECT"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
 
         public void CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
