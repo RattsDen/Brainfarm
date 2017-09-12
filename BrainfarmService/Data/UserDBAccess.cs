@@ -77,7 +77,7 @@ SELECT COUNT(*)
             }
         }
 
-        public bool InsertUser(string username, string passwordHash, string email)
+        public int InsertUser(string username, string passwordHash, string email)
         {
             string sql = @"
 INSERT INTO [User]
@@ -88,7 +88,8 @@ INSERT INTO [User]
 VALUES(@Username
       ,@PasswordHash
       ,@CreationDate
-      ,@Email)
+      ,@Email);
+SELECT SCOPE_IDENTITY();
 ";
             using (SqlCommand command = GetNewCommand(sql))
             {
@@ -97,7 +98,7 @@ VALUES(@Username
                 command.Parameters.AddWithValue("@CreationDate", DateTime.Now);
                 command.Parameters.AddWithValue("@Email", email);
 
-                return command.ExecuteNonQuery() > 0; // Result = number of rows affected > 0
+                return Convert.ToInt32(command.ExecuteScalar());
             }
         }
 

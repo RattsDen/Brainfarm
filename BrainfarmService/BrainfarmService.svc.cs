@@ -30,7 +30,7 @@ namespace BrainfarmService
             return DateTime.Now.ToString();
         }
 
-        public bool RegisterUser(string username, string password, string email)
+        public User RegisterUser(string username, string password, string email)
         {
             // If not valid (empty) username, throw exception
             if (!UserUtils.CheckUsernameRequirements(username))
@@ -60,8 +60,9 @@ namespace BrainfarmService
                     string passwordHash = UserUtils.HashPassword(password);
 
                     // Insert the user into the database
-                    bool result = userDBAccess.InsertUser(username, passwordHash, email);
-                    return result;
+                    int userID = userDBAccess.InsertUser(username, passwordHash, email);
+                    // Return the new user
+                    return userDBAccess.GetUser(userID);
                 }
             }
             catch (SqlException)
@@ -143,7 +144,7 @@ namespace BrainfarmService
             }
         }
 
-        public void CreateProject(string sessionToken, string title, string[] tags, 
+        public Project CreateProject(string sessionToken, string title, string[] tags, 
             string firstCommentBody)
         {
             // Get user from session
@@ -156,7 +157,8 @@ namespace BrainfarmService
                     // Insert project, its tags, and its first comment
                     // Implemented in the ProjectDBAccess class so it doesn't clutter this class
                     //and to keep DB stuff out of this class
-                    projectDBAccess.CreateProject(user.UserID, title, tags, firstCommentBody);
+                    int projectID = projectDBAccess.CreateProject(user.UserID, title, tags, firstCommentBody);
+                    return projectDBAccess.GetProject(projectID);
                 }
             }
             catch (SqlException)

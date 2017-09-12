@@ -41,7 +41,7 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        bool RegisterUser(string username, string password, string email);
+        User RegisterUser(string username, string password, string email);
 
         [OperationContract]
         [WebInvoke]
@@ -62,7 +62,7 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
+        Project CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
 
         [OperationContract]
         [WebInvoke]

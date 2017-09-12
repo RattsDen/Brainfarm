@@ -25,7 +25,7 @@ namespace BrainfarmService.Data
             return project;
         }
 
-        public void CreateProject(int userID, string title, string[] tags, string firstCommentBody)
+        public int CreateProject(int userID, string title, string[] tags, string firstCommentBody)
         {
             BeginTransaction();
             try
@@ -45,6 +45,7 @@ namespace BrainfarmService.Data
                 commentDBAccess.InsertInitialProjectComment(projectID, userID, firstCommentBody);
 
                 Commit();
+                return projectID;
             }
             catch (Exception ex)
             {
