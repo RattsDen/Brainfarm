@@ -123,7 +123,7 @@ SELECT UserID
                     if (reader.Read()) // Only read one result (there should only be one at max)
                         return ReadUser(reader); // Credentials matched - return user
                     else
-                        return null; // TODO: Throw exception here
+                        throw new UserAuthenticationException();
                 }
             }
         }

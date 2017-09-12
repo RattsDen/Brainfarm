@@ -84,16 +84,15 @@ namespace BrainfarmService
                     user = userDBAccess.AuthenticateUser(username, passwordHash);
                 }
             }
+            catch (UserAuthenticationException)
+            {
+                throw new FaultException("Incorrect username or password",
+                    new FaultCode("BAD_CREDENTIALS"));
+            }
             catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
-            }
-            // TODO: catch exception instead of checking for null user
-            if (user == null) // If credentials did not match a user
-            {
-                throw new FaultException("Incorrect username or password", 
-                    new FaultCode("BAD_CREDENTIALS"));
             }
 
             // Create the user session, idenitfied by a session token
