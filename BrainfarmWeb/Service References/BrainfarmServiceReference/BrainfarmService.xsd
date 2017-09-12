@@ -27,7 +27,7 @@
   <xs:element name="RegisterUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="RegisterUserResult" type="xs:boolean" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="RegisterUserResult" nillable="true" type="q1:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -71,7 +71,7 @@
   <xs:element name="GetCurrentUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q1:User" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q2:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -80,14 +80,16 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="tags" nillable="true" type="q2:ArrayOfstring" />
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="tags" nillable="true" type="q3:ArrayOfstring" />
         <xs:element minOccurs="0" name="firstCommentBody" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateProjectResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="CreateProjectResult" nillable="true" type="q4:Project" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetProject">
@@ -100,7 +102,7 @@
   <xs:element name="GetProjectResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetProjectResult" nillable="true" type="q3:Project" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetProjectResult" nillable="true" type="q5:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -114,8 +116,8 @@
         <xs:element minOccurs="0" name="isSynthesis" type="xs:boolean" />
         <xs:element minOccurs="0" name="isContribution" type="xs:boolean" />
         <xs:element minOccurs="0" name="isSpecification" type="xs:boolean" />
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="syntheses" nillable="true" type="q4:ArrayOfSynthesisRequest" />
-        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="fileUploads" nillable="true" type="q5:ArrayOfstring" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="syntheses" nillable="true" type="q6:ArrayOfSynthesisRequest" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="fileUploads" nillable="true" type="q7:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -127,7 +129,7 @@
   <xs:element name="UploadFile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.microsoft.com/Message" name="stream" type="q6:StreamBody" />
+        <xs:element xmlns:q8="http://schemas.microsoft.com/Message" name="stream" type="q8:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -146,7 +148,7 @@
   <xs:element name="DownloadFileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.microsoft.com/Message" name="DownloadFileResult" type="q7:StreamBody" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/Message" name="DownloadFileResult" type="q9:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -162,7 +164,7 @@
   <xs:element name="GetCommentsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCommentsResult" nillable="true" type="q8:ArrayOfComment" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCommentsResult" nillable="true" type="q10:ArrayOfComment" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

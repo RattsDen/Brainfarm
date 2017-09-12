@@ -92,6 +92,7 @@
     <Compile Include="Data\SynthesisRequest.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
+    <Compile Include="Exceptions\UserAuthenticationException.cs" />
     <Compile Include="FileUploadManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

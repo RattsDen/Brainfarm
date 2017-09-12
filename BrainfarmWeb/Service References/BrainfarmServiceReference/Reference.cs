@@ -726,10 +726,10 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         System.Threading.Tasks.Task<string> GetTimestampAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RegisterUser", ReplyAction="http://tempuri.org/IBrainfarmService/RegisterUserResponse")]
-        bool RegisterUser(string username, string password, string email);
+        BrainfarmWeb.BrainfarmServiceReference.User RegisterUser(string username, string password, string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/RegisterUser", ReplyAction="http://tempuri.org/IBrainfarmService/RegisterUserResponse")]
-        System.Threading.Tasks.Task<bool> RegisterUserAsync(string username, string password, string email);
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> RegisterUserAsync(string username, string password, string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/Login", ReplyAction="http://tempuri.org/IBrainfarmService/LoginResponse")]
         string Login(string username, string password, bool keepLoggedIn);
@@ -750,10 +750,10 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> GetCurrentUserAsync(string sessionToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
-        void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
+        BrainfarmWeb.BrainfarmServiceReference.Project CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
-        System.Threading.Tasks.Task CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody);
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetProjectResponse")]
         BrainfarmWeb.BrainfarmServiceReference.Project GetProject(int projectID);
@@ -821,11 +821,11 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.GetTimestampAsync();
         }
         
-        public bool RegisterUser(string username, string password, string email) {
+        public BrainfarmWeb.BrainfarmServiceReference.User RegisterUser(string username, string password, string email) {
             return base.Channel.RegisterUser(username, password, email);
         }
         
-        public System.Threading.Tasks.Task<bool> RegisterUserAsync(string username, string password, string email) {
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.User> RegisterUserAsync(string username, string password, string email) {
             return base.Channel.RegisterUserAsync(username, password, email);
         }
         
@@ -853,11 +853,11 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.GetCurrentUserAsync(sessionToken);
         }
         
-        public void CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody) {
-            base.Channel.CreateProject(sessionToken, title, tags, firstCommentBody);
+        public BrainfarmWeb.BrainfarmServiceReference.Project CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody) {
+            return base.Channel.CreateProject(sessionToken, title, tags, firstCommentBody);
         }
         
-        public System.Threading.Tasks.Task CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody) {
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody) {
             return base.Channel.CreateProjectAsync(sessionToken, title, tags, firstCommentBody);
         }
         

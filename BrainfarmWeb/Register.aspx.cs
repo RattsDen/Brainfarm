@@ -21,16 +21,8 @@ namespace BrainfarmWeb
             {
                 try
                 {
-                    bool success = svc.RegisterUser(txtUsername.Text, txtNewPassword.Text, txtEmail.Text);
-                    if (success)
-                    {
-                        Response.Redirect("Default.aspx");
-                    }
-                    else
-                    {
-                        lblError.Visible = true;
-                        lblError.Text = "User account could not be created";
-                    }
+                    svc.RegisterUser(txtUsername.Text, txtNewPassword.Text, txtEmail.Text);
+                    Response.Redirect("Default.aspx");
                 }
                 catch (Exception ex)
                 {
