@@ -37,7 +37,7 @@ namespace BrainfarmWeb
                     catch
                     {
                         Response.StatusCode = 500;
-                        Response.Redirect("/500.html");
+                        Response.Redirect("/error/500.html");
                         return;
                     }
                 }
@@ -93,7 +93,7 @@ namespace BrainfarmWeb
                 catch
                 {
                     Response.StatusCode = 500;
-                    Response.Redirect("/500.html");
+                    Response.Redirect("/error/500.html");
                 }
             }
         }

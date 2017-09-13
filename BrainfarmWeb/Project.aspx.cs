@@ -20,7 +20,7 @@ namespace BrainfarmWeb
             {
                 // TODO: Should be 400 instead
                 Response.StatusCode = 400;
-                Response.Redirect("/400.html");
+                Response.Redirect("/error/400.html");
             }
 
             // Get project data from service
@@ -36,13 +36,13 @@ namespace BrainfarmWeb
                     case "UNKNOWN_PROJECT":
                         {
                             Response.StatusCode = 404;
-                            Response.Redirect("/404.html");
+                            Response.Redirect("/error/404.html");
                             break;
                         }
                     case "DATABASE_ERROR":
                         {
                             Response.StatusCode = 500;
-                            Response.Redirect("/500.html");
+                            Response.Redirect("/error/500.html");
                             break;
                         }
                 }
@@ -52,7 +52,7 @@ namespace BrainfarmWeb
             {
                 // Something other than a FaultException happened while communicating with the service
                 Response.StatusCode = 500;
-                Response.Redirect("/500.html");
+                Response.Redirect("/error/500.html");
                 return;
             }
 
