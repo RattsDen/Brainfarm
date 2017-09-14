@@ -1,1 +1,86 @@
-﻿
+﻿.comment {
+    /*border: 1px solid #c0c0c0;*/
+    border-left: 2px solid #00c6d8; 
+    background-color: white;
+}
+
+    .comment .commentContent {
+        background-color: white;
+    }
+    
+    .comment p {
+        margin: 0px;
+    }
+    
+    .comment .commentHead {
+        padding: 5px;
+        font-size: small;
+        color: white;
+        background-color: #00c6d8;
+    }
+    .comment .username {
+        font-weight: bold;
+    }
+    .comment .timestamp {
+    
+    }
+    .comment .commentNumber {
+        margin-left: 20px;
+        text-align: right;
+        float: right;
+    }
+    
+    .comment .commentBody {
+        padding: 5px;
+        padding-left: 10px;
+    }
+    
+    .comment .commentOptions {
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.025);
+        color: rgba(128, 128, 128, 0.75);
+        font-size: small;
+    }
+        .comment .commentOptions a {
+            text-decoration: none;
+            color: inherit;
+        }
+            .comment .commentOptions a:hover {
+                font-weight:bolder;
+            }
+    
+    .comment .commentChildren {
+        padding-left: 5px;
+        
+    }
+
+    .comment .ribbon {
+        color: white;
+        font-weight: bold;
+        padding: 5px;
+    }
+        .comment .ribbon.initial {
+            background-color: #ffea00;
+        }
+        .comment .ribbon.synth {
+            background-color: #9d00ff;
+        }
+        .comment .ribbon.spec {
+            background-color: #ff9c00;
+        }
+        .comment .ribbon.contrib {
+            background-color: #00d124;
+        }
+
+    .comment.initial>.commentContent {
+        background-color: #ffffc9;
+    }
+    .comment.synth>.commentContent {
+        background-color: #f0d8ff;
+    }
+    .comment.spec>.commentContent {
+        background-color: #ffe0af;
+    }
+    .comment.contrib>.commentContent {
+        background-color: #00d124;
+    }

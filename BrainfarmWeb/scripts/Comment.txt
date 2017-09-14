@@ -1,0 +1,34 @@
+﻿{{#each this}}
+    <div id="{{CommentID}}" data-commentId="{{CommentID}}" class="comment {{#unless ParentCommentID}}initial{{/unless}} {{#if IsSynthesis}}synth{{/if}} {{#if IsSpecification}}spec{{/if}} {{#if IsContribution}}contrib{{/if}}">
+        <div class="commentHead">
+            <span class="username">{{Username}}</span> at
+            <span class="timestamp">{{parseMSDate CreationDate}}</span>
+            <span class="commentNumber">#{{CommentID}}</span>
+        </div>
+        <!-- ribbons go here -->
+        {{#unless ParentCommentID}}
+            <div class="ribbon initial">PROJECT</div>
+        {{/unless}}
+        {{#if IsSynthesis}}
+            <div class="ribbon synth">SYNTHESIS</div>
+        {{/if}}
+        {{#if IsSpecification}}
+            <div class="ribbon spec">SPECIFICATION</div>
+        {{/if}}
+        {{#if IsContribution}}
+            <div class="ribbon contrib">CONTRIBUTION</div>
+        {{/if}}
+        <div class="commentContent">
+            <div class="commentBody">
+                <p>{{BodyText}}</p>
+            </div>
+            <div class="commentOptions">
+                <a class="btnReply" href="javascript:;">Reply</a>
+                <a class="btnBookmark" href="javascript:;">Bookmark</a>
+            </div>
+        </div>
+        <div class="commentChildren">
+            {{{layoutChildren Children}}}
+        </div>
+    </div>
+{{/each}}

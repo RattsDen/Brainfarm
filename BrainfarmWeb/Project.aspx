@@ -7,6 +7,10 @@
         // ID of project from request
         var projectID = parseInt(<%= projectID %>);
     </script>
+    
+    <script src="/plugins/handlebars-v4.0.10.js"></script>
+    <script src="/scripts/ServiceAjax.js"></script>
+    <script src="/scripts/Project.js"></script>
 
 </asp:Content>
 
@@ -20,7 +24,6 @@
     </div>
 
     <div id="div-project-comments" class="panel">
-        // Comment section goes here
     </div>
 
 </asp:Content>

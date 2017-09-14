@@ -153,6 +153,8 @@ VALUES(@SynthesisCommentID
         public List<Comment> GetComments(int projectID, int? parentCommentID)
         {
             List<Comment> results = new List<Comment>();
+            List<Comment> commentsWithChildren = new List<Comment>();
+
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
@@ -168,11 +170,12 @@ SELECT c.CommentID
                     FROM Comment 
                    WHERE ProjectID = @ProjectID 
                      AND ParentCommentID = c.CommentID) > 0 
-            THEN 1
-            ELSE 0
+            THEN CAST(1 AS BIT)
+            ELSE CAST(0 AS BIT)
        END AS HasChildren
   FROM Comment c
- INNER JOIN User u
+ INNER JOIN [User] u
+    ON c.UserID = u.UserID
  WHERE ProjectID = @ProjectID
    AND (ParentCommentID = @ParentCommentID OR (ParentCommentID IS NULL AND @ParentCommentID IS NULL))
 ";
@@ -202,9 +205,12 @@ SELECT c.CommentID
                         bool hasChildren = reader.GetBoolean(reader.GetOrdinal("HasChildren"));
                         if (hasChildren)
                         {
-                            // Get this comment's children - recursive call
+                            // Since we can't open more than one reader for the same query on the 
+                            //same connection, add this comment to a list so we can remember to get
+                            //its children once this tier has finished being read.
+                            commentsWithChildren.Add(comment);
+
                             // TODO: Limit the depth of recursion. Stack overflows are no fun.
-                            comment.Children.AddRange(GetComments(projectID, comment.CommentID));
                         }
 
                         // If comment is a synthesis, get it's links
@@ -223,6 +229,13 @@ SELECT c.CommentID
                     }
                 }
             }
+
+            foreach (Comment comment in commentsWithChildren)
+            {
+                // Recursivly call this method to get the children of any comments that have children
+                comment.Children.AddRange(GetComments(projectID, comment.CommentID));
+            }
+
             return results;
         }
 

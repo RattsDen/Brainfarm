@@ -223,10 +223,10 @@ namespace BrainfarmService
             throw new NotImplementedException();
         }
 
-        public List<Comment> GetComments(string sessionToken, int projectID, int? parentCommentID)
+        public List<Comment> GetComments(int projectID, int? parentCommentID)
         {
             // TODO: Flesh all of this out much further
-
+            
             try
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
