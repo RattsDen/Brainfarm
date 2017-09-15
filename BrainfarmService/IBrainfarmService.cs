@@ -84,7 +84,7 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        List<Comment> GetComments(string sessionToken, int projectID, int? parentCommentID);
+        List<Comment> GetComments(int projectID, int? parentCommentID);
 
     }
 }
