@@ -65,18 +65,24 @@ VALUES(@ProjectID
                 // Insert each synthesis junction if isSynthesis == true
                 if (isSynthesis)
                 {
-                    foreach (SynthesisRequest synthesis in syntheses)
+                    if (syntheses != null)
                     {
-                        InsertSynthesisJunction(commentID, synthesis.LinkedCommentID, synthesis.Subject);
+                        foreach (SynthesisRequest synthesis in syntheses)
+                        {
+                            InsertSynthesisJunction(commentID, synthesis.LinkedCommentID, synthesis.Subject);
+                        }
                     }
                 }
 
                 // Prepare to accept each contribution file if isContribution == true
                 if (isContribution)
                 {
-                    foreach (string filename in fileUploads)
+                    if (fileUploads != null)
                     {
-                        // TODO: Register pending upload with FileUploadManager
+                        foreach (string filename in fileUploads)
+                        {
+                            // TODO: Register pending upload with FileUploadManager
+                        }
                     }
                 }
 

@@ -60,7 +60,7 @@ namespace BrainfarmWeb
             lblProjectTitle.Text = project.Title;
             LayoutProjectTags(project.Tags);
         }
-
+        
         private BrainfarmServiceReference.Project GetProject(int projectID)
         {
             using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
@@ -77,6 +77,14 @@ namespace BrainfarmWeb
                 tagLabel.Text = tag;
                 tagLabel.CssClass = "chip";
                 panelProjectTags.Controls.Add(tagLabel);
+            }
+        }
+
+        protected void btnSubmitComment_Click(object sender, EventArgs e)
+        {
+            using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
+            {
+                svc.CreateComment((string)Session["ServiceSessionToken"], projectID, 1, txtComment.Text, chkIsSynthesis.Checked, chkIsContribution.Checked, chkIsSpecification.Checked, null, null);
             }
         }
     }
