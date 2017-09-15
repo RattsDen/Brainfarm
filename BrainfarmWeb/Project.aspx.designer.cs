@@ -31,6 +31,15 @@ namespace BrainfarmWeb {
         protected global::System.Web.UI.WebControls.Panel panelProjectTags;
         
         /// <summary>
+        /// parentCommentId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField parentCommentId;
+        
+        /// <summary>
         /// txtComment control.
         /// </summary>
         /// <remarks>

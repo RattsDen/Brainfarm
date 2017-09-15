@@ -1,8 +1,10 @@
 ﻿// Handlebars template stored in /scripts/Comment.txt
 var commentTemplate;
 var allComments;
+var commentReplyOverlay;
 
 $(document).ready(function () {
+    commentReplyOverlay = $("#commentReplyOverlay");
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
     $.when(getCommentsFromService(), getCommentTemplate())
@@ -11,6 +13,14 @@ $(document).ready(function () {
                 prepareTemplate(templateResp[0]);
                 processComments(commentResp[0]);
             }
+
+            $(".btnReply").click(function () {
+                $this = $(this);
+                parentCommentId = $this.closest(".comment").data("commentid");
+                $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
+                $("#lblParentCommentId").text(parentCommentId);
+                commentReplyOverlay.removeClass("hidden");
+            })
         });
 });
 
