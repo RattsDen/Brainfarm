@@ -1,6 +1,0 @@
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\bin\BrainfarmWeb.dll.config
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\bin\BrainfarmWeb.dll
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\bin\BrainfarmWeb.pdb
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\obj\Debug\BrainfarmWeb.csprojResolveAssemblyReference.cache
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\obj\Debug\BrainfarmWeb.dll
-C:\Users\Eric Thompson\Documents\Visual Studio 2013\Projects\Brainfarm\BrainfarmWeb\obj\Debug\BrainfarmWeb.pdb

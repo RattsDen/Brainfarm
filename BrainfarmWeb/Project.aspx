@@ -7,6 +7,10 @@
         // ID of project from request
         var projectID = parseInt(<%= projectID %>);
     </script>
+    
+    <script src="/plugins/handlebars-v4.0.10.js"></script>
+    <script src="/scripts/ServiceAjax.js"></script>
+    <script src="/scripts/Project.js"></script>
 
 </asp:Content>
 
@@ -19,8 +23,25 @@
         </asp:Panel>
     </div>
 
+    <div id="commentReplyOverlay" class="panel hidden">
+        <asp:HiddenField runat="server" ID="parentCommentId" Value="null"/>
+        <div>
+            Responding to comment #<span id="lblParentCommentId"></span>
+        </div>
+        <asp:TextBox runat="server" ID="txtComment" TextMode="MultiLine" Rows="4" Width="35%" />
+        <div>
+            <asp:CheckBox runat="server" ID="chkIsSpecification" Text="Specification Comment"/>
+        </div>
+        <div>
+            <asp:CheckBox runat="server" ID="chkIsSynthesis" Text="Synthesis Comment"/>
+        </div>
+        <div>
+            <asp:CheckBox runat="server" ID="chkIsContribution" Text="Contribution Comment"/>
+        </div>
+        <asp:Button runat="server" ID="btnSubmitComment" Text="Submit Comment" CssClass="btn" OnClick="btnSubmitComment_Click"/>
+    </div>
+
     <div id="div-project-comments" class="panel">
-        // Comment section goes here
     </div>
 
 </asp:Content>

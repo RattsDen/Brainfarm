@@ -59,10 +59,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="400.html" />
-    <Content Include="404.html" />
-    <Content Include="500.html" />
+    <Content Include="error\400.html" />
+    <Content Include="error\404.html" />
+    <Content Include="error\500.html" />
     <Content Include="Layout.Master" />
+    <Content Include="scripts\Comment.txt" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.wsdl" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.xsd">
       <SubType>Designer</SubType>
@@ -70,6 +71,7 @@
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -111,6 +113,7 @@
     <Content Include="styles\ErrorPage.css" />
     <Content Include="styles\GlobalStyles.css" />
     <Content Include="styles\Project.css" />
+    <Content Include="scripts\Project.js" />
     <Content Include="styles\Register.css" />
     <Content Include="Web.config" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService1.xsd">

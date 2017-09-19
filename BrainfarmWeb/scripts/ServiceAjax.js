@@ -1,13 +1,13 @@
-﻿function serviceAjax(method, args, success, error) {
+﻿function serviceAjax(route, args, success, error) {
 
     // Stringify arguments object
     if (typeof args == "object") {
         args = JSON.stringify(args);
     }
     
-    $.ajax({
+    return $.ajax({
         "type": "POST",
-        "url": "http://localhost:59006/BrainfarmService.svc/ajax/" + method,
+        "url": "http://localhost:59006/BrainfarmService.svc/ajax/" + route,
         "data": args,
         "contentType": "application/json",
         "dataType": "json",

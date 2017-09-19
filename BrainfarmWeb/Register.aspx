@@ -2,8 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="/styles/Register.css"/>
-    <script src="/scripts/Register.js"></script>
     <script src="/scripts/ServiceAjax.js"></script>
+    <script src="/scripts/Register.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
