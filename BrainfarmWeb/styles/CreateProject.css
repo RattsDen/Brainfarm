@@ -1,0 +1,11 @@
+﻿body {
+
+}
+
+.text-field-big {
+    font-size: 14pt;
+    border-radius: 2px;
+    border: 1px solid lightgray;
+    padding: 5px;
+    width: calc(100% - 12px);
+}
