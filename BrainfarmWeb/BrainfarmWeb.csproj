@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +60,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CreateProject.aspx" />
     <Content Include="error\400.html" />
     <Content Include="error\404.html" />
     <Content Include="error\500.html" />
@@ -110,6 +112,7 @@
     <Content Include="Register.aspx" />
     <Content Include="scripts\Register.js" />
     <Content Include="scripts\ServiceAjax.js" />
+    <Content Include="styles\CreateProject.css" />
     <Content Include="styles\ErrorPage.css" />
     <Content Include="styles\GlobalStyles.css" />
     <Content Include="styles\Project.css" />
@@ -121,6 +124,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateProject.aspx.cs">
+      <DependentUpon>CreateProject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateProject.aspx.designer.cs">
+      <DependentUpon>CreateProject.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
