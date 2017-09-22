@@ -1,27 +1,39 @@
 ﻿// Handlebars template stored in /scripts/Comment.txt
 var commentTemplate;
+var replyTemplate;
 var allComments;
-var commentReplyOverlay;
 
 $(document).ready(function () {
-    commentReplyOverlay = $("#commentReplyOverlay");
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
-    $.when(getCommentsFromService(), getCommentTemplate())
-        .done(function (commentResp, templateResp) {
-            if (commentResp[1] == "success" && templateResp[1] == "success") {
-                prepareTemplate(templateResp[0]);
+    $.when(getCommentsFromService(), getCommentTemplate(), getReplyTemplate())
+        .done(function (commentResp, commentTemplateResp, replyTemplateResp) {
+            if (commentResp[1] == "success" && commentTemplateResp[1] == "success" && replyTemplateResp[1] == "success") {
+                prepareTemplate(commentTemplateResp[0]);
                 processComments(commentResp[0]);
+                replyTemplate = replyTemplateResp[0];
             }
-
-            $(".btnReply").click(function () {
-                $this = $(this);
-                parentCommentId = $this.closest(".comment").data("commentid");
-                $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
-                $("#lblParentCommentId").text(parentCommentId);
-                commentReplyOverlay.removeClass("hidden");
-            })
         });
+});
+
+$(document).on("click", ".btnReply", function () {
+    var comment = $(this).closest(".commentContent");
+    if (!comment.hasClass("hasReplyForm")) {
+        comment.append(replyTemplate);
+        comment.addClass("hasReplyForm");
+    }
+});
+
+$(document).on("click", ".btn-cancelReply", function () {
+    var comment = $(this).closest(".commentContent");
+    comment.find(".replyBox").remove();
+    comment.removeClass("hasReplyForm");
+});
+
+$(document).on("click", ".btn-submitReply", function () {
+    var comment = $(this).closest(".comment");
+    var commentid = comment.data("commentid");
+    createCommentWithService(commentid);
 });
 
 function getCommentsFromService() {
@@ -33,10 +45,24 @@ function getCommentsFromService() {
     return serviceAjax("GetComments", args, null, handleServiceException);
 }
 
+function createCommentWithService(commentid) {
+    var args = {
+
+    }
+    //serviceAjax("CreateComment");
+}
+
 function getCommentTemplate() {
     return $.ajax({
         "type": "GET",
         "url": "/scripts/Comment.txt"
+    });
+}
+
+function getReplyTemplate() {
+    return $.ajax({
+        "type": "GET",
+        "url": "/scripts/Reply.txt"
     });
 }
 
