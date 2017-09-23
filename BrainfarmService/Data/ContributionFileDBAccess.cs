@@ -84,7 +84,7 @@ SELECT ContributionFileID
             if (!reader.IsDBNull(reader.GetOrdinal("CommentID")))
                 contributionFile.CommentID = reader.GetInt32(reader.GetOrdinal("CommentID"));
             if (!reader.IsDBNull(reader.GetOrdinal("Filename")))
-                contributionFile.CommentID = reader.GetInt32(reader.GetOrdinal("Filename"));
+                contributionFile.Filename = reader.GetString(reader.GetOrdinal("Filename"));
             return contributionFile;
         }
 
@@ -110,6 +110,31 @@ UPDATE ContributionFile
                 if (rowsAffected == 0)
                     throw new EntityNotFoundException();
             }
+        }
+
+        public List<ContributionFile> GetFilesForComment(int commentID)
+        {
+            List<ContributionFile> contributionFiles = new List<ContributionFile>();
+            string sql = @"
+SELECT ContributionFileID
+      ,CommentID
+      ,Filename
+  FROM ContributionFile
+ WHERE CommentID = @CommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contributionFiles.Add(ReadContributionFile(reader));
+                    }
+                }
+            }
+
+            return contributionFiles;
         }
 
     }

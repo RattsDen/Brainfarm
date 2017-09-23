@@ -173,6 +173,7 @@ VALUES(@SynthesisCommentID
         {
             List<Comment> results = new List<Comment>();
             List<Comment> commentsWithChildren = new List<Comment>();
+            List<Comment> contributionComments = new List<Comment>();
 
             string sql = @"
 SELECT c.CommentID
@@ -238,10 +239,11 @@ SELECT c.CommentID
                             // TODO: Get SynthesisJunctions from DB
                         }
 
-                        // If comment is a contribution, get it's files
                         if (comment.IsContribution)
                         {
-                            // TODO: Get ContributionFile objects from DB (Just filename, etc. Not the data)
+                            // Remember this comment so we can get its files once the reader is closed.
+                            // See above comments about children
+                            contributionComments.Add(comment);
                         }
 
                         results.Add(comment);
@@ -253,6 +255,21 @@ SELECT c.CommentID
             {
                 // Recursivly call this method to get the children of any comments that have children
                 comment.Children.AddRange(GetComments(projectID, comment.CommentID));
+            }
+
+            // Get ContributionFile objects from DB (Just filename, etc. Not the data)
+            /* 
+             * This DB Access object does not need to be wrapped in a using block
+             * because it shares the database connection with this instance of
+             * CommentDBAccess. (By using the overloaded constructor) The
+             * connection will be closed when this CommentDBAccess instance is
+             * disposed
+             */
+            ContributionFileDBAccess contributionFileDBAccess = new ContributionFileDBAccess(this);
+            foreach (Comment comment in contributionComments)
+            {
+                comment.ContributionFiles.AddRange(
+                    contributionFileDBAccess.GetFilesForComment(comment.CommentID));
             }
 
             return results;
