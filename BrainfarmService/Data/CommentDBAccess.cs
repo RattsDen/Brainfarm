@@ -51,7 +51,7 @@ VALUES(@ProjectID
 
         public void CreateComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses, string[] fileUploads)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             // TODO: Implement this method
 
@@ -77,11 +77,24 @@ VALUES(@ProjectID
                 // Prepare to accept each contribution file if isContribution == true
                 if (isContribution)
                 {
-                    if (fileUploads != null)
+                    if (attachments != null)
                     {
-                        foreach (string filename in fileUploads)
+                        /* 
+                         * This DB Access object does not need to be wrapped in a using block
+                         * because it shares the database connection with this instance of
+                         * CommentDBAccess. (By using the overloaded constructor) The
+                         * connection will be closed when this CommentDBAccess instance is
+                         * disposed
+                        */
+                        ContributionFileDBAccess contributionFileDBAccess 
+                            = new ContributionFileDBAccess(this);
+
+                        foreach (FileAttachmentRequest attachment in attachments)
                         {
-                            // TODO: Register pending upload with FileUploadManager
+                            contributionFileDBAccess.AttachFileToComment(
+                                attachment.ContributionFileID, 
+                                commentID, 
+                                attachment.Filename);
                         }
                     }
                 }
