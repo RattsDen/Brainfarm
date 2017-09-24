@@ -22,6 +22,8 @@ $(document).ready(function () {
                 commentReplyOverlay.removeClass("hidden");
             })
         });
+
+    $(document).on("click", ".attachments a", attachmentClicked);
 });
 
 function getCommentsFromService() {
@@ -100,4 +102,14 @@ function parseMSDate(datestring) {
     mm = mm < 10 ? "0" + mm : mm;
 
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
+}
+
+function attachmentClicked(event) {
+    // Get file id and filename from clicked tag
+    var contributionFileId = $(event.target).data("contribution-file-id");
+    var filename = $(event.target).data("filename");
+
+    // Direct to download controller
+    location.href = "/DownloadFile.ashx?ID=" + contributionFileId + "&Filename=" + filename;
+
 }

@@ -82,5 +82,16 @@
         background-color: #ffe0af;
     }
     .comment.contrib>.commentContent {
-        background-color: #00d124;
+        background-color: #c4ffce;
+    }
+
+    .comment .attachments {
+        padding-left: 20px;
+    }
+    .comment .attachments a, .comment .attachments a:active {
+        color: #00d124; 
+        text-decoration: none;
+    }
+    .comment .attachments a:hover {
+        font-weight:bolder;
     }

@@ -66,6 +66,7 @@
     <Content Include="error\500.html" />
     <Content Include="Layout.Master" />
     <Content Include="scripts\Comment.txt" />
+    <Content Include="DownloadFile.ashx" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.wsdl" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.xsd">
       <SubType>Designer</SubType>
@@ -85,6 +86,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.Project.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.ContributionFile.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
@@ -137,6 +141,9 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DownloadFile.ashx.cs">
+      <DependentUpon>DownloadFile.ashx</DependentUpon>
     </Compile>
     <Compile Include="Layout.Master.cs">
       <DependentUpon>Layout.Master</DependentUpon>
