@@ -1,8 +1,10 @@
 # Ignore any directory named "bin"
 # This should exclude the build files
 bin/
-obj
+obj/
 # Ignore BrainfarmService's Web.config file. This should be added back in later
 /BrainfarmService/Web.config
-/BrainfarmService/Web.Debug.config
-/BrainfarmService/Web.Release.config
+# Ignore Visual studio user prefs files
+/Brainfarm.v12.suo
+/BrainfarmService/BrainfarmService.csproj.user
+/BrainfarmWeb/BrainfarmWeb.csproj.user
