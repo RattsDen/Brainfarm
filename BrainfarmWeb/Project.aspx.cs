@@ -12,9 +12,11 @@ namespace BrainfarmWeb
     public partial class Project : System.Web.UI.Page
     {
         protected int projectID;
+        protected string sessionToken;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            sessionToken = (string)Session["ServiceSessionToken"];
             // Get project ID from the request
             if (!int.TryParse(Request.Params["ID"], out projectID))
             {

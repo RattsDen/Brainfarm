@@ -82,12 +82,12 @@
         background-color: #ffe0af;
     }
     .comment.contrib>.commentContent {
-        background-color: #00d124;
+        background-color: #c4ffce;
     }
 
-    #replyBox {
-    border-left: 2px solid #888888;
-    background-color: white;
+    .replyBox {
+        border-left: 2px solid #888888;
+        background-color: white;
     }
     .replyHead {
         padding: 5px;
@@ -107,4 +107,8 @@
     }
     .replyButtons {
         float: right;
+    }
+    .msg-error{
+        font-size:small;
+        color:#ff2323;
     }

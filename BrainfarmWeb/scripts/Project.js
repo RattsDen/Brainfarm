@@ -33,23 +33,47 @@ $(document).on("click", ".btn-cancelReply", function () {
 $(document).on("click", ".btn-submitReply", function () {
     var comment = $(this).closest(".comment");
     var commentid = comment.data("commentid");
-    createCommentWithService(commentid);
+    var replyBox = $(this).closest(".replyBox");
+    var replyText = replyBox.find(".replyText")[0].value;
+    var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
+    var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
+    var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+
+    if(validateComment(replyText)){
+        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution);
+    }
+    else {
+        replyBox.find(".msg-error").html("Validation failed");
+    }
 });
 
-function getCommentsFromService() {
+function getCommentsFromService(successCallback) {
     var args = {
         projectID: projectID,
         parentCommentID: null
     };
     // serviceAjax function is contained in /scripts/ServiceAjax.js
-    return serviceAjax("GetComments", args, null, handleServiceException);
+    return serviceAjax("GetComments", args, successCallback, handleServiceException);
 }
 
-function createCommentWithService(commentid) {
+function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution) {
     var args = {
-
+        sessionToken: sessionToken,
+        projectID: projectID,
+        parentCommentID: commentid,
+        bodyText: replyText,
+        isSynthesis: isSynthesis,
+        isContribution: isSpecification,
+        isSpecification: isContribution,
+        syntheses: null,
+        fileUploads: null
     }
-    //serviceAjax("CreateComment");
+
+    serviceAjax("CreateComment", args, reloadAndDisplayAllComments, handleServiceException);
+}
+
+function reloadAndDisplayAllComments() {
+    getCommentsFromService(processComments);
 }
 
 function getCommentTemplate() {
@@ -62,7 +86,7 @@ function getCommentTemplate() {
 function getReplyTemplate() {
     return $.ajax({
         "type": "GET",
-        "url": "/scripts/Reply.txt"
+        "url": "/scripts/Reply.html"
     });
 }
 
@@ -97,11 +121,10 @@ function getCommentByID(comments, id) {
 
 function processComments(comments) {
     allComments = comments;
-
     var target = $("#div-project-comments");
 
     var commentHTML = layoutComments(comments);
-    $(target).append(commentHTML);
+    $(target).html(commentHTML);
 }
 
 function layoutComments(comments) {
@@ -126,4 +149,11 @@ function parseMSDate(datestring) {
     mm = mm < 10 ? "0" + mm : mm;
 
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
+}
+
+function validateComment(replyText) {
+    if(replyText.length == 0){
+        return false;
+    }
+    return true;
 }
