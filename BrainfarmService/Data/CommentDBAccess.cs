@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using BrainfarmService.Exceptions;
 
 namespace BrainfarmService.Data
 {
@@ -49,7 +50,7 @@ VALUES(@ProjectID
             }
         }
 
-        public void CreateComment(int projectID, int userID, int parentCommentID,
+        public int CreateComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, string[] fileUploads)
         {
@@ -87,6 +88,7 @@ VALUES(@ProjectID
                 }
 
                 Commit();
+                return commentID;
             }
             catch (Exception ex)
             {
@@ -243,6 +245,45 @@ SELECT c.CommentID
             }
 
             return results;
+        }
+
+        public Comment GetComment(int commentId)
+        {
+            Comment result = new Comment();
+
+            string sql = @"
+SELECT c.CommentID
+      ,c.UserID
+      ,c.ParentCommentID
+      ,c.CreationDate
+      ,c.EditedDate
+      ,c.BodyText
+      ,c.IsSynthesis
+      ,c.IsContribution
+      ,c.IsSpecification
+      ,u.Username
+  FROM Comment c
+ INNER JOIN [User] u
+    ON c.UserID = u.UserID
+ WHERE c.CommentID = @CommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@CommentID", commentId);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result = ReadComment(reader);
+                        result.Username = reader.GetString(reader.GetOrdinal("Username"));
+                    }
+                    else
+                    {
+                        throw new EntityNotFoundException();
+                    }
+                }
+            }
+            return result;
         }
 
         private Comment ReadComment(SqlDataReader reader)
