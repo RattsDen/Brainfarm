@@ -1,0 +1,9 @@
+﻿#div-dashboard {
+    display: flex;
+    flex-direction: row;
+}
+
+.div-dashboard-column {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
