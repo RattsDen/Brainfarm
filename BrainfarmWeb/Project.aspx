@@ -6,6 +6,7 @@
     <script>
         // ID of project from request
         var projectID = parseInt(<%= projectID %>);
+        var sessionToken = "<%= sessionToken%>";
     </script>
     
     <script src="/plugins/handlebars-v4.0.10.js"></script>

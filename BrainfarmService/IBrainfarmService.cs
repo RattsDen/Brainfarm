@@ -70,7 +70,7 @@ namespace BrainfarmService
         
         [OperationContract]
         [WebInvoke]
-        void CreateComment(string sessionToken, int projectID, int parentCommentID, 
+        Comment CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, 
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments);
 

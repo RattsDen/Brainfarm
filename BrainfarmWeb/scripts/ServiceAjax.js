@@ -13,7 +13,10 @@ function serviceAjax(route, args, success, error) {
         "data": args,
         "contentType": "application/json",
         "dataType": "json",
-        "success": success,
+        "success": function (response) {
+            if(success != undefined)
+                success(response);
+        },
         "error": error,
         "processData": false
     });

@@ -188,7 +188,7 @@ namespace BrainfarmService
             }
         }
 
-        public void CreateComment(string sessionToken, int projectID, int parentCommentID, 
+        public Comment CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
@@ -199,9 +199,10 @@ namespace BrainfarmService
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
-                    commentDBAccess.CreateComment(projectID, user.UserID, parentCommentID,
+                    int commentId = commentDBAccess.CreateComment(projectID, user.UserID, parentCommentID,
                         bodyText, isSynthesis, isContribution, isSpecification,
                         syntheses, attachments);
+                    return commentDBAccess.GetComment(commentId);
                 }
             }
             catch (SqlException)
