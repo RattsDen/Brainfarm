@@ -85,6 +85,18 @@
         background-color: #c4ffce;
     }
 
+
+    .comment .attachments {
+        padding-left: 20px;
+    }
+    .comment .attachments a, .comment .attachments a:active {
+        color: #00d124; 
+        text-decoration: none;
+    }
+    .comment .attachments a:hover {
+        font-weight:bolder;
+    }
+
     .replyBox {
         border-left: 2px solid #888888;
         background-color: white;
@@ -112,3 +124,4 @@
         font-size:small;
         color:#ff2323;
     }
+

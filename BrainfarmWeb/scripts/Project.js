@@ -14,6 +14,8 @@ $(document).ready(function () {
                 replyTemplate = replyTemplateResp[0];
             }
         });
+
+    $(document).on("click", ".attachments a", attachmentClicked);
 });
 
 $(document).on("click", ".btnReply", function () {
@@ -149,6 +151,16 @@ function parseMSDate(datestring) {
     mm = mm < 10 ? "0" + mm : mm;
 
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
+}
+
+function attachmentClicked(event) {
+    // Get file id and filename from clicked tag
+    var contributionFileId = $(event.target).data("contribution-file-id");
+    var filename = $(event.target).data("filename");
+
+    // Direct to download controller
+    location.href = "/DownloadFile.ashx?ID=" + contributionFileId + "&Filename=" + filename;
+
 }
 
 function validateComment(replyText) {

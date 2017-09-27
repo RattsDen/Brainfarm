@@ -190,7 +190,7 @@ namespace BrainfarmService
 
         public Comment CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses, string[] fileUploads)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             // Get user from session
             User user = GetCurrentUser(sessionToken);
@@ -201,7 +201,7 @@ namespace BrainfarmService
                 {
                     int commentId = commentDBAccess.CreateComment(projectID, user.UserID, parentCommentID,
                         bodyText, isSynthesis, isContribution, isSpecification,
-                        syntheses, fileUploads);
+                        syntheses, attachments);
                     return commentDBAccess.GetComment(commentId);
                 }
             }
@@ -212,16 +212,41 @@ namespace BrainfarmService
             }
         }
 
-        public void UploadFile(Stream stream)
+        public ContributionFile UploadFile(Stream stream)
         {
-            // TODO: implement file uploads
-            throw new NotImplementedException();
+            try
+            {
+                using (ContributionFileDBAccess contributionFileDBAccess = new ContributionFileDBAccess())
+                {
+                    return contributionFileDBAccess.InsertContributionFile(stream);
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
         }
 
         public Stream DownloadFile(int contributionFileID)
         {
-            // TODO: implement file downloads
-            throw new NotImplementedException();
+            try
+            {
+                using (ContributionFileDBAccess contributionFileDBAccess = new ContributionFileDBAccess())
+                {
+                    return contributionFileDBAccess.GetFileContents(contributionFileID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("File could not be found",
+                    new FaultCode("UNKNOWN_CONTRIBUTION_FILE"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
         }
 
         public List<Comment> GetComments(int projectID, int? parentCommentID)

@@ -69,6 +69,7 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Master.config" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -82,18 +83,19 @@
     <Compile Include="BrainfarmService.svc.cs">
       <DependentUpon>BrainfarmService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Data\ContributionFileDBAccess.cs" />
     <Compile Include="Data\DBAccess.cs" />
     <Compile Include="Data\CommentDBAccess.cs" />
     <Compile Include="Data\Bookmark.cs" />
     <Compile Include="Data\Comment.cs" />
     <Compile Include="Data\ContributionFile.cs" />
+    <Compile Include="Data\FileAttachmentRequest.cs" />
     <Compile Include="Data\Project.cs" />
     <Compile Include="Data\SynthesisJunction.cs" />
     <Compile Include="Data\SynthesisRequest.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="Exceptions\UserAuthenticationException.cs" />
-    <Compile Include="FileUploadManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
