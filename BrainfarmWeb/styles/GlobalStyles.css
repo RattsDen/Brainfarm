@@ -127,3 +127,11 @@ h1 {
 .hidden {
     display: none;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a:hover {
+    font-weight:bolder;
+}

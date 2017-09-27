@@ -2,6 +2,10 @@
 var commentTemplate;
 var replyTemplate;
 var allComments;
+var synthModeEnbled = false;
+var synthList;
+
+//*************** DOCUMENT.READY STATEMENTS ******************
 
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
@@ -47,6 +51,26 @@ $(document).on("click", ".btn-submitReply", function () {
     }
 });
 
+$(document).on("click", ".synthDelete", function () {
+    $(this).parent().remove();
+})
+
+$(document).on("click", "input[name='chkIsSynthesis']", function () {
+    var replyBox = $(this).closest(".replyBox");
+    //replyBox.find(".synth-list").append("<li>comment</li>");
+    replyBox.find(".synthOptions").toggle();
+    synthList = replyBox.find(".synthList");
+    toggleSynthMode();
+})
+
+$(document).on("click", ".commentHead", function () {
+    if (synthModeEnbled) {
+        addSynth($(this).closest(".comment").data("commentid"));
+    }
+})
+
+//****************** HELPER FUNCTIONS ********************
+
 function getCommentsFromService(successCallback) {
     var args = {
         projectID: projectID,
@@ -69,6 +93,9 @@ function createCommentWithService(commentid, replyText, isSynthesis, isSpecifica
         fileUploads: null
     }
 
+    if (isSynthesis) {
+        args.syntheses = getSyntheses();
+    }
     serviceAjax("CreateComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
@@ -122,7 +149,6 @@ function getCommentByID(comments, id) {
 function processComments(comments) {
     allComments = comments;
     var target = $("#div-project-comments");
-
     var commentHTML = layoutComments(comments);
     $(target).html(commentHTML);
 }
@@ -156,4 +182,38 @@ function validateComment(replyText) {
         return false;
     }
     return true;
+}
+
+function toggleSynthMode() {
+    if (synthModeEnbled === false) {
+        synthModeEnbled = true;
+    } else {
+        synthModeEnbled = false;
+    }
+}
+
+function addSynth(commentId) {
+    var duplicate = false;
+    synthList.find("li").each(function () {
+        if ($(this).data("commentid") == commentId) {
+            duplicate = true;
+            return;
+        }
+    });
+    if(!duplicate)
+        synthList.append("<li data-commentid='" + commentId + "'><a href='javascript:;' class='synthDelete'>[X]</a>" + commentId + "<input name='synthSubject' type='text' placeholder='Enter a Short Description'/></li>");
+}
+
+function getSyntheses() {
+    var syntheses = [];
+    synthList.find("li").each(function () {
+        var commentId = $(this).data("commentid");
+        var subject = $(this).find("input[name='synthSubject']")[0].value;
+        var tmp = {
+            LinkedCommentID: commentId,
+            Subject: subject
+        };
+        syntheses.push(tmp);
+    });
+    return syntheses;
 }

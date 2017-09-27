@@ -162,6 +162,7 @@ VALUES(@SynthesisCommentID
         {
             List<Comment> results = new List<Comment>();
             List<Comment> commentsWithChildren = new List<Comment>();
+            List<Comment> synthesisComments = new List<Comment>();
 
             string sql = @"
 SELECT c.CommentID
@@ -224,7 +225,7 @@ SELECT c.CommentID
                         // If comment is a synthesis, get it's links
                         if (comment.IsSynthesis)
                         {
-                            // TODO: Get SynthesisJunctions from DB
+                            comment.Syntheses = GetSyntheses(comment.CommentID);
                         }
 
                         // If comment is a contribution, get it's files
@@ -308,5 +309,37 @@ SELECT c.CommentID
 
             return comment;
         }
+
+
+        public List<SynthesisJunction> GetSyntheses(int synthesisCommentId)
+        {
+            List<SynthesisJunction> syntheses = new List<SynthesisJunction>();
+
+            String sql = @"
+SELECT LinkedCommentID,
+Subject
+FROM SynthesisJunction
+WHERE SynthesisCommentID = @SynthesisCommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@SynthesisCommentID", synthesisCommentId);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SynthesisJunction synth = new SynthesisJunction();
+                        synth.SynthesisCommentID = synthesisCommentId;
+                        synth.LinkedCommentID = reader.GetInt32(reader.GetOrdinal("LinkedCommentID"));
+                        synth.Subject = reader.GetString(reader.GetOrdinal("Subject"));
+
+                        syntheses.Add(synth);
+                    }
+                }
+            }
+
+            return syntheses;
+        }
     }
+
 }

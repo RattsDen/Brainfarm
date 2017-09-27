@@ -81,24 +81,5 @@ namespace BrainfarmWeb
                 panelProjectTags.Controls.Add(tagLabel);
             }
         }
-
-        protected void btnSubmitComment_Click(object sender, EventArgs e)
-        {
-            using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-            {
-                int parentId = int.Parse(parentCommentId.Value);
-                svc.CreateComment((string)Session["ServiceSessionToken"], projectID, parentId, txtComment.Text, chkIsSynthesis.Checked, chkIsContribution.Checked, chkIsSpecification.Checked, null, null);
-            }
-
-            clearAllFields();
-        }
-
-        private void clearAllFields()
-        {
-            txtComment.Text = "";
-            chkIsSpecification.Checked = false;
-            chkIsContribution.Checked = false;
-            chkIsSynthesis.Checked = false;
-        }
     }
 }

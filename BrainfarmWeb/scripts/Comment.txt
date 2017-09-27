@@ -21,6 +21,13 @@
         <div class="commentContent">
             <div class="commentBody">
                 <p>{{BodyText}}</p>
+				{{#if IsSynthesis}}
+				<ul>
+					{{#each this.Syntheses}}
+						<li>{{LinkedCommentID}}--{{Subject}}</li>
+					{{/each}}
+				</ul>
+				{{/if}}
             </div>
             <div class="commentOptions">
                 <a class="btnReply" href="javascript:;">Reply</a>
