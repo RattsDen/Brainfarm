@@ -125,3 +125,26 @@
         color:#ff2323;
     }
 
+    .reply-box-hidden {
+        display: none !important;
+    }
+
+    .div-file-upload {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-file-upload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .file-upload {
+        position:absolute;
+        top: 0;
+        right: 0;
+        opacity: 0;
+        cursor: pointer;
+        filter: alpha(opacity=0);
+    }

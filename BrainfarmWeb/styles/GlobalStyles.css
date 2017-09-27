@@ -111,6 +111,13 @@ h1 {
         width: 100%;
     }
 
+    .btn.btn-green {
+        background-color: #00d124;
+    }
+        .btn.btn-green:hover {
+            background-color: #008517;
+        }
+
 .text-field {
     width: calc(100% - 5px);
     box-sizing: border-box;

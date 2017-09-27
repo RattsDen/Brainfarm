@@ -3,6 +3,8 @@ var commentTemplate;
 var replyTemplate;
 var allComments;
 
+var pendingFileUploads = [];
+
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
@@ -21,8 +23,10 @@ $(document).ready(function () {
 $(document).on("click", ".btnReply", function () {
     var comment = $(this).closest(".commentContent");
     if (!comment.hasClass("hasReplyForm")) {
-        comment.append(replyTemplate);
+        comment.find(".commentChildren").append(replyTemplate);
         comment.addClass("hasReplyForm");
+
+        pendingFileUploads = []; // Reinitialize the pending file upload list
     }
 });
 
@@ -49,6 +53,74 @@ $(document).on("click", ".btn-submitReply", function () {
     }
 });
 
+// BEGIN Contribution comment listeners
+
+// "Is Contribution Comment" checkbox click
+$(document).on("click", ".chk-is-contribution", function () {
+    var checkbox = $(event.target);
+    var divFileUpload = $(".div-file-upload");
+    divFileUpload.toggleClass("reply-box-hidden", checkbox.checked);
+});
+
+// "Add a file" button clicked
+$(document).on("click", ".btn-add-file", function () {
+    var control = "<input type='file' class='input-file-upload btn btn-green' />";
+    var divFileUploadInputs = $(".div-file-upload-inputs");
+    divFileUploadInputs.append(control);
+    divFileUploadInputs.append("<br />");
+
+    return false; //Prevent ASP.NET postback
+});
+
+// File selected
+$(document).on("change", ".file-upload", function () {
+    var fileInputControl = $(event.target);
+    var fileInputLabel = $(".file-upload-label");
+
+    pendingFileUploads = [];
+    var requests = [];
+    var labelText = "";
+
+    for (var i = 0; i < fileInputControl[0].files.length; i++) {
+        var file = fileInputControl[0].files[i];
+
+        // Build label text
+        if (i > 0)
+            labelText += ", ";
+        labelText += file.name;
+
+        // start the upload and add it to list of requests
+        requests.push(uploadFile(file))
+    }
+
+    fileInputLabel.text("Uploading...")
+
+    $.when.apply(undefined, requests).then(function () {
+        fileInputLabel.text(labelText);
+    });
+});
+
+function uploadFile(file) {
+    return $.ajax({
+        url: serviceEndpoint + "UploadFile",
+        type: "POST",
+        data: file,
+        processData: false,
+        success: function (response) {
+            console.log("upload done");
+            pendingFileUploads.push({
+                ContributionFileID: response.ContributionFileID,
+                Filename: file.name
+            });
+        },
+        error: function () {
+            console.log("upload error");
+        }
+    });
+}
+
+// END Contribution comment listeners
+
 function getCommentsFromService(successCallback) {
     var args = {
         projectID: projectID,
@@ -65,10 +137,10 @@ function createCommentWithService(commentid, replyText, isSynthesis, isSpecifica
         parentCommentID: commentid,
         bodyText: replyText,
         isSynthesis: isSynthesis,
-        isContribution: isSpecification,
-        isSpecification: isContribution,
+        isContribution: isContribution,
+        isSpecification: isSpecification,
         syntheses: null,
-        fileUploads: null
+        attachments: isContribution ? pendingFileUploads : null
     }
 
     serviceAjax("CreateComment", args, reloadAndDisplayAllComments, handleServiceException);
