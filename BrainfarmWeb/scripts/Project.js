@@ -29,6 +29,7 @@ $(document).on("click", ".btnReply", function () {
 });
 
 $(document).on("click", ".btn-cancelReply", function () {
+    toggleSynthMode(false);
     var comment = $(this).closest(".commentContent");
     comment.find(".replyBox").remove();
     comment.removeClass("hasReplyForm");
@@ -42,12 +43,24 @@ $(document).on("click", ".btn-submitReply", function () {
     var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
     var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
     var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+    var errorDisplay = replyBox.find(".msg-error");
+    var syntheses = null;
+    errorDisplay.html("");
+    $(".missingField").remove();
 
-    if(validateComment(replyText)){
-        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution);
+    if (isSynthesis) {
+        syntheses = getSyntheses();
+        if (syntheses.length < 2) {
+            errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
+            return;
+        }
+        if (syntheses.hasErrors) {
+            errorDisplay.append("Please include a subject for each sythesized comment</br>");
+            return;
+        }
     }
-    else {
-        replyBox.find(".msg-error").html("Validation failed");
+    if(validateComment(errorDisplay, replyText)){
+        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
     }
 });
 
@@ -80,7 +93,7 @@ function getCommentsFromService(successCallback) {
     return serviceAjax("GetComments", args, successCallback, handleServiceException);
 }
 
-function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution) {
+function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses) {
     var args = {
         sessionToken: sessionToken,
         projectID: projectID,
@@ -89,13 +102,10 @@ function createCommentWithService(commentid, replyText, isSynthesis, isSpecifica
         isSynthesis: isSynthesis,
         isContribution: isSpecification,
         isSpecification: isContribution,
-        syntheses: null,
+        syntheses: syntheses,
         fileUploads: null
     }
 
-    if (isSynthesis) {
-        args.syntheses = getSyntheses();
-    }
     serviceAjax("CreateComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
@@ -177,14 +187,20 @@ function parseMSDate(datestring) {
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
 }
 
-function validateComment(replyText) {
-    if(replyText.length == 0){
+//TODO: Add better validation?
+function validateComment(errorDisplay, replyText) {
+    if (replyText.length == 0) {
+        errorDisplay.append("Reply text cannot be empty<br/>");
         return false;
     }
     return true;
 }
 
-function toggleSynthMode() {
+function toggleSynthMode(override) {
+    if (override === true || override === false) {
+        synthModeEnbled = override;
+        return;
+    }
     if (synthModeEnbled === false) {
         synthModeEnbled = true;
     } else {
@@ -200,13 +216,20 @@ function addSynth(commentId) {
             return;
         }
     });
-    if(!duplicate)
-        synthList.append("<li data-commentid='" + commentId + "'><a href='javascript:;' class='synthDelete'>[X]</a>" + commentId + "<input name='synthSubject' type='text' placeholder='Enter a Short Description'/></li>");
+    if (!duplicate) {
+        synthList.append(
+            "<li data-commentid='" + commentId + "'>" +
+                "<a href='javascript:;' class='synthDelete'>[X]</a>" +
+                commentId +
+                "<input name='synthSubject' type='text' placeholder='Enter a Short Description'/>" +
+            "</li>"
+        );
+    }
 }
 
 function getSyntheses() {
     var syntheses = [];
-    synthList.find("li").each(function () {
+    synthList.find("li").each(function (k) {
         var commentId = $(this).data("commentid");
         var subject = $(this).find("input[name='synthSubject']")[0].value;
         var tmp = {
@@ -214,6 +237,11 @@ function getSyntheses() {
             Subject: subject
         };
         syntheses.push(tmp);
+        if (subject == "") {
+            $(this).append("<span class='missingField'>*</span>");
+            syntheses.hasErrors = true;
+        }
     });
+    console.log(syntheses);
     return syntheses;
 }

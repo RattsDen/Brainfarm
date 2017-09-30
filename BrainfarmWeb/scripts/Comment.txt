@@ -24,7 +24,7 @@
 				{{#if IsSynthesis}}
 				<ul>
 					{{#each this.Syntheses}}
-						<li>{{LinkedCommentID}}--{{Subject}}</li>
+						<li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
 					{{/each}}
 				</ul>
 				{{/if}}
