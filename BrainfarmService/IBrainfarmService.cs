@@ -86,5 +86,13 @@ namespace BrainfarmService
         [WebInvoke]
         List<Comment> GetComments(int projectID, int? parentCommentID);
 
+        [OperationContract]
+        [WebInvoke]
+        List<Project> GetPopularProjects(int top);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Project> GetRecommendedProjects(int userID, int top);
+
     }
 }
