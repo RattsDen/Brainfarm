@@ -4,6 +4,8 @@
 
     <link rel="stylesheet" href="/styles/Dashboard.css"/>
 
+    <script src="/scripts/Dashboard.js"></script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">

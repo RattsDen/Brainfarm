@@ -47,20 +47,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
-  <xs:complexType name="ContributionFile">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="CommentID" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
-      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ContributionFile" nillable="true" type="tns:ContributionFile" />
-  <xs:complexType name="ArrayOfComment">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
   <xs:complexType name="Comment">
     <xs:sequence>
       <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />
@@ -81,12 +67,26 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Comment" nillable="true" type="tns:Comment" />
+  <xs:complexType name="ArrayOfComment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
   <xs:complexType name="ArrayOfContributionFile">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="ContributionFile" nillable="true" type="tns:ContributionFile" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfContributionFile" nillable="true" type="tns:ArrayOfContributionFile" />
+  <xs:complexType name="ContributionFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CommentID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
+      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContributionFile" nillable="true" type="tns:ContributionFile" />
   <xs:complexType name="ArrayOfSynthesisJunction">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
@@ -101,4 +101,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
+  <xs:complexType name="ArrayOfProject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Project" nillable="true" type="tns:Project" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProject" nillable="true" type="tns:ArrayOfProject" />
 </xs:schema>

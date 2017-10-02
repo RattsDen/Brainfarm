@@ -9,6 +9,8 @@
 }
 
 #div-header {
+    height: 85px;
+
     background-color: #00c6d8;
     color: white;
     overflow: auto;
@@ -16,6 +18,7 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
     #div-header #div-logo {
@@ -60,6 +63,25 @@
             font-weight: bold;
         }
 
+#div-content {
+    display: block;
+    margin-right: 230px;
+}
+
+#div-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    position: fixed;
+    right: 0px;
+    top: 95px;
+}
+    #div-sidebar>* {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
 
 h1 {
     margin: 0px;
@@ -81,11 +103,16 @@ h1 {
     color: white;
     font-size: small;
 }
+    .chip.chip-white {
+        background-color: white;
+        color: #00c6d8;
+    }
 
 .btn {
     padding: 10px;
     border: 0px;
     border-radius: 2px;
+
     background-color: #00c6d8;
     color: white;
     text-decoration: none;

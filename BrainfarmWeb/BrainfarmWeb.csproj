@@ -76,6 +76,7 @@
     </None>
     <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
+    <Content Include="scripts\Dashboard.js" />
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
