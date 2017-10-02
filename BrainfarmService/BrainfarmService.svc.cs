@@ -212,6 +212,33 @@ namespace BrainfarmService
             }
         }
 
+        public Comment EditComment(string sessionToken, int commentID,
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
+        {
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
+
+            try
+            {
+                using (CommentDBAccess commentDBAccess = new CommentDBAccess())
+                {
+                    int rowsAffected = commentDBAccess.EditComment(commentID, user.UserID, 
+                        bodyText, isSynthesis, isContribution, isSpecification);
+                    if (rowsAffected == 0)
+                    {
+                        throw new FaultException("Unable to edit comment #" + commentID + " by user "+user.Username,
+                            new FaultCode("COMMENT_NOT_FOUND"));
+                    }
+                    return commentDBAccess.GetComment(commentID);
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
         public void UploadFile(Stream stream)
         {
             // TODO: implement file uploads
@@ -240,6 +267,33 @@ namespace BrainfarmService
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
             }
+        }
+
+        public int RemoveComment(string sessionToken, int commentID)
+        {
+            User user = GetCurrentUser(sessionToken);
+            try
+            {
+                using (CommentDBAccess commentDBAccess = new CommentDBAccess())
+                {
+                    int rowsAffected = commentDBAccess.RemoveComment(commentID, user.UserID);
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new FaultException("Unable to remove comment",
+                            new FaultCode("COMMENT_REMOVE_ERROR"));
+                    }
+
+                    return rowsAffected;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+            
+
         }
 
     }

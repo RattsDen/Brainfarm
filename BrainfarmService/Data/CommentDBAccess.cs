@@ -97,6 +97,33 @@ VALUES(@ProjectID
             }
         }
 
+        //returns number of rows affected by update
+        public int EditComment(int commentID, int userID, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
+        {
+            string sql = @"
+UPDATE Comment SET 
+BodyText = @BodyText,
+EditedDate = @EditedDate,
+IsSynthesis = @IsSynthesis,
+IsContribution = @IsContribution,
+IsSpecification = @IsSpecification 
+WHERE CommentID = @CommentID AND UserID = @UserID;
+";
+
+            using(SqlCommand command = GetNewCommand(sql)){
+                command.Parameters.AddWithValue("@BodyText", bodyText);
+                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@IsSynthesis", isSynthesis);
+                command.Parameters.AddWithValue("@IsContribution", isContribution);
+                command.Parameters.AddWithValue("@IsSpecification", isSpecification);
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteNonQuery());
+            }
+        }
+
         public int InsertComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
         {
@@ -134,6 +161,25 @@ SELECT SCOPE_IDENTITY();
                 command.Parameters.AddWithValue("@IsSpecification", isSpecification);
 
                 return Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+
+        public int RemoveComment(int commentID, int userID)
+        {
+            string sql = @"
+UPDATE Comment SET
+BodyText = @BodyText,
+EditedDate = @EditedDate
+WHERE CommentID = @CommentID AND UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@BodyText", "[Comment Removed]");
+                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteNonQuery());
             }
         }
 
