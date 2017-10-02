@@ -1,8 +1,12 @@
 ﻿{{#each this}}
     <div id="{{CommentID}}" data-commentId="{{CommentID}}" class="comment {{#unless ParentCommentID}}initial{{/unless}} {{#if IsSynthesis}}synth{{/if}} {{#if IsSpecification}}spec{{/if}} {{#if IsContribution}}contrib{{/if}}">
         <div class="commentHead">
-            <span class="username">{{Username}}</span> at
-            <span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
+			{{#if IsRemoved}}
+				[Comment Removed]
+			{{else}}
+				<span class="username">{{Username}}</span> at
+				<span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
+			{{/if}}
             <span class="commentNumber">#{{CommentID}}</span>
         </div>
         <!-- ribbons go here -->
@@ -18,26 +22,28 @@
         {{#if IsContribution}}
             <div class="ribbon contrib">CONTRIBUTION</div>
         {{/if}}
-        <div class="commentContent">
-            <div class="commentBody">
-                <p>{{BodyText}}</p>
-				{{#if IsSynthesis}}
-				<ul>
-					{{#each this.Syntheses}}
-						<li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
-					{{/each}}
-				</ul>
-				{{/if}}
-            </div>
-            <div class="commentOptions">
-                <a class="btnReply" href="javascript:;">Reply</a>
-				<a class="btnEdit" href="javascript:;">Edit</a>
-				<a class="btnRemove" href="javascript:;">Remove</a>
-                <a class="btnBookmark" href="javascript:;">Bookmark</a>
-            </div>
-        </div>
-        <div class="commentChildren">
-            {{{layoutChildren Children}}}
-        </div>
+		{{#unless IsRemoved}}
+			<div class="commentContent">
+				<div class="commentBody">
+					<p>{{BodyText}}</p>
+					{{#if IsSynthesis}}
+					<ul>
+						{{#each this.Syntheses}}
+							<li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
+						{{/each}}
+					</ul>
+					{{/if}}
+				</div>
+				<div class="commentOptions">
+					<a class="btnReply" href="javascript:;">Reply</a>
+					<a class="btnEdit" href="javascript:;">Edit</a>
+					<a class="btnRemove" href="javascript:;">Remove</a>
+					<a class="btnBookmark" href="javascript:;">Bookmark</a>
+				</div>
+			</div>
+		{{/unless}}
+		<div class="commentChildren">
+			{{{layoutChildren Children}}}
+		</div>
     </div>
 {{/each}}

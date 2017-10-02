@@ -18,6 +18,7 @@ namespace BrainfarmService.Data
         public bool IsSynthesis { get; set; }
         public bool IsContribution { get; set; }
         public bool IsSpecification { get; set; }
+        public bool IsRemoved { get; set; }
 
         // Extra fields
         public string Username { get; set; }

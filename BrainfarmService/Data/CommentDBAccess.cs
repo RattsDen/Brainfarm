@@ -169,7 +169,8 @@ SELECT SCOPE_IDENTITY();
             string sql = @"
 UPDATE Comment SET
 BodyText = @BodyText,
-EditedDate = @EditedDate
+EditedDate = @EditedDate,
+IsRemoved = 1
 WHERE CommentID = @CommentID AND UserID = @UserID
 ";
             using (SqlCommand command = GetNewCommand(sql))
@@ -220,6 +221,7 @@ SELECT c.CommentID
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
+      ,c.IsRemoved
       ,u.Username
       ,CASE WHEN (SELECT COUNT(*) 
                     FROM Comment 
@@ -308,6 +310,7 @@ SELECT c.CommentID
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
+      ,c.IsRemoved
       ,u.Username
   FROM Comment c
  INNER JOIN [User] u
@@ -352,6 +355,7 @@ SELECT c.CommentID
             comment.IsSynthesis = reader.GetBoolean(reader.GetOrdinal("IsSynthesis"));
             comment.IsContribution = reader.GetBoolean(reader.GetOrdinal("IsContribution"));
             comment.IsSpecification = reader.GetBoolean(reader.GetOrdinal("IsSpecification"));
+            comment.IsRemoved = reader.GetBoolean(reader.GetOrdinal("IsRemoved"));
 
             return comment;
         }
