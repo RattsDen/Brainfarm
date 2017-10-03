@@ -70,13 +70,13 @@ namespace BrainfarmService
         
         [OperationContract]
         [WebInvoke]
-        void CreateComment(string sessionToken, int projectID, int parentCommentID, 
+        Comment CreateComment(string sessionToken, int projectID, int parentCommentID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, 
-            SynthesisRequest[] syntheses, string[] fileUploads);
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments);
 
         [OperationContract]
-        [WebInvoke] // WebInvoke might not work here without some tinkering
-        void UploadFile(Stream stream);
+        [WebInvoke]
+        ContributionFile UploadFile(Stream stream);
 
         [OperationContract]
         [WebInvoke] // WebInvoke might not work here without some tinkering

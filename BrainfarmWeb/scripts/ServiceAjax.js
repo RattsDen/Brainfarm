@@ -1,4 +1,6 @@
-﻿function serviceAjax(route, args, success, error) {
+﻿var serviceEndpoint = "http://localhost:59006/BrainfarmService.svc/ajax/";
+
+function serviceAjax(route, args, success, error) {
 
     // Stringify arguments object
     if (typeof args == "object") {
@@ -7,11 +9,14 @@
     
     return $.ajax({
         "type": "POST",
-        "url": "http://localhost:59006/BrainfarmService.svc/ajax/" + route,
+        "url": serviceEndpoint + route,
         "data": args,
         "contentType": "application/json",
         "dataType": "json",
-        "success": success,
+        "success": function (response) {
+            if(success != undefined)
+                success(response);
+        },
         "error": error,
         "processData": false
     });

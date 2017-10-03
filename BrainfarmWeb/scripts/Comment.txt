@@ -22,6 +22,14 @@
             <div class="commentBody">
                 <p>{{BodyText}}</p>
             </div>
+            {{#if IsContribution}}
+                <div class="attachments">
+                    {{#each ContributionFiles}}
+                        <a href="javascript:;" data-contribution-file-id="{{ContributionFileID}}" data-filename="{{Filename}}">{{Filename}}</a>
+						<br/>
+                    {{/each}}
+                </div>
+            {{/if}}
             <div class="commentOptions">
                 <a class="btnReply" href="javascript:;">Reply</a>
                 <a class="btnBookmark" href="javascript:;">Bookmark</a>

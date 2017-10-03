@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using BrainfarmService.Exceptions;
 
 namespace BrainfarmService.Data
 {
@@ -49,9 +50,9 @@ VALUES(@ProjectID
             }
         }
 
-        public void CreateComment(int projectID, int userID, int parentCommentID,
+        public int CreateComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses, string[] fileUploads)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             // TODO: Implement this method
 
@@ -77,16 +78,30 @@ VALUES(@ProjectID
                 // Prepare to accept each contribution file if isContribution == true
                 if (isContribution)
                 {
-                    if (fileUploads != null)
+                    if (attachments != null)
                     {
-                        foreach (string filename in fileUploads)
+                        /* 
+                         * This DB Access object does not need to be wrapped in a using block
+                         * because it shares the database connection with this instance of
+                         * CommentDBAccess. (By using the overloaded constructor) The
+                         * connection will be closed when this CommentDBAccess instance is
+                         * disposed
+                        */
+                        ContributionFileDBAccess contributionFileDBAccess 
+                            = new ContributionFileDBAccess(this);
+
+                        foreach (FileAttachmentRequest attachment in attachments)
                         {
-                            // TODO: Register pending upload with FileUploadManager
+                            contributionFileDBAccess.AttachFileToComment(
+                                attachment.ContributionFileID, 
+                                commentID, 
+                                attachment.Filename);
                         }
                     }
                 }
 
                 Commit();
+                return commentID;
             }
             catch (Exception ex)
             {
@@ -160,6 +175,7 @@ VALUES(@SynthesisCommentID
         {
             List<Comment> results = new List<Comment>();
             List<Comment> commentsWithChildren = new List<Comment>();
+            List<Comment> contributionComments = new List<Comment>();
 
             string sql = @"
 SELECT c.CommentID
@@ -225,10 +241,11 @@ SELECT c.CommentID
                             // TODO: Get SynthesisJunctions from DB
                         }
 
-                        // If comment is a contribution, get it's files
                         if (comment.IsContribution)
                         {
-                            // TODO: Get ContributionFile objects from DB (Just filename, etc. Not the data)
+                            // Remember this comment so we can get its files once the reader is closed.
+                            // See above comments about children
+                            contributionComments.Add(comment);
                         }
 
                         results.Add(comment);
@@ -242,7 +259,61 @@ SELECT c.CommentID
                 comment.Children.AddRange(GetComments(projectID, comment.CommentID));
             }
 
+            // Get ContributionFile objects from DB (Just filename, etc. Not the data)
+            /* 
+             * This DB Access object does not need to be wrapped in a using block
+             * because it shares the database connection with this instance of
+             * CommentDBAccess. (By using the overloaded constructor) The
+             * connection will be closed when this CommentDBAccess instance is
+             * disposed
+             */
+            ContributionFileDBAccess contributionFileDBAccess = new ContributionFileDBAccess(this);
+            foreach (Comment comment in contributionComments)
+            {
+                comment.ContributionFiles.AddRange(
+                    contributionFileDBAccess.GetFilesForComment(comment.CommentID));
+            }
+
             return results;
+        }
+
+        public Comment GetComment(int commentId)
+        {
+            Comment result = new Comment();
+
+            string sql = @"
+SELECT c.CommentID
+      ,c.UserID
+      ,c.ParentCommentID
+      ,c.CreationDate
+      ,c.EditedDate
+      ,c.BodyText
+      ,c.IsSynthesis
+      ,c.IsContribution
+      ,c.IsSpecification
+      ,u.Username
+  FROM Comment c
+ INNER JOIN [User] u
+    ON c.UserID = u.UserID
+ WHERE c.CommentID = @CommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@CommentID", commentId);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result = ReadComment(reader);
+                        result.Username = reader.GetString(reader.GetOrdinal("Username"));
+                    }
+                    else
+                    {
+                        throw new EntityNotFoundException();
+                    }
+                }
+            }
+            return result;
         }
 
         private Comment ReadComment(SqlDataReader reader)

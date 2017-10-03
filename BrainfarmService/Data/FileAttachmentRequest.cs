@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace BrainfarmService.Data
 {
-    public class ContributionFile
+    public class FileAttachmentRequest
     {
-        // Database fields
         public int ContributionFileID { get; set; }
-        public int? CommentID { get; set; }
         public string Filename { get; set; }
     }
 }
