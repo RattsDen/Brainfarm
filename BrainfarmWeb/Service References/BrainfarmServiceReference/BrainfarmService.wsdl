@@ -75,6 +75,12 @@
   <wsdl:message name="IBrainfarmService_GetComments_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCommentsResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_SearchProjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchProjects" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_SearchProjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchProjectsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IBrainfarmService">
     <wsdl:operation name="GetTimestamp">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetTimestamp" message="tns:IBrainfarmService_GetTimestamp_InputMessage" />
@@ -119,6 +125,10 @@
     <wsdl:operation name="GetComments">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetComments" message="tns:IBrainfarmService_GetComments_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetCommentsResponse" message="tns:IBrainfarmService_GetComments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchProjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjects" message="tns:IBrainfarmService_SearchProjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjectsResponse" message="tns:IBrainfarmService_SearchProjects_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBrainfarmService" type="tns:IBrainfarmService">
@@ -215,6 +225,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetComments">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetComments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchProjects">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/SearchProjects" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

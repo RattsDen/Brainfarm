@@ -20,7 +20,8 @@ $(document).ready(function () {
                 $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
                 $("#lblParentCommentId").text(parentCommentId);
                 commentReplyOverlay.removeClass("hidden");
-            })
+            });
+
         });
 });
 
