@@ -294,6 +294,25 @@ namespace BrainfarmService
             }
         }
 
+        public List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles)
+        {
+            // -- corner case
+            if (!searchTags && !searchTitles)
+            {
+                return new List<Project>();
+            }
+
+            
+            // -- typical (non-corner) case
+            using (ProjectDBAccess myProjectDBAccess = new ProjectDBAccess())
+            {
+                return myProjectDBAccess.GetProjectsWithAllTheseSearchKeywordsInTagsOrTitle(
+                    searchKeywordsString, searchTags, searchTitles
+                    );
+            }
+            
+        }
+
         public int RemoveComment(string sessionToken, int commentID)
         {
             User user = GetCurrentUser(sessionToken);

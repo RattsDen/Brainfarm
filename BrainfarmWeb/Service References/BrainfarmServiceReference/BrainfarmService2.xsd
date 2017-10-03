@@ -101,4 +101,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
+  <xs:complexType name="ArrayOfProject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Project" nillable="true" type="tns:Project" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProject" nillable="true" type="tns:ArrayOfProject" />
 </xs:schema>

@@ -845,6 +845,13 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetComments", ReplyAction="http://tempuri.org/IBrainfarmService/GetCommentsResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetCommentsAsync(int projectID, System.Nullable<int> parentCommentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/SearchProjects", ReplyAction="http://tempuri.org/IBrainfarmService/SearchProjectsResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Project[] SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/SearchProjects", ReplyAction="http://tempuri.org/IBrainfarmService/SearchProjectsResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> SearchProjectsAsync(string searchKeywordsString, bool searchTags, bool searchTitles);
+
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -956,10 +963,25 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public BrainfarmWeb.BrainfarmServiceReference.Comment[] GetComments(int projectID, System.Nullable<int> parentCommentID) {
             return base.Channel.GetComments(projectID, parentCommentID);
+<<<<<<< HEAD
         }
         
         public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetCommentsAsync(int projectID, System.Nullable<int> parentCommentID) {
             return base.Channel.GetCommentsAsync(projectID, parentCommentID);
+        }
+        
+        public BrainfarmWeb.BrainfarmServiceReference.Project[] SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles) {
+            return base.Channel.SearchProjects(searchKeywordsString, searchTags, searchTitles);
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> SearchProjectsAsync(string searchKeywordsString, bool searchTags, bool searchTitles) {
+            return base.Channel.SearchProjectsAsync(searchKeywordsString, searchTags, searchTitles);
+=======
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetCommentsAsync(int projectID, System.Nullable<int> parentCommentID) {
+            return base.Channel.GetCommentsAsync(projectID, parentCommentID);
+>>>>>>> master
         }
     }
 }

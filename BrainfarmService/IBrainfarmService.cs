@@ -95,5 +95,10 @@ namespace BrainfarmService
         [WebInvoke]
         List<Comment> GetComments(int projectID, int? parentCommentID);
 
+        [OperationContract]
+        [WebInvoke]
+        List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
+
+
     }
 }

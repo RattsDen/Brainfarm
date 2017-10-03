@@ -21,6 +21,15 @@ $(document).ready(function () {
                 replyTemplate = replyTemplateResp[0];
                 editTemplate = editTemplateResp[0];
             }
+
+            $(".btnReply").click(function () {
+                $this = $(this);
+                parentCommentId = $this.closest(".comment").data("commentid");
+                $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
+                $("#lblParentCommentId").text(parentCommentId);
+                commentReplyOverlay.removeClass("hidden");
+            });
+
         });
 
     $(document).on("click", ".attachments a", attachmentClicked);

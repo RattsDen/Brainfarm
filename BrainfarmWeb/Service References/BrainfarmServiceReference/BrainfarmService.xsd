@@ -169,4 +169,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="SearchProjects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="searchKeywordsString" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="searchTags" type="xs:boolean" />
+        <xs:element minOccurs="0" name="searchTitles" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchProjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="SearchProjectsResult" nillable="true" type="q11:ArrayOfProject" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
