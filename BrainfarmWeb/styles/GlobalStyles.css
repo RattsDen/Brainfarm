@@ -134,3 +134,21 @@ h1 {
 .hidden {
     display: none;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a:hover {
+    font-weight:bolder;
+}
+
+li {
+    list-style-type:none;
+}
+
+.missingField{
+    font-size:small;
+    padding-left:5px;
+    color:#ff2323;
+}

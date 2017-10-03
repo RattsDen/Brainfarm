@@ -24,24 +24,6 @@
         </asp:Panel>
     </div>
 
-    <div id="commentReplyOverlay" class="panel hidden">
-        <asp:HiddenField runat="server" ID="parentCommentId" Value="null"/>
-        <div>
-            Responding to comment #<span id="lblParentCommentId"></span>
-        </div>
-        <asp:TextBox runat="server" ID="txtComment" TextMode="MultiLine" Rows="4" Width="35%" />
-        <div>
-            <asp:CheckBox runat="server" ID="chkIsSpecification" Text="Specification Comment"/>
-        </div>
-        <div>
-            <asp:CheckBox runat="server" ID="chkIsSynthesis" Text="Synthesis Comment"/>
-        </div>
-        <div>
-            <asp:CheckBox runat="server" ID="chkIsContribution" Text="Contribution Comment"/>
-        </div>
-        <asp:Button runat="server" ID="btnSubmitComment" Text="Submit Comment" CssClass="btn" OnClick="btnSubmitComment_Click"/>
-    </div>
-
     <div id="div-project-comments" class="panel">
     </div>
 
