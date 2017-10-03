@@ -96,6 +96,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.ContributionFile.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
