@@ -10,24 +10,33 @@
 namespace BrainfarmWeb {
     
     
-    public partial class Project {
+    public partial class TempDevelopingSearchPage {
         
         /// <summary>
-        /// lblProjectTitle control.
+        /// txtProjectTags control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProjectTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtProjectTags;
         
         /// <summary>
-        /// panelProjectTags control.
+        /// btnSeparateTags control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelProjectTags;
+        protected global::System.Web.UI.WebControls.Button btnSeparateTags;
+        
+        /// <summary>
+        /// debugText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label debugText;
     }
 }

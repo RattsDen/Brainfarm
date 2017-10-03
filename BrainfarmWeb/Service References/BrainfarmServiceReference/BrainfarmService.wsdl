@@ -86,6 +86,11 @@
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetRecommendedProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRecommendedProjectsResponse" />
+  <wsdl:message name="IBrainfarmService_SearchProjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchProjects" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_SearchProjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchProjectsResponse" />
   </wsdl:message>
   <wsdl:portType name="IBrainfarmService">
     <wsdl:operation name="GetTimestamp">
@@ -139,6 +144,9 @@
     <wsdl:operation name="GetRecommendedProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" message="tns:IBrainfarmService_GetRecommendedProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjectsResponse" message="tns:IBrainfarmService_GetRecommendedProjects_OutputMessage" />
+    <wsdl:operation name="SearchProjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjects" message="tns:IBrainfarmService_SearchProjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjectsResponse" message="tns:IBrainfarmService_SearchProjects_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBrainfarmService" type="tns:IBrainfarmService">
@@ -253,6 +261,8 @@
     </wsdl:operation>
     <wsdl:operation name="GetRecommendedProjects">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" style="document" />
+    <wsdl:operation name="SearchProjects">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/SearchProjects" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

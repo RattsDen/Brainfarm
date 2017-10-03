@@ -1,35 +1,81 @@
 ﻿// Handlebars template stored in /scripts/Comment.txt
 var commentTemplate;
 var replyTemplate;
+var editTemplate;
 var allComments;
+var synthModeEnbled = false;
+var synthList;
+
+//*************** DOCUMENT.READY STATEMENTS ******************
+
+var pendingFileUploads = [];
 
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
-    $.when(getCommentsFromService(), getCommentTemplate(), getReplyTemplate())
-        .done(function (commentResp, commentTemplateResp, replyTemplateResp) {
+    $.when(getCommentsFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
+        .done(function (commentResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
             if (commentResp[1] == "success" && commentTemplateResp[1] == "success" && replyTemplateResp[1] == "success") {
                 prepareTemplate(commentTemplateResp[0]);
                 processComments(commentResp[0]);
                 replyTemplate = replyTemplateResp[0];
+                editTemplate = editTemplateResp[0];
             }
+
+            $(".btnReply").click(function () {
+                $this = $(this);
+                parentCommentId = $this.closest(".comment").data("commentid");
+                $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
+                $("#lblParentCommentId").text(parentCommentId);
+                commentReplyOverlay.removeClass("hidden");
+            });
+
         });
 
     $(document).on("click", ".attachments a", attachmentClicked);
 });
 
 $(document).on("click", ".btnReply", function () {
+    closeAllCommentForms();
     var comment = $(this).closest(".commentContent");
     if (!comment.hasClass("hasReplyForm")) {
         comment.append(replyTemplate);
         comment.addClass("hasReplyForm");
+
+        pendingFileUploads = []; // Reinitialize the pending file upload list
+    }
+});
+
+$(document).on("click", ".btnEdit", function () {
+    closeAllCommentForms();
+    var comment = $(this).closest(".commentContent");
+    if (!comment.hasClass("hasEditForm")) {
+        comment.append(editTemplate);
+        comment.addClass("hasEditForm");
+    }
+    comment.find(".replyBox").find(".replyText")[0].value = comment.find(".commentBody>p").text();
+});
+
+$(document).on("click", ".btnRemove", function () {
+    var comment = $(this).closest(".comment");
+    var commentid = comment.data("commentid");
+    if (confirm("Are you sure?")) {
+        removeCommentWithService(commentid);
     }
 });
 
 $(document).on("click", ".btn-cancelReply", function () {
+    toggleSynthMode(false);
     var comment = $(this).closest(".commentContent");
     comment.find(".replyBox").remove();
     comment.removeClass("hasReplyForm");
+});
+
+$(document).on("click", ".btn-cancelEdit", function () {
+    toggleSynthMode(false);
+    var comment = $(this).closest(".commentContent");
+    comment.find(".replyBox").remove();
+    comment.removeClass("hasEditForm");
 });
 
 $(document).on("click", ".btn-submitReply", function () {
@@ -40,14 +86,145 @@ $(document).on("click", ".btn-submitReply", function () {
     var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
     var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
     var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+    var errorDisplay = replyBox.find(".msg-error");
+    var syntheses = null;
+    errorDisplay.html("");
+    $(".missingField").remove();
 
-    if(validateComment(replyText)){
-        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution);
+    if (isSynthesis) {
+        syntheses = getSyntheses();
+        if (syntheses.length < 2) {
+            errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
+            return;
+        }
+        if (syntheses.hasErrors) {
+            errorDisplay.append("Please include a subject for each sythesized comment</br>");
+            return;
+        }
     }
-    else {
-        replyBox.find(".msg-error").html("Validation failed");
+
+    if(validateComment(errorDisplay, replyText)){
+        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
     }
 });
+
+$(document).on("click", ".synthDelete", function () {
+    $(this).parent().remove();
+})
+
+$(document).on("click", "input[name='chkIsSynthesis']", function () {
+    var replyBox = $(this).closest(".replyBox");
+    //replyBox.find(".synth-list").append("<li>comment</li>");
+    replyBox.find(".synthOptions").toggle();
+    synthList = replyBox.find(".synthList");
+    toggleSynthMode();
+})
+
+$(document).on("click", ".commentHead", function () {
+    if (synthModeEnbled) {
+        addSynth($(this).closest(".comment").data("commentid"));
+    }
+})
+
+$(document).on("click", ".btn-submitEdit", function () {
+    var comment = $(this).closest(".comment");
+    var commentid = comment.data("commentid");
+    var replyBox = $(this).closest(".replyBox");
+    var replyText = replyBox.find(".replyText")[0].value;
+    var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
+    var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
+    var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+    var errorDisplay = replyBox.find(".msg-error");
+    var syntheses = null;
+    errorDisplay.html("");
+    $(".missingField").remove();
+
+    if (isSynthesis) {
+        syntheses = getSyntheses();
+        if (syntheses.length < 2) {
+            errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
+            return;
+        }
+        if (syntheses.hasErrors) {
+            errorDisplay.append("Please include a subject for each sythesized comment</br>");
+            return;
+        }
+    }
+
+    if (validateComment(errorDisplay, replyText)) {
+        editCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
+    }
+});
+
+// BEGIN Contribution comment listeners
+
+// "Is Contribution Comment" checkbox click
+$(document).on("click", ".chk-is-contribution", function () {
+    var checkbox = $(event.target);
+    var divFileUpload = $(".div-file-upload");
+    divFileUpload.toggleClass("reply-box-hidden", checkbox.checked);
+});
+
+// "Add a file" button clicked
+$(document).on("click", ".btn-add-file", function () {
+    var control = "<input type='file' class='input-file-upload btn btn-green' />";
+    var divFileUploadInputs = $(".div-file-upload-inputs");
+    divFileUploadInputs.append(control);
+    divFileUploadInputs.append("<br />");
+
+    return false; //Prevent ASP.NET postback
+});
+
+// File selected
+$(document).on("change", ".file-upload", function () {
+    var fileInputControl = $(event.target);
+    var fileInputLabel = $(".file-upload-label");
+
+    pendingFileUploads = [];
+    var requests = [];
+    var labelText = "";
+
+    for (var i = 0; i < fileInputControl[0].files.length; i++) {
+        var file = fileInputControl[0].files[i];
+
+        // Build label text
+        if (i > 0)
+            labelText += ", ";
+        labelText += file.name;
+
+        // start the upload and add it to list of requests
+        requests.push(uploadFile(file))
+    }
+
+    fileInputLabel.text("Uploading...")
+
+    $.when.apply(undefined, requests).then(function () {
+        fileInputLabel.text(labelText);
+    });
+});
+
+function uploadFile(file) {
+    return $.ajax({
+        url: serviceEndpoint + "UploadFile",
+        type: "POST",
+        data: file,
+        processData: false,
+        success: function (response) {
+            console.log("upload done");
+            pendingFileUploads.push({
+                ContributionFileID: response.ContributionFileID,
+                Filename: file.name
+            });
+        },
+        error: function () {
+            console.log("upload error");
+        }
+    });
+}
+
+// END Contribution comment listeners
+
+//****************** HELPER FUNCTIONS ********************
 
 function getCommentsFromService(successCallback) {
     var args = {
@@ -58,20 +235,42 @@ function getCommentsFromService(successCallback) {
     return serviceAjax("GetComments", args, successCallback, handleServiceException);
 }
 
-function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution) {
+function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses) {
     var args = {
         sessionToken: sessionToken,
         projectID: projectID,
         parentCommentID: commentid,
         bodyText: replyText,
         isSynthesis: isSynthesis,
-        isContribution: isSpecification,
-        isSpecification: isContribution,
-        syntheses: null,
-        fileUploads: null
+        isContribution: isContribution,
+        isSpecification: isSpecification,
+        syntheses: syntheses,
+        attachments: isContribution ? pendingFileUploads : null
     }
 
     serviceAjax("CreateComment", args, reloadAndDisplayAllComments, handleServiceException);
+}
+
+function editCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses) {
+    var args = {
+        sessionToken: sessionToken,
+        commentID: commentid,
+        bodyText: replyText,
+        isSynthesis: isSynthesis,
+        isContribution: isSpecification,
+        isSpecification: isContribution
+    }
+
+    serviceAjax("EditComment", args, reloadAndDisplayAllComments, handleServiceException);
+}
+
+function removeCommentWithService(commentid) {
+    var args = {
+        sessionToken: sessionToken,
+        commentID: commentid
+    }
+
+    serviceAjax("RemoveComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
 function reloadAndDisplayAllComments() {
@@ -89,6 +288,13 @@ function getReplyTemplate() {
     return $.ajax({
         "type": "GET",
         "url": "/scripts/Reply.html"
+    });
+}
+
+function getEditTemplate() {
+    return $.ajax({
+        "type": "GET",
+        "url": "/scripts/Edit.html"
     });
 }
 
@@ -124,7 +330,6 @@ function getCommentByID(comments, id) {
 function processComments(comments) {
     allComments = comments;
     var target = $("#div-project-comments");
-
     var commentHTML = layoutComments(comments);
     $(target).html(commentHTML);
 }
@@ -163,9 +368,70 @@ function attachmentClicked(event) {
 
 }
 
-function validateComment(replyText) {
-    if(replyText.length == 0){
+//TODO: Add better validation?
+function validateComment(errorDisplay, replyText) {
+    if (replyText.length == 0) {
+        errorDisplay.append("Reply text cannot be empty<br/>");
         return false;
     }
     return true;
+}
+
+function toggleSynthMode(override) {
+    if (override === true || override === false) {
+        synthModeEnbled = override;
+        return;
+    }
+    if (synthModeEnbled === false) {
+        synthModeEnbled = true;
+    } else {
+        synthModeEnbled = false;
+    }
+}
+
+function addSynth(commentId) {
+    var duplicate = false;
+    synthList.find("li").each(function () {
+        if ($(this).data("commentid") == commentId) {
+            duplicate = true;
+            return;
+        }
+    });
+    if (!duplicate) {
+        synthList.append(
+            "<li data-commentid='" + commentId + "'>" +
+                "<a href='javascript:;' class='synthDelete'>[X]</a>" +
+                commentId +
+                "<input name='synthSubject' type='text' placeholder='Enter a Short Description'/>" +
+            "</li>"
+        );
+    }
+}
+
+function getSyntheses() {
+    var syntheses = [];
+    synthList.find("li").each(function (k) {
+        var commentId = $(this).data("commentid");
+        var subject = $(this).find("input[name='synthSubject']")[0].value;
+        var tmp = {
+            LinkedCommentID: commentId,
+            Subject: subject
+        };
+        syntheses.push(tmp);
+        if (subject == "") {
+            $(this).append("<span class='missingField'>*</span>");
+            syntheses.hasErrors = true;
+        }
+    });
+    console.log(syntheses);
+    return syntheses;
+}
+
+function closeAllCommentForms(){
+    $(".hasReplyForm").each(function () {
+        $(this).find(".btn-cancelReply").trigger("click");
+    });
+    $(".hasEditForm").each(function () {
+        $(this).find(".btn-cancelEdit").trigger("click");
+    });
 }

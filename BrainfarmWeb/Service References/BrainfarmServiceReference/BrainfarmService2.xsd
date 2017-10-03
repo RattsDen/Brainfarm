@@ -47,6 +47,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
+  <xs:complexType name="ArrayOfComment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
   <xs:complexType name="Comment">
     <xs:sequence>
       <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />

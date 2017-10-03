@@ -66,6 +66,15 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
+        Comment EditComment(string sessionToken, int commentID,
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification);
+
+        [OperationContract]
+        [WebInvoke]
+        int RemoveComment(string sessionToken, int commentID);
+        
+        [OperationContract]
+        [WebInvoke]
         Project GetProject(int projectID);
         
         [OperationContract]
@@ -93,6 +102,10 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         List<Project> GetRecommendedProjects(int userID, int top);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
 
     }
 }

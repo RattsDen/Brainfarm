@@ -44,6 +44,7 @@ CREATE TABLE [dbo].[Comment] (
     [IsSynthesis]     BIT            NOT NULL,
     [IsContribution]  BIT            NOT NULL,
     [IsSpecification] BIT            NOT NULL,
+    [IsRemoved]       BIT            NOT NULL DEFAULT 0, 
     PRIMARY KEY CLUSTERED ([CommentID] ASC),
     CONSTRAINT [FK_Comment_ParentComment] FOREIGN KEY ([ParentCommentID]) REFERENCES [dbo].[Comment] ([CommentID]),
     CONSTRAINT [FK_Comment_User] FOREIGN KEY ([UserID]) REFERENCES [dbo].[User] ([UserID]),

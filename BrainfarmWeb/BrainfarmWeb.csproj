@@ -66,6 +66,9 @@
     <Content Include="error\500.html" />
     <Content Include="Layout.Master" />
     <Content Include="scripts\Comment.txt" />
+    <Content Include="Properties\DataSources\BrainfarmService.Data.Comment.datasource" />
+    <Content Include="Properties\DataSources\BrainfarmService.Data.Project.datasource" />
+    <Content Include="Properties\DataSources\BrainfarmService.Data.User.datasource" />
     <Content Include="DownloadFile.ashx" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.wsdl" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService.xsd">
@@ -77,6 +80,10 @@
     <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
     <Content Include="scripts\Dashboard.js" />
+    <Content Include="scripts\SearchForProjects.js" />
+    <Content Include="SearchForProjects.aspx" />
+    <Content Include="scripts\Edit.html" />
+    <Content Include="scripts\Reply.html" />
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -87,6 +94,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.Project.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.ContributionFile.datasource">
@@ -124,6 +134,7 @@
     <Content Include="styles\Project.css" />
     <Content Include="scripts\Project.js" />
     <Content Include="styles\Register.css" />
+    <Content Include="TempDevelopingSearchPage.aspx" />
     <Content Include="Web.config" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService1.xsd">
       <SubType>Designer</SubType>
@@ -169,13 +180,32 @@
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SearchForProjects.aspx.cs">
+      <DependentUpon>SearchForProjects.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SearchForProjects.aspx.designer.cs">
+      <DependentUpon>SearchForProjects.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Service References\BrainfarmServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TempDevelopingSearchPage.aspx.cs">
+      <DependentUpon>TempDevelopingSearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TempDevelopingSearchPage.aspx.designer.cs">
+      <DependentUpon>TempDevelopingSearchPage.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BrainfarmService\BrainfarmService.csproj">
+      <Project>{49B297D2-4E1D-4001-ABC7-7F56B962F3AF}</Project>
+      <Name>BrainfarmService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

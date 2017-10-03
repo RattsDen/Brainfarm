@@ -827,12 +827,13 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateComment", ReplyAction="http://tempuri.org/IBrainfarmService/CreateCommentResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment> CreateCommentAsync(string sessionToken, int projectID, int parentCommentID, string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, BrainfarmWeb.BrainfarmServiceReference.SynthesisRequest[] syntheses, BrainfarmWeb.BrainfarmServiceReference.FileAttachmentRequest[] attachments);
+
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UploadFile", ReplyAction="http://tempuri.org/IBrainfarmService/UploadFileResponse")]
-        BrainfarmWeb.BrainfarmServiceReference.ContributionFile UploadFile(System.IO.Stream stream);
+        void UploadFile(System.IO.Stream stream);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UploadFile", ReplyAction="http://tempuri.org/IBrainfarmService/UploadFileResponse")]
-        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.ContributionFile> UploadFileAsync(System.IO.Stream stream);
+        System.Threading.Tasks.Task UploadFileAsync(System.IO.Stream stream);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/DownloadFile", ReplyAction="http://tempuri.org/IBrainfarmService/DownloadFileResponse")]
         System.IO.Stream DownloadFile(int contributionFileID);
@@ -950,11 +951,11 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
             return base.Channel.CreateCommentAsync(sessionToken, projectID, parentCommentID, bodyText, isSynthesis, isContribution, isSpecification, syntheses, attachments);
         }
         
-        public BrainfarmWeb.BrainfarmServiceReference.ContributionFile UploadFile(System.IO.Stream stream) {
-            return base.Channel.UploadFile(stream);
+        public void UploadFile(System.IO.Stream stream) {
+            base.Channel.UploadFile(stream);
         }
         
-        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.ContributionFile> UploadFileAsync(System.IO.Stream stream) {
+        public System.Threading.Tasks.Task UploadFileAsync(System.IO.Stream stream) {
             return base.Channel.UploadFileAsync(stream);
         }
         
