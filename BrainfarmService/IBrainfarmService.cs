@@ -97,8 +97,15 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
+        List<Project> GetPopularProjects(int top);
 
+        [OperationContract]
+        [WebInvoke]
+        List<Project> GetRecommendedProjects(int userID, int top);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
 
     }
 }

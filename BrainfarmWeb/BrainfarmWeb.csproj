@@ -79,6 +79,7 @@
     </None>
     <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
+    <Content Include="scripts\Dashboard.js" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
     <Content Include="scripts\Edit.html" />
@@ -127,6 +128,7 @@
     <Content Include="scripts\Register.js" />
     <Content Include="scripts\ServiceAjax.js" />
     <Content Include="styles\CreateProject.css" />
+    <Content Include="styles\Dashboard.css" />
     <Content Include="styles\ErrorPage.css" />
     <Content Include="styles\GlobalStyles.css" />
     <Content Include="styles\Project.css" />

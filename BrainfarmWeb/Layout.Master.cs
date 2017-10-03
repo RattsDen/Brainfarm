@@ -16,6 +16,11 @@ namespace BrainfarmWeb
             SetHeaderContent();
         }
 
+        protected void Page_LoadComplete(object sender, EventArgs e)
+        {
+            SetHeaderContent();
+        }
+
         private void SetHeaderContent()
         {
             User currentUser;

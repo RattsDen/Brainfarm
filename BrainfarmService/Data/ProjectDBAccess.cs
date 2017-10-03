@@ -172,6 +172,117 @@ SELECT Text
             return tags;
         }
 
+        public List<Project> GetPopularProjects(int top)
+        {
+            List<Project> results = new List<Project>();
+            List<int> projectIDs = new List<int>();
+
+            // List of project IDs sorted by weighted comment creation rate
+            // Let x = number of days since comment was created
+            // Sort by 1 / 2^x
+            // This puts more weight on recent comments
+            string sql = @"
+SELECT TOP (@Top)
+       p.ProjectID
+	  ,SUM(
+	     1 / CAST(POWER(2, (DATEDIFF(DAY, c.CreationDate, @Today) + 1)) AS DECIMAL)
+	   ) AS Activity
+  FROM Project p
+ INNER JOIN Comment c
+    ON p.ProjectID = c.ProjectID
+ WHERE DATEDIFF(DAY, c.CreationDate, @Today) <= 30
+ GROUP BY p.ProjectID
+ ORDER BY Activity DESC
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@Top", top);
+                command.Parameters.AddWithValue("@Today", DateTime.Today);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        projectIDs.Add(reader.GetInt32(reader.GetOrdinal("ProjectID")));
+                    }
+                }
+            }
+
+            foreach (int projectID in projectIDs)
+            {
+                results.Add(GetProject(projectID));
+            }
+
+            return results;
+        }
+        
+        public List<Project> GetRecommendedProjects(int userID, int top)
+        {
+            List<Project> results = new List<Project>();
+            List<int> projectIDs = new List<int>();
+
+            /* 
+             * Get the list of all tags from all projects that the user has posted in
+             * A tag's weight will be the number of times it occurs in this list
+             * If a project contains a tag from this list, it will gain that tag's weight
+             *   (If tag ALPHA has a weight of 2, and tag BETA has a weight of 3, a project
+             *   tagged with both ALPHA and BETA will have a total weight of 5)
+             * Order results by weight, descending
+             * Lastly, exclude any project the user has already posted in
+             */
+            string sql = @"
+SELECT TOP (@Top)
+       pt.ProjectID
+      ,COUNT(*)
+  FROM ProjectTag pt
+ INNER JOIN (
+			 SELECT t.TagID
+			       ,t.Text
+			   FROM ProjectTag pt
+			  INNER JOIN Tag t
+			     ON pt.TagID = t.TagID
+			  INNER JOIN (
+			 			 SELECT DISTINCT p.ProjectID
+			 			   FROM Project p
+			 			  INNER JOIN Comment c
+			 			     ON c.ProjectID = p.ProjectID
+			 			  WHERE c.UserID = @UserID
+			 			) up
+			     ON pt.ProjectID = up.ProjectID
+			 ) ut
+    ON pt.TagID = ut.TagID
+ INNER JOIN Project p
+    ON pt.ProjectID = p.ProjectID
+ WHERE p.ProjectID NOT IN (
+                           SELECT DISTINCT p.ProjectID
+			 			     FROM Project p
+			 			    INNER JOIN Comment c
+			 			       ON c.ProjectID = p.ProjectID
+			 			    WHERE c.UserID = @UserID
+						  )
+ GROUP BY pt.ProjectID
+ ORDER BY COUNT(*) DESC
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@Top", top);
+                command.Parameters.AddWithValue("@UserID", userID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        projectIDs.Add(reader.GetInt32(reader.GetOrdinal("ProjectID")));
+                    }
+                }
+            }
+
+            foreach (int projectID in projectIDs)
+            {
+                results.Add(GetProject(projectID));
+            }
+
+            return results;
+        }
+
         // populates the searchKeywords array and the sqlParameterStrings array
         // given the searchKeywordsString
         // (note: "out" parameters used, so that the caller can pass in uninitialized string arrays)
@@ -204,21 +315,15 @@ SELECT Text
             string[] searchKeywords,
             List<int> projectIdList)
         {
-
-
             // -- create SQL command, fill it with parameters, and run it
             // -- to get list of projectIds;
 
             using (SqlCommand command = GetNewCommand(sqlString))
             {
-
                 for (int x = 0; x < sqlParameterStrings.Length; x++)
                 {
                     command.Parameters.AddWithValue(sqlParameterStrings[x], searchKeywords[x]);
                 }
-
-
-
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -227,10 +332,7 @@ SELECT Text
                         projectIdList.Add(projectIdInThisRecord);
                     }
                 }
-
-
             }
-
         }
 
         // parameter searchKeywords -- search keywords to use, in one string, separated by spaces
@@ -241,9 +343,6 @@ SELECT Text
             bool searchTags,
             bool searchTitles)
         {
-
-
-
             // -- corner case: if both searchTags and searchTitles is false,
             // return a list with no projects
             if (!searchTags && !searchTitles)
@@ -368,17 +467,6 @@ SELECT DISTINCT p.ProjectID
             }
 
             return toReturn;
-
-
         }
-
     }
-
-
-
-
-    
-
-
-
-}  // for namespace
+}

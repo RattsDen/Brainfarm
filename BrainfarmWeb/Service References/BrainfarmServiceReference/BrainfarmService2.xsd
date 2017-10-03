@@ -34,6 +34,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+  <xs:complexType name="ArrayOfFileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileAttachmentRequest" nillable="true" type="tns:ArrayOfFileAttachmentRequest" />
+  <xs:complexType name="FileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
+      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
   <xs:complexType name="ArrayOfComment">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
@@ -60,6 +73,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Comment" nillable="true" type="tns:Comment" />
+  <xs:complexType name="ArrayOfComment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
   <xs:complexType name="ArrayOfContributionFile">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="ContributionFile" nillable="true" type="tns:ContributionFile" />
@@ -68,7 +87,7 @@
   <xs:element name="ArrayOfContributionFile" nillable="true" type="tns:ArrayOfContributionFile" />
   <xs:complexType name="ContributionFile">
     <xs:sequence>
-      <xs:element minOccurs="0" name="CommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="CommentID" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
       <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
     </xs:sequence>

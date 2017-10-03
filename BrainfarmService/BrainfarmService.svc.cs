@@ -294,6 +294,38 @@ namespace BrainfarmService
             }
         }
 
+        public List<Project> GetPopularProjects(int top)
+        {
+            try
+            {
+                using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
+                {
+                    return projectDBAccess.GetPopularProjects(top);
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public List<Project> GetRecommendedProjects(int userID, int top)
+        {
+            try
+            {
+                using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
+                {
+                    return projectDBAccess.GetRecommendedProjects(userID, top);
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
         public List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles)
         {
             // -- corner case
@@ -336,8 +368,6 @@ namespace BrainfarmService
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
             }
-            
-
         }
 
     }
