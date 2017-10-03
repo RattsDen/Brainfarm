@@ -110,6 +110,33 @@ VALUES(@ProjectID
             }
         }
 
+        //returns number of rows affected by update
+        public int EditComment(int commentID, int userID, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
+        {
+            string sql = @"
+UPDATE Comment SET 
+BodyText = @BodyText,
+EditedDate = @EditedDate,
+IsSynthesis = @IsSynthesis,
+IsContribution = @IsContribution,
+IsSpecification = @IsSpecification 
+WHERE CommentID = @CommentID AND UserID = @UserID;
+";
+
+            using(SqlCommand command = GetNewCommand(sql)){
+                command.Parameters.AddWithValue("@BodyText", bodyText);
+                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@IsSynthesis", isSynthesis);
+                command.Parameters.AddWithValue("@IsContribution", isContribution);
+                command.Parameters.AddWithValue("@IsSpecification", isSpecification);
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteNonQuery());
+            }
+        }
+
         public int InsertComment(int projectID, int userID, int parentCommentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
         {
@@ -150,6 +177,26 @@ SELECT SCOPE_IDENTITY();
             }
         }
 
+        public int RemoveComment(int commentID, int userID)
+        {
+            string sql = @"
+UPDATE Comment SET
+BodyText = @BodyText,
+EditedDate = @EditedDate,
+IsRemoved = 1
+WHERE CommentID = @CommentID AND UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@BodyText", "[Comment Removed]");
+                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteNonQuery());
+            }
+        }
+
         public void InsertSynthesisJunction(int synthesisCommentID, int linkedCommentID, 
             string subject)
         {
@@ -176,6 +223,7 @@ VALUES(@SynthesisCommentID
             List<Comment> results = new List<Comment>();
             List<Comment> commentsWithChildren = new List<Comment>();
             List<Comment> contributionComments = new List<Comment>();
+            List<Comment> synthesisComments = new List<Comment>();
 
             string sql = @"
 SELECT c.CommentID
@@ -187,6 +235,7 @@ SELECT c.CommentID
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
+      ,c.IsRemoved
       ,u.Username
       ,CASE WHEN (SELECT COUNT(*) 
                     FROM Comment 
@@ -238,7 +287,7 @@ SELECT c.CommentID
                         // If comment is a synthesis, get it's links
                         if (comment.IsSynthesis)
                         {
-                            // TODO: Get SynthesisJunctions from DB
+                            comment.Syntheses = GetSyntheses(comment.CommentID);
                         }
 
                         if (comment.IsContribution)
@@ -291,6 +340,7 @@ SELECT c.CommentID
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
+      ,c.IsRemoved
       ,u.Username
   FROM Comment c
  INNER JOIN [User] u
@@ -335,8 +385,41 @@ SELECT c.CommentID
             comment.IsSynthesis = reader.GetBoolean(reader.GetOrdinal("IsSynthesis"));
             comment.IsContribution = reader.GetBoolean(reader.GetOrdinal("IsContribution"));
             comment.IsSpecification = reader.GetBoolean(reader.GetOrdinal("IsSpecification"));
+            comment.IsRemoved = reader.GetBoolean(reader.GetOrdinal("IsRemoved"));
 
             return comment;
         }
+
+
+        public List<SynthesisJunction> GetSyntheses(int synthesisCommentId)
+        {
+            List<SynthesisJunction> syntheses = new List<SynthesisJunction>();
+
+            String sql = @"
+SELECT LinkedCommentID,
+Subject
+FROM SynthesisJunction
+WHERE SynthesisCommentID = @SynthesisCommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@SynthesisCommentID", synthesisCommentId);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SynthesisJunction synth = new SynthesisJunction();
+                        synth.SynthesisCommentID = synthesisCommentId;
+                        synth.LinkedCommentID = reader.GetInt32(reader.GetOrdinal("LinkedCommentID"));
+                        synth.Subject = reader.GetString(reader.GetOrdinal("Subject"));
+
+                        syntheses.Add(synth);
+                    }
+                }
+            }
+
+            return syntheses;
+        }
     }
+
 }

@@ -81,6 +81,11 @@
     <Content Include="Project.aspx" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
+    <Content Include="scripts\Edit.html" />
+    <Content Include="scripts\Reply.html" />
+    <Content Include="Service References\BrainfarmServiceReference\BrainfarmWeb.BrainfarmServiceReference.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService4.xsd">
       <SubType>Designer</SubType>
     </None>

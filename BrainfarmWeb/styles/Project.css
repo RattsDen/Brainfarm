@@ -41,13 +41,6 @@
         color: rgba(128, 128, 128, 0.75);
         font-size: small;
     }
-        .comment .commentOptions a {
-            text-decoration: none;
-            color: inherit;
-        }
-            .comment .commentOptions a:hover {
-                font-weight:bolder;
-            }
     
     .comment .commentChildren {
         padding-left: 5px;
@@ -122,6 +115,40 @@
     }
     .msg-error{
         font-size:small;
+        padding-left:5px;
         color:#ff2323;
     }
+    .reply-box-hidden {
+        display: none !important;
+    }
 
+    .div-file-upload {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-file-upload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .file-upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0;
+        cursor: pointer;
+        filter: alpha(opacity=0);
+    }
+    .synthOptions{
+        background-color: #f0d8ff;
+        margin-left: 5px;
+        padding:10px;
+    }
+    .synthList{
+        width:50%;
+    }
+    .synthList input{
+        margin-left:25px;
+    }
