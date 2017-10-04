@@ -46,10 +46,5 @@
         </asp:Label>
 
     </div>
-
-    <div class="panel">
-        <p>This is debug text.</p>
-        <asp:Label runat="server" ID="debugText"></asp:Label>
-    </div>
     
 </asp:Content>

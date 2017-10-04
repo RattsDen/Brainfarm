@@ -167,7 +167,7 @@ a {
     color: inherit;
 }
 a:hover {
-    font-weight:bolder;
+    /*font-weight:bolder;*/
 }
 
 li {

@@ -21,7 +21,6 @@ namespace BrainfarmWeb
         {
 
             // -- reset some fields
-            debugText.Text = "";
             lblError.Text = "";
             lblError.Visible = false;
 
@@ -79,9 +78,6 @@ namespace BrainfarmWeb
                 {
                     newlyCreatedProject = svc.CreateProject(serviceSessionToken, txtProjectTitle.Text.Trim(),
                                           tagsEntered, txtCreateProjectDescription.Text);
-
-                    debugText.Text = "Create Project service call successful <br />";
-                    
                     
                 }
                 catch (FaultException ex)
@@ -102,30 +98,6 @@ namespace BrainfarmWeb
             // (this is not in the try block, because it will throw some thread aborted exception,
             // which is problematic if it is in a try block)
             Response.Redirect("Project.aspx?ID=" + newlyCreatedProject.ProjectID);
-
-
-            // --- DISPLAY INFORMATION TO BE SENT TO WEB SERVER
-
-            // -- display sessionToken information
-            debugText.Text += serviceSessionToken;
-            
-
-            // -- display title information
-            debugText.Text += "Title entered: <br />";
-            debugText.Text += txtProjectTitle.Text + "<br />";
-
-            // -- display tags array information
-            debugText.Text += "Tags array: <br />";
-            
-            for (int x = 0; x < tagsEntered.Length; x++) {
-                debugText.Text += x + ": " + tagsEntered[x] + "<br />";
-
-            }
-
-            // -- display first comment body information
-            debugText.Text += "First comment: <br />";
-            debugText.Text += txtCreateProjectDescription.Text + "<br />";
-            
 
         }
     }

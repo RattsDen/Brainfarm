@@ -21,38 +21,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Project" nillable="true" type="tns:Project" />
-  <xs:complexType name="ArrayOfSynthesisRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSynthesisRequest" nillable="true" type="tns:ArrayOfSynthesisRequest" />
-  <xs:complexType name="SynthesisRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
-      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
-  <xs:complexType name="ArrayOfFileAttachmentRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfFileAttachmentRequest" nillable="true" type="tns:ArrayOfFileAttachmentRequest" />
-  <xs:complexType name="FileAttachmentRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
-      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
-  <xs:complexType name="ArrayOfComment">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="tns:Comment" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfComment" nillable="true" type="tns:ArrayOfComment" />
   <xs:complexType name="Comment">
     <xs:sequence>
       <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />
@@ -63,6 +31,7 @@
       <xs:element minOccurs="0" name="EditedDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="IsBookmarked" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsContribution" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRemoved" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsSpecification" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsSynthesis" type="xs:boolean" />
       <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LinkingCommentIDs" nillable="true" type="q2:ArrayOfint" />
@@ -107,6 +76,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
+  <xs:complexType name="ArrayOfSynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSynthesisRequest" nillable="true" type="tns:ArrayOfSynthesisRequest" />
+  <xs:complexType name="SynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+  <xs:complexType name="ArrayOfFileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileAttachmentRequest" nillable="true" type="tns:ArrayOfFileAttachmentRequest" />
+  <xs:complexType name="FileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
+      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
   <xs:complexType name="ArrayOfProject">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Project" nillable="true" type="tns:Project" />

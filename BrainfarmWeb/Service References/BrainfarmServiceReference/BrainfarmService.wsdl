@@ -45,6 +45,18 @@
   <wsdl:message name="IBrainfarmService_CreateProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveCommentResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetProject_InputMessage">
     <wsdl:part name="parameters" element="tns:GetProject" />
   </wsdl:message>
@@ -86,6 +98,7 @@
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetRecommendedProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRecommendedProjectsResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_SearchProjects_InputMessage">
     <wsdl:part name="parameters" element="tns:SearchProjects" />
   </wsdl:message>
@@ -117,6 +130,14 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProject" message="tns:IBrainfarmService_CreateProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProjectResponse" message="tns:IBrainfarmService_CreateProject_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="EditComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/EditComment" message="tns:IBrainfarmService_EditComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/EditCommentResponse" message="tns:IBrainfarmService_EditComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveComment" message="tns:IBrainfarmService_RemoveComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveCommentResponse" message="tns:IBrainfarmService_RemoveComment_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetProject" message="tns:IBrainfarmService_GetProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetProjectResponse" message="tns:IBrainfarmService_GetProject_OutputMessage" />
@@ -144,6 +165,7 @@
     <wsdl:operation name="GetRecommendedProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" message="tns:IBrainfarmService_GetRecommendedProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjectsResponse" message="tns:IBrainfarmService_GetRecommendedProjects_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="SearchProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjects" message="tns:IBrainfarmService_SearchProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjectsResponse" message="tns:IBrainfarmService_SearchProjects_OutputMessage" />
@@ -198,6 +220,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateProject">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/CreateProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/EditComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/RemoveComment" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -261,6 +301,13 @@
     </wsdl:operation>
     <wsdl:operation name="GetRecommendedProjects">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SearchProjects">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/SearchProjects" style="document" />
       <wsdl:input>
