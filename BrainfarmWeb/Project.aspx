@@ -28,3 +28,20 @@
     </div>
 
 </asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="SidebarContentPlaceHolder" runat="server">
+    <div>
+        <h4 class="sidebar-header">Filter Comments</h4>
+        Show only:
+        <div id="div-filter-options">
+            <label><input type="checkbox" id="chk-filter-normal" />Normal Comments</label>
+            <label><input type="checkbox" id="chk-filter-synth" />Synthesis</label>
+            <label><input type="checkbox" id="chk-filter-spec" />Specification</label>
+            <label><input type="checkbox" id="chk-filter-contrib" />Contribution</label>
+        </div>
+        <div id="div-filter-buttons">
+            <a href="javascript:;" id="btn-filter-apply" class="btn">Apply Filter</a>
+            <a href="javascript:;" id="btn-filter-remove" class="btn">Remove Filter</a>
+        </div>
+    </div>
+</asp:Content>
