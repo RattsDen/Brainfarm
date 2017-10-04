@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
-});
+    $(document).on("click", ".div-project", function (event) {
+        var projectID = $(event.target).closest(".div-project").data("project-id");
+        window.location.href = "/Project.aspx?ID=" + projectID;
+    });
 
-function showProjectPage(projectId) {
-    // request ASPX webpage that displays a project for the given projectId
-    window.location.href = "Project.aspx?ID=" + projectId;
-}
+});

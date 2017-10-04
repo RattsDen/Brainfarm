@@ -7,20 +7,3 @@
 .div-dashboard-column {
     flex-grow: 1;
 }
-
-.div-project {
-    background-color: #00c6d8;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-}
-    .div-project:hover {
-        background-color: #00809c;
-    }
-
-.project-title {
-    margin: 0px;
-    font-size: 2em;
-    color: white;
-}

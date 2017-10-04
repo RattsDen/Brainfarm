@@ -133,6 +133,7 @@
     <Content Include="styles\GlobalStyles.css" />
     <Content Include="styles\Project.css" />
     <Content Include="scripts\Project.js" />
+    <Content Include="styles\ProjectList.css" />
     <Content Include="styles\Register.css" />
     <Content Include="Web.config" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService1.xsd">

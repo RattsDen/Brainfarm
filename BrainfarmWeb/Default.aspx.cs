@@ -88,6 +88,15 @@ namespace BrainfarmWeb
                 titleLabel.CssClass = "project-title";
                 projectPanel.Controls.Add(titleLabel);
 
+                Panel infoPanel = new Panel();
+                Label usernameLabel = new Label();
+                usernameLabel.Text = "by " + project.Username;
+                infoPanel.Controls.Add(usernameLabel);
+                Label dateLabel = new Label();
+                dateLabel.Text = " at " + project.CreationDate.ToString("yyyy-MM-dd h:mm tt");
+                infoPanel.Controls.Add(dateLabel);
+                projectPanel.Controls.Add(infoPanel);
+
                 // Tags div
                 Panel tagsPanel = new Panel();
                 foreach (string tag in project.Tags)

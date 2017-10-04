@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link rel="stylesheet" href="/styles/Dashboard.css"/>
+    <link rel="stylesheet" href="/styles/ProjectList.css"/>
 
     <script src="/scripts/Dashboard.js"></script>
 

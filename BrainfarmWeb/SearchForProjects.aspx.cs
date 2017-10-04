@@ -47,14 +47,19 @@ namespace BrainfarmWeb
 
             // get the list of projects that result from doing search
             BrainfarmServiceReference.Project[] searchResults;
-         
+
             using (BrainfarmServiceReference.BrainfarmServiceClient svc 
                 = new BrainfarmServiceReference.BrainfarmServiceClient())
             {
                 searchResults = svc.SearchProjects(txtSearchKeywords.Text.Trim(), checkboxTags.Checked, checkboxTitles.Checked);
             }
 
-                        
+            foreach (Panel resultPanel in LayoutProjectList(searchResults))
+            {
+                resultsPanel.Controls.Add(resultPanel);
+            }
+
+            /*
             foreach (BrainfarmServiceReference.Project projectElement in searchResults)
             {
                 Panel projectResultPanel = new Panel();
@@ -101,10 +106,49 @@ namespace BrainfarmWeb
                 resultsPanel.Controls.Add(projectResultPanel);
 
             }
-
-            
-
+            */
 
         }
+
+        private List<Panel> LayoutProjectList(BrainfarmServiceReference.Project[] projects)
+        {
+            List<Panel> projectPanels = new List<Panel>();
+            foreach (BrainfarmServiceReference.Project project in projects)
+            {
+                Panel projectPanel = new Panel();
+                projectPanel.CssClass = "div-project";
+                projectPanel.Attributes["data-project-id"] = project.ProjectID.ToString();
+
+                // Title label
+                Label titleLabel = new Label();
+                titleLabel.Text = project.Title;
+                titleLabel.CssClass = "project-title";
+                projectPanel.Controls.Add(titleLabel);
+
+                Panel infoPanel = new Panel();
+                Label usernameLabel = new Label();
+                usernameLabel.Text = "by " + project.Username;
+                infoPanel.Controls.Add(usernameLabel);
+                Label dateLabel = new Label();
+                dateLabel.Text = " at " + project.CreationDate.ToString("yyyy-MM-dd h:mm tt");
+                infoPanel.Controls.Add(dateLabel);
+                projectPanel.Controls.Add(infoPanel);
+
+                // Tags div
+                Panel tagsPanel = new Panel();
+                foreach (string tag in project.Tags)
+                {
+                    Label tagLabel = new Label();
+                    tagLabel.Text = tag;
+                    tagLabel.CssClass = "chip chip-white";
+                    tagsPanel.Controls.Add(tagLabel);
+                }
+                projectPanel.Controls.Add(tagsPanel);
+
+                projectPanels.Add(projectPanel);
+            }
+            return projectPanels;
+        }
+
     }
 }
