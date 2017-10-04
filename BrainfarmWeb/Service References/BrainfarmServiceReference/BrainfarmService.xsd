@@ -92,6 +92,40 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="EditComment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="commentID" type="xs:int" />
+        <xs:element minOccurs="0" name="bodyText" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isSynthesis" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isContribution" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isSpecification" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditCommentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="EditCommentResult" nillable="true" type="q5:Comment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveComment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="commentID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveCommentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RemoveCommentResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetProject">
     <xs:complexType>
       <xs:sequence>
@@ -102,7 +136,7 @@
   <xs:element name="GetProjectResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetProjectResult" nillable="true" type="q5:Project" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetProjectResult" nillable="true" type="q6:Project" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -116,29 +150,29 @@
         <xs:element minOccurs="0" name="isSynthesis" type="xs:boolean" />
         <xs:element minOccurs="0" name="isContribution" type="xs:boolean" />
         <xs:element minOccurs="0" name="isSpecification" type="xs:boolean" />
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="syntheses" nillable="true" type="q6:ArrayOfSynthesisRequest" />
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="fileUploads" nillable="true" type="q7:ArrayOfstring" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="syntheses" nillable="true" type="q7:ArrayOfSynthesisRequest" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="attachments" nillable="true" type="q8:ArrayOfFileAttachmentRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateCommentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="CreateCommentResult" nillable="true" type="q8:Comment" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="CreateCommentResult" nillable="true" type="q9:Comment" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UploadFile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.microsoft.com/Message" name="stream" type="q9:StreamBody" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/Message" name="stream" type="q10:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UploadFileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="UploadFileResult" nillable="true" type="q10:ContributionFile" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="UploadFileResult" nillable="true" type="q11:ContributionFile" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -152,7 +186,7 @@
   <xs:element name="DownloadFileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.microsoft.com/Message" name="DownloadFileResult" type="q11:StreamBody" />
+        <xs:element xmlns:q12="http://schemas.microsoft.com/Message" name="DownloadFileResult" type="q12:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -167,7 +201,7 @@
   <xs:element name="GetCommentsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCommentsResult" nillable="true" type="q12:ArrayOfComment" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetCommentsResult" nillable="true" type="q13:ArrayOfComment" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -181,7 +215,7 @@
   <xs:element name="GetPopularProjectsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetPopularProjectsResult" nillable="true" type="q13:ArrayOfProject" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetPopularProjectsResult" nillable="true" type="q14:ArrayOfProject" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -196,7 +230,7 @@
   <xs:element name="GetRecommendedProjectsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetRecommendedProjectsResult" nillable="true" type="q14:ArrayOfProject" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetRecommendedProjectsResult" nillable="true" type="q15:ArrayOfProject" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -212,7 +246,7 @@
   <xs:element name="SearchProjectsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="SearchProjectsResult" nillable="true" type="q11:ArrayOfProject" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="SearchProjectsResult" nillable="true" type="q16:ArrayOfProject" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

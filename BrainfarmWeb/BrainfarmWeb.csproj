@@ -134,7 +134,6 @@
     <Content Include="styles\Project.css" />
     <Content Include="scripts\Project.js" />
     <Content Include="styles\Register.css" />
-    <Content Include="TempDevelopingSearchPage.aspx" />
     <Content Include="Web.config" />
     <None Include="Service References\BrainfarmServiceReference\BrainfarmService1.xsd">
       <SubType>Designer</SubType>
@@ -191,13 +190,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="TempDevelopingSearchPage.aspx.cs">
-      <DependentUpon>TempDevelopingSearchPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TempDevelopingSearchPage.aspx.designer.cs">
-      <DependentUpon>TempDevelopingSearchPage.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

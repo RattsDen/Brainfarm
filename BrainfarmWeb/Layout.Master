@@ -60,7 +60,7 @@
 
         <div id="div-sidebar" class="panel">
             <a href="/CreateProject.aspx" class="btn btn-wide">Create a Project</a>
-            <a href="#" class="btn btn-wide">Search for Projects</a>
+            <a href="/SearchForProjects.aspx" class="btn btn-wide">Search for Projects</a>
 
             <asp:ContentPlaceHolder ID="SidebarContentPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
