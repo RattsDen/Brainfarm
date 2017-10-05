@@ -454,6 +454,10 @@ $(document).on("click", "#btn-filter-remove", function () {
     }
 });
 
+
+// Applies filter styling to a tree of comments
+// input: root of the tree
+// returns: 
 function filterCommentTree(node) {
     // Recurse through tree, leaf-first
 
