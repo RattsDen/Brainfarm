@@ -181,14 +181,12 @@ SELECT SCOPE_IDENTITY();
         {
             string sql = @"
 UPDATE Comment SET
-BodyText = @BodyText,
 EditedDate = @EditedDate,
 IsRemoved = 1
 WHERE CommentID = @CommentID AND UserID = @UserID
 ";
             using (SqlCommand command = GetNewCommand(sql))
             {
-                command.Parameters.AddWithValue("@BodyText", "[Comment Removed]");
                 command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
                 command.Parameters.AddWithValue("@CommentID", commentID);
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -231,7 +229,10 @@ SELECT c.CommentID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
-      ,c.BodyText
+      ,CASE WHEN (c.IsRemoved = CAST(1 AS BIT))
+				THEN '[COMMENT REMOVED]'
+				ELSE c.BodyText
+	   END AS BodyText
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
