@@ -326,6 +326,54 @@ namespace BrainfarmService
             }
         }
 
+        public List<Project> GetUserProjects(int userID)
+        {
+            try
+            {
+                using (DBAccess dbAccess = new DBAccess())
+                {
+                    UserDBAccess userDBAccess = new UserDBAccess(dbAccess);
+                    userDBAccess.GetUser(userID); // Check if user exists
+                    ProjectDBAccess projectDBAccess = new ProjectDBAccess(dbAccess);
+                    return projectDBAccess.GetUserProjects(userID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("User could not be found", 
+                    new FaultCode("UNKNOWN_USER"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public List<Comment> GetUserComments(int userID)
+        {
+            try
+            {
+                using (DBAccess dbAccess = new DBAccess())
+                {
+                    UserDBAccess userDBAccess = new UserDBAccess(dbAccess);
+                    userDBAccess.GetUser(userID); // Check if user exists
+                    CommentDBAccess commentDBAccess = new CommentDBAccess(dbAccess);
+                    return commentDBAccess.GetUserComments(userID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("User could not be found",
+                    new FaultCode("UNKNOWN_USER"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
         public List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles)
         {
             // -- corner case

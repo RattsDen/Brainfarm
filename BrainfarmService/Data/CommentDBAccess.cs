@@ -390,6 +390,48 @@ SELECT c.CommentID
             return comment;
         }
 
+        public List<Comment> GetUserComments(int userID)
+        {
+            List<Comment> results = new List<Comment>();
+            string sql = @"
+SELECT c.CommentID
+      ,c.UserID
+      ,c.ParentCommentID
+      ,c.CreationDate
+      ,c.EditedDate
+      ,c.BodyText
+      ,c.IsSynthesis
+      ,c.IsContribution
+      ,c.IsSpecification
+      ,c.IsRemoved
+      ,u.Username
+  FROM Comment c
+ INNER JOIN [User] u
+    ON c.UserID = u.UserID
+ WHERE c.UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Comment comment = ReadComment(reader);
+                        comment.Username = reader.GetString(reader.GetOrdinal("Username"));
+                        // Exclude synthesis and contribution file lists to make
+                        //it clearer that they are not included in these results
+                        comment.Syntheses = null;
+                        comment.ContributionFiles = null;
+
+                        results.Add(comment);
+                    }
+                }
+            }
+
+            return results;
+        }
+
 
         public List<SynthesisJunction> GetSyntheses(int synthesisCommentId)
         {
