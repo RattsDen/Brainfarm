@@ -80,6 +80,7 @@
     <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
     <Content Include="scripts\Dashboard.js" />
+    <Content Include="scripts\ProjectAutoFetch.js" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
     <Content Include="scripts\Edit.html" />
