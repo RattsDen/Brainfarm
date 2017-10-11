@@ -130,6 +130,7 @@
     <Content Include="Register.aspx" />
     <Content Include="scripts\Register.js" />
     <Content Include="scripts\ServiceAjax.js" />
+    <Content Include="styles\Account.css" />
     <Content Include="styles\CreateProject.css" />
     <Content Include="styles\Dashboard.css" />
     <Content Include="styles\ErrorPage.css" />
