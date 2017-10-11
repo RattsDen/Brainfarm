@@ -83,6 +83,7 @@
     <Compile Include="BrainfarmService.svc.cs">
       <DependentUpon>BrainfarmService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Data\BookmarkDBAccess.cs" />
     <Compile Include="Data\ContributionFileDBAccess.cs" />
     <Compile Include="Data\DBAccess.cs" />
     <Compile Include="Data\CommentDBAccess.cs" />

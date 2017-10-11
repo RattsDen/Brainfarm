@@ -382,7 +382,6 @@ namespace BrainfarmService
                 return new List<Project>();
             }
 
-            
             // -- typical (non-corner) case
             using (ProjectDBAccess myProjectDBAccess = new ProjectDBAccess())
             {
@@ -390,7 +389,6 @@ namespace BrainfarmService
                     searchKeywordsString, searchTags, searchTitles
                     );
             }
-            
         }
 
         public int RemoveComment(string sessionToken, int commentID)
@@ -412,6 +410,72 @@ namespace BrainfarmService
                 }
             }
             catch (SqlException e)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public void BookmarkComment(string sessionToken, int commentID)
+        {
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
+
+            try
+            {
+                using (BookmarkDBAccess bookmarkDBAccess = new BookmarkDBAccess())
+                {
+                    // TODO: throw exception if comment does not exist
+                    // TODO: throw exception if comment is already bookmarked by user
+                    bookmarkDBAccess.BookmarkComment(user.UserID, commentID);
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+
+        public void UnbookmarkComment(string sessionToken, int commentID)
+        {
+
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
+
+            try
+            {
+                using (BookmarkDBAccess bookmarkDBAccess = new BookmarkDBAccess())
+                {
+                    // TODO: throw exception if comment does not exist
+                    // TODO: maybe (?) throw exception if comment is not already bookmarked
+                    bookmarkDBAccess.UnbookmarkComment(user.UserID, commentID);
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        // returns a list of commentIds that this user bookmarked on this project
+        public List<int> GetBookmarksForProject(string sessionToken, int projectID)
+        {
+            // Get user from session
+            User user = GetCurrentUser(sessionToken);
+
+            // TODO: maybe (?) throw exception if project does not exist
+
+            try
+            {
+                using (BookmarkDBAccess bookmarkDBAccess = new BookmarkDBAccess())
+                {
+                    return bookmarkDBAccess.GetBookmarksForProject(user.UserID, projectID);
+                }
+            }
+            catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));

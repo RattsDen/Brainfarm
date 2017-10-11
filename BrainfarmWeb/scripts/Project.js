@@ -3,6 +3,7 @@ var commentTemplate;
 var replyTemplate;
 var editTemplate;
 var allComments;
+var bookmarkedCommentIDs = [];
 var synthModeEnbled = false;
 var synthList;
 
@@ -13,9 +14,18 @@ var pendingFileUploads = [];
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
-    $.when(getCommentsFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
-        .done(function (commentResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
-            if (commentResp[1] == "success" && commentTemplateResp[1] == "success" && replyTemplateResp[1] == "success") {
+    $.when(getCommentsFromService(), getBookmarksFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
+        .done(function (commentResp, bookmarksResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
+            if (commentResp[1] == "success"
+                    && commentTemplateResp[1] == "success"
+                    && replyTemplateResp[1] == "success") {
+
+                // bookmarksResp will be null if the call is not made
+                //(null will be given to the .when() if the call is not to be made)
+                if (bookmarksResp && bookmarksResp[1] == "success") {
+                    bookmarkedCommentIDs = bookmarksResp[0];
+                }
+
                 prepareTemplate(commentTemplateResp[0]);
                 processComments(commentResp[0]);
                 replyTemplate = replyTemplateResp[0];
@@ -235,6 +245,19 @@ function getCommentsFromService(successCallback) {
     return serviceAjax("GetComments", args, successCallback, handleServiceException);
 }
 
+function getBookmarksFromService() {
+    if (sessionToken != null && sessionToken != "") {
+        var args = {
+            sessionToken: sessionToken,
+            projectID: projectID
+        };
+        return serviceAjax("GetBookmarksForProject", args, null, handleServiceException);
+    } else {
+        console.log("NO TOKEN")
+        return null;
+    }
+}
+
 function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses) {
     var args = {
         sessionToken: sessionToken,
@@ -306,6 +329,7 @@ function handleServiceException(fault) {
 function prepareTemplate(templateText) {
     Handlebars.registerHelper("layoutChildren", layoutComments);
     Handlebars.registerHelper("parseMSDate", parseMSDate);
+    Handlebars.registerHelper("isBookmarked", isBookmarked);
     commentTemplate = Handlebars.compile(templateText);
 }
 
@@ -356,6 +380,14 @@ function parseMSDate(datestring) {
     mm = mm < 10 ? "0" + mm : mm;
 
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
+}
+
+function isBookmarked(commentID, options) {
+    if (bookmarkedCommentIDs && bookmarkedCommentIDs.includes(commentID)) {
+        return options.fn(this); // true
+    } else {
+        return options.inverse(this); // false
+    }
 }
 
 function attachmentClicked(event) {
@@ -496,12 +528,14 @@ function commentMatchesFilter(comment) {
     var showSynth = $("#chk-filter-synth").is(":checked");
     var showSpec = $("#chk-filter-spec").is(":checked");
     var showContrib = $("#chk-filter-contrib").is(":checked");
+    var showBookmarked = $("#chk-filter-bookmarked").is(":checked");
 
     return comment.ParentCommentID == null // Allways show first comment
         || (showNormal && !comment.IsSynthesis && !comment.IsSpecification && !comment.IsContribution)
 		|| (showSynth && comment.IsSynthesis)
 		|| (showSpec && comment.IsSpecification)
-		|| (showContrib && comment.IsContribution);
+		|| (showContrib && comment.IsContribution)
+        || (showBookmarked && bookmarkedCommentIDs.includes(comment.CommentID));
 }
 
 function removeFiltersFromCommentTree(node) {
@@ -516,3 +550,33 @@ function removeFiltersFromCommentTree(node) {
     commentElement.removeClass("filter-hidden");
     commentElement.removeClass("filter-faded");
 }
+
+$(document).on("click", ".btnBookmark", function () {
+    var commentView = $(this).closest(".comment");
+    var commentID = commentView.data("commentid");
+    var args = {
+        sessionToken: sessionToken,
+        commentID: commentID
+    };
+
+    if (bookmarkedCommentIDs && bookmarkedCommentIDs.includes(commentID)) {
+        // Is currently bookmarked
+        serviceAjax("UnbookmarkComment", args, function () {
+            // Update stored model
+            // remove from array
+            bookmarkedCommentIDs.splice(bookmarkedCommentIDs.indexOf(commentID), 1);
+            // Update view
+            commentView.find(".bookmark:first").text("");
+            commentView.find(".btnBookmark:first").text("Bookmark");
+        }, null, "text");
+    } else {
+        // Not bookmarked
+        serviceAjax("BookmarkComment", args, function () {
+            // Update stored model
+            bookmarkedCommentIDs.push(commentID);
+            // Update view
+            commentView.find(".bookmark:first").text("Bookmarked");
+            commentView.find(".btnBookmark:first").text("Unbookmark");
+        }, null, "text");
+    }
+});

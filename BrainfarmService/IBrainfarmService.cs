@@ -115,5 +115,17 @@ namespace BrainfarmService
         [WebInvoke]
         List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
 
+        [OperationContract]
+        [WebInvoke]
+        void BookmarkComment(string sessionToken, int commentID);
+
+        [OperationContract]
+        [WebInvoke]
+        void UnbookmarkComment(string sessionToken, int commentID);
+
+        [OperationContract]
+        [WebInvoke]
+        List<int> GetBookmarksForProject(string sessionToken, int projectID);
+
     }
 }
