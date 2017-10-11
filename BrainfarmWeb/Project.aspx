@@ -12,6 +12,7 @@
     <script src="/plugins/handlebars-v4.0.10.js"></script>
     <script src="/scripts/ServiceAjax.js"></script>
     <script src="/scripts/Project.js"></script>
+    <script src="/scripts/ProjectAutoFetch.js"></script>
 
 </asp:Content>
 
@@ -30,6 +31,10 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SidebarContentPlaceHolder" runat="server">
+
+    <a href="javascript:;" id="btn-fetch-comments" class="btn btn-wide">Fetch New Comments</a>
+    <label><input type="checkbox" id="chk-fetch-auto" />Auto-add new comments</label>
+
     <div>
         <h4 class="sidebar-header">Filter Comments</h4>
         Show only:

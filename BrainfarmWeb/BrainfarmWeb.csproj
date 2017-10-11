@@ -83,6 +83,7 @@
     <Content Include="Project.aspx" />
     <Content Include="scripts\CommentAccount.html" />
     <Content Include="scripts\Dashboard.js" />
+    <Content Include="scripts\ProjectAutoFetch.js" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
     <Content Include="scripts\Edit.html" />
