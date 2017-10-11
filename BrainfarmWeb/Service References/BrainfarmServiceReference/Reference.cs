@@ -886,6 +886,18 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjects", ReplyAction="http://tempuri.org/IBrainfarmService/GetRecommendedProjectsResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> GetRecommendedProjectsAsync(int userID, int top);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetUserProjects", ReplyAction="http://tempuri.org/IBrainfarmService/GetUserProjectsResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Project[] GetUserProjects(int userID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetUserProjects", ReplyAction="http://tempuri.org/IBrainfarmService/GetUserProjectsResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> GetUserProjectsAsync(int userID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetUserComments", ReplyAction="http://tempuri.org/IBrainfarmService/GetUserCommentsResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Comment[] GetUserComments(int userID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetUserComments", ReplyAction="http://tempuri.org/IBrainfarmService/GetUserCommentsResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetUserCommentsAsync(int userID);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/SearchProjects", ReplyAction="http://tempuri.org/IBrainfarmService/SearchProjectsResponse")]
         BrainfarmWeb.BrainfarmServiceReference.Project[] SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
         
@@ -1038,6 +1050,22 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> GetRecommendedProjectsAsync(int userID, int top) {
             return base.Channel.GetRecommendedProjectsAsync(userID, top);
+        }
+        
+        public BrainfarmWeb.BrainfarmServiceReference.Project[] GetUserProjects(int userID) {
+            return base.Channel.GetUserProjects(userID);
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> GetUserProjectsAsync(int userID) {
+            return base.Channel.GetUserProjectsAsync(userID);
+        }
+        
+        public BrainfarmWeb.BrainfarmServiceReference.Comment[] GetUserComments(int userID) {
+            return base.Channel.GetUserComments(userID);
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Comment[]> GetUserCommentsAsync(int userID) {
+            return base.Channel.GetUserCommentsAsync(userID);
         }
         
         public BrainfarmWeb.BrainfarmServiceReference.Project[] SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles) {

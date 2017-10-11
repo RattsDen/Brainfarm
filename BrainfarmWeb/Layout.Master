@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="div-login-row">
-                        <a class="btn btn-wide btn-dark login-control">Manage Account</a>
+                        <a href="/Account.aspx" class="btn btn-wide btn-dark login-control">Manage Account</a>
                         <asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark login-control" />
                     </div>
                 </asp:Panel>

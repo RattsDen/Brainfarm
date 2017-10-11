@@ -234,6 +234,34 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetUserProjects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserProjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetUserProjectsResult" nillable="true" type="q16:ArrayOfProject" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserComments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserCommentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="GetUserCommentsResult" nillable="true" type="q17:ArrayOfComment" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SearchProjects">
     <xs:complexType>
       <xs:sequence>
@@ -246,7 +274,7 @@
   <xs:element name="SearchProjectsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="SearchProjectsResult" nillable="true" type="q16:ArrayOfProject" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/BrainfarmService.Data" minOccurs="0" name="SearchProjectsResult" nillable="true" type="q18:ArrayOfProject" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

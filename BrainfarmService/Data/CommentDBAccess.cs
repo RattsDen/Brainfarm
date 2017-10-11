@@ -228,6 +228,7 @@ VALUES(@SynthesisCommentID
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
+      ,c.ProjectID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
@@ -333,6 +334,7 @@ SELECT c.CommentID
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
+      ,c.ProjectID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
@@ -372,6 +374,7 @@ SELECT c.CommentID
 
             comment.CommentID = reader.GetInt32(reader.GetOrdinal("CommentID"));
             comment.UserID = reader.GetInt32(reader.GetOrdinal("UserID"));
+            comment.ProjectID = reader.GetInt32(reader.GetOrdinal("ProjectID"));
             if (!reader.IsDBNull(reader.GetOrdinal("ParentCommentID")))
                 comment.ParentCommentID = reader.GetInt32(reader.GetOrdinal("ParentCommentID"));
             else
@@ -396,6 +399,7 @@ SELECT c.CommentID
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
+      ,c.ProjectID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
@@ -409,6 +413,7 @@ SELECT c.CommentID
  INNER JOIN [User] u
     ON c.UserID = u.UserID
  WHERE c.UserID = @UserID
+ ORDER BY CreationDate DESC
 ";
             using (SqlCommand command = GetNewCommand(sql))
             {
