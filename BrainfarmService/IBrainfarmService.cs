@@ -109,15 +109,15 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        void BookmarkComment(string sessionToken, int commentId);
+        void BookmarkComment(string sessionToken, int commentID);
 
         [OperationContract]
         [WebInvoke]
-        void UnbookmarkComment(string sessionToken, int commentId);
+        void UnbookmarkComment(string sessionToken, int commentID);
 
         [OperationContract]
         [WebInvoke]
-        List<int> GetBookmarksForProject(string sessionToken, int projectId);
+        List<int> GetBookmarksForProject(string sessionToken, int projectID);
 
     }
 }

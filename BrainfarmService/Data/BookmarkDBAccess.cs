@@ -119,7 +119,7 @@ DELETE
 
         // retrieves the commentIds of the comments
         // that the given user has bookmarked for the given project
-        public List<int> getCommentIdsOnProject(int userId, int projectId)
+        public List<int> GetBookmarksForProject(int userId, int projectId)
         {
             List<int> toReturn = new List<int>();
 

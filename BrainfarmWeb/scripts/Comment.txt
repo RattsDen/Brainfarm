@@ -1,15 +1,18 @@
 ﻿{{#each this}}
     <div id="{{CommentID}}" data-commentId="{{CommentID}}" class="comment {{#unless ParentCommentID}}initial{{/unless}} {{#if IsSynthesis}}synth{{/if}} {{#if IsSpecification}}spec{{/if}} {{#if IsContribution}}contrib{{/if}}">
         <div class="commentHead">
-			{{#if IsRemoved}}
-				[Comment Removed]
-			{{else}}
-				<span class="username">{{Username}}</span> at
-				<span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
-			{{/if}}
-            <span class="commentNumber">#{{CommentID}}</span>
+            {{#if IsRemoved}}
+                [Comment Removed]
+            {{else}}
+                <span class="username">{{Username}}</span> at
+                <span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
+            {{/if}}
+            <span class="commentNumber">
+                <span class="bookmark">{{#isBookmarked CommentID}}Bookmarked{{/isBookmarked}}</span>
+                #{{CommentID}}
+            </span>
         </div>
-		<div class="commentRibbons">
+        <div class="commentRibbons">
             {{#unless ParentCommentID}}
                 <div class="ribbon initial">PROJECT</div>
             {{/unless}}
@@ -22,37 +25,43 @@
             {{#if IsContribution}}
                 <div class="ribbon contrib">CONTRIBUTION</div>
             {{/if}}
-		</div>
-		{{#unless IsRemoved}}
-			<div class="commentContent">
-				<div class="commentBody">
-					<p>{{BodyText}}</p>
-					{{#if IsSynthesis}}
-						<ul>
-							{{#each this.Syntheses}}
-								<li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
-							{{/each}}
-						</ul>
-					{{/if}}
-					{{#if IsContribution}}
-						<div class="attachments">
-							{{#each ContributionFiles}}
-								<a href="javascript:;" data-contribution-file-id="{{ContributionFileID}}" data-filename="{{Filename}}">{{Filename}}</a>
-								<br/>
-							{{/each}}
-						</div>
-					{{/if}}
-				</div>
-				<div class="commentOptions">
-					<a class="btnReply" href="javascript:;">Reply</a>
-					<a class="btnEdit" href="javascript:;">Edit</a>
-					<a class="btnRemove" href="javascript:;">Remove</a>
-					<a class="btnBookmark" href="javascript:;">Bookmark</a>
-				</div>
-			</div>
-		{{/unless}}
-		<div class="commentChildren">
-			{{{layoutChildren Children}}}
-		</div>
+        </div>
+        {{#unless IsRemoved}}
+            <div class="commentContent">
+                <div class="commentBody">
+                    <p>{{BodyText}}</p>
+                    {{#if IsSynthesis}}
+                        <ul>
+                            {{#each this.Syntheses}}
+                                <li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if IsContribution}}
+                        <div class="attachments">
+                            {{#each ContributionFiles}}
+                                <a href="javascript:;" data-contribution-file-id="{{ContributionFileID}}" data-filename="{{Filename}}">{{Filename}}</a>
+                                <br/>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="commentOptions">
+                    <a class="btnReply" href="javascript:;">Reply</a>
+                    <a class="btnEdit" href="javascript:;">Edit</a>
+                    <a class="btnRemove" href="javascript:;">Remove</a>
+                    <a class="btnBookmark" href="javascript:;">
+                        {{#isBookmarked CommentID}}
+                            Unbookmark
+                        {{else}}
+                            Bookmark
+                        {{/isBookmarked}}
+                    </a>
+                </div>
+            </div>
+        {{/unless}}
+        <div class="commentChildren">
+            {{{layoutChildren Children}}}
+        </div>
     </div>
 {{/each}}

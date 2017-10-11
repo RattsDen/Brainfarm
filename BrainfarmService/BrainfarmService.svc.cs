@@ -368,7 +368,7 @@ namespace BrainfarmService
             }
         }
 
-        public void BookmarkComment(string sessionToken, int commentId)
+        public void BookmarkComment(string sessionToken, int commentID)
         {
             // Get user from session
             User user = GetCurrentUser(sessionToken);
@@ -379,7 +379,7 @@ namespace BrainfarmService
                 {
                     // TODO: throw exception if comment does not exist
                     // TODO: throw exception if comment is already bookmarked by user
-                    bookmarkDBAccess.BookmarkComment(user.UserID, commentId);
+                    bookmarkDBAccess.BookmarkComment(user.UserID, commentID);
                 }
             }
             catch (SqlException e)
@@ -390,7 +390,7 @@ namespace BrainfarmService
         }
 
 
-        public void UnbookmarkComment(string sessionToken, int commentId)
+        public void UnbookmarkComment(string sessionToken, int commentID)
         {
 
             // Get user from session
@@ -402,7 +402,7 @@ namespace BrainfarmService
                 {
                     // TODO: throw exception if comment does not exist
                     // TODO: maybe (?) throw exception if comment is not already bookmarked
-                    bookmarkDBAccess.UnbookmarkComment(user.UserID, commentId);
+                    bookmarkDBAccess.UnbookmarkComment(user.UserID, commentID);
                 }
             }
             catch (SqlException e)
@@ -413,7 +413,7 @@ namespace BrainfarmService
         }
 
         // returns a list of commentIds that this user bookmarked on this project
-        public List<int> GetCommentIdsOnProject(string sessionToken, int projectId)
+        public List<int> GetBookmarksForProject(string sessionToken, int projectID)
         {
             // Get user from session
             User user = GetCurrentUser(sessionToken);
@@ -424,7 +424,7 @@ namespace BrainfarmService
             {
                 using (BookmarkDBAccess bookmarkDBAccess = new BookmarkDBAccess())
                 {
-                    return bookmarkDBAccess.getCommentIdsOnProject(user.UserID, projectId);
+                    return bookmarkDBAccess.GetBookmarksForProject(user.UserID, projectID);
                 }
             }
             catch (SqlException)
