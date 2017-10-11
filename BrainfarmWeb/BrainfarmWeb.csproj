@@ -60,11 +60,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account.aspx" />
     <Content Include="CreateProject.aspx" />
     <Content Include="error\400.html" />
     <Content Include="error\404.html" />
     <Content Include="error\500.html" />
     <Content Include="Layout.Master" />
+    <Content Include="scripts\Account.js" />
     <Content Include="scripts\Comment.txt" />
     <Content Include="Properties\DataSources\BrainfarmService.Data.Comment.datasource" />
     <Content Include="Properties\DataSources\BrainfarmService.Data.Project.datasource" />
@@ -79,6 +81,7 @@
     </None>
     <Content Include="plugins\handlebars-v4.0.10.js" />
     <Content Include="Project.aspx" />
+    <Content Include="scripts\CommentAccount.html" />
     <Content Include="scripts\Dashboard.js" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
@@ -141,6 +144,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.aspx.cs">
+      <DependentUpon>Account.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account.aspx.designer.cs">
+      <DependentUpon>Account.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateProject.aspx.cs">
       <DependentUpon>CreateProject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

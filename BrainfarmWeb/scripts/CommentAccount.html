@@ -1,0 +1,37 @@
+﻿{{#each this}}
+<div id="{{CommentID}}" data-commentid="{{CommentID}}" class="comment {{#unless ParentCommentID}}initial{{/unless}} {{#if IsSynthesis}}synth{{/if}} {{#if IsSpecification}}spec{{/if}} {{#if IsContribution}}contrib{{/if}}">
+    <div class="commentHead">
+        {{#if IsRemoved}}
+            [Comment Removed]
+        {{else}}
+            <span class="username">{{Username}}</span> at
+            <span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
+        {{/if}}
+        <span class="commentNumber">#{{CommentID}}</span>
+    </div>
+    <div class="commentRibbons">
+        {{#unless ParentCommentID}}
+        <div class="ribbon initial">PROJECT</div>
+        {{/unless}}
+        {{#if IsSynthesis}}
+        <div class="ribbon synth">SYNTHESIS</div>
+        {{/if}}
+        {{#if IsSpecification}}
+        <div class="ribbon spec">SPECIFICATION</div>
+        {{/if}}
+        {{#if IsContribution}}
+        <div class="ribbon contrib">CONTRIBUTION</div>
+        {{/if}}
+    </div>
+    {{#unless IsRemoved}}
+    <div class="commentContent">
+        <div class="commentBody">
+            <p>{{BodyText}}</p>
+        </div>
+        <div class="commentOptions">
+            <a class="btnGoTo" href="/Project.aspx?ID={{ProjectID}}&Comment={{CommentID}}">Go To Comment</a>
+        </div>
+    </div>
+    {{/unless}}
+</div>
+{{/each}}

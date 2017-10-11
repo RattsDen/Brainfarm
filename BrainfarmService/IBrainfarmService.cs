@@ -105,6 +105,14 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
+        List<Project> GetUserProjects(int userID);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Comment> GetUserComments(int userID);
+
+        [OperationContract]
+        [WebInvoke]
         List<Project> SearchProjects(string searchKeywordsString, bool searchTags, bool searchTitles);
 
     }

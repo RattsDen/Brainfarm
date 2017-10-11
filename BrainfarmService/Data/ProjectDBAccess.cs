@@ -283,6 +283,36 @@ SELECT TOP (@Top)
             return results;
         }
 
+        public List<Project> GetUserProjects(int userID)
+        {
+            List<int> projectIDs = new List<int>();
+            List<Project> results = new List<Project>();
+            string sql = @"
+SELECT ProjectID
+  FROM Project
+ WHERE UserID = @UserID
+ ORDER BY CreationDate DESC
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        projectIDs.Add(reader.GetInt32(reader.GetOrdinal("ProjectID")));
+                    }
+                }
+            }
+
+            foreach (int id in projectIDs)
+            {
+                results.Add(GetProject(id));
+            }
+
+            return results;
+        }
+
         // populates the searchKeywords array and the sqlParameterStrings array
         // given the searchKeywordsString
         // (note: "out" parameters used, so that the caller can pass in uninitialized string arrays)

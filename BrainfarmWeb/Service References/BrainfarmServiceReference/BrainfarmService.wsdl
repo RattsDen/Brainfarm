@@ -99,6 +99,18 @@
   <wsdl:message name="IBrainfarmService_GetRecommendedProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRecommendedProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserProjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProjects" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserProjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserComments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserComments" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserComments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserCommentsResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_SearchProjects_InputMessage">
     <wsdl:part name="parameters" element="tns:SearchProjects" />
   </wsdl:message>
@@ -165,6 +177,14 @@
     <wsdl:operation name="GetRecommendedProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" message="tns:IBrainfarmService_GetRecommendedProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetRecommendedProjectsResponse" message="tns:IBrainfarmService_GetRecommendedProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserProjects" message="tns:IBrainfarmService_GetUserProjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserProjectsResponse" message="tns:IBrainfarmService_GetUserProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserComments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserComments" message="tns:IBrainfarmService_GetUserComments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserCommentsResponse" message="tns:IBrainfarmService_GetUserComments_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SearchProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjects" message="tns:IBrainfarmService_SearchProjects_InputMessage" />
@@ -301,6 +321,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetRecommendedProjects">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetRecommendedProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProjects">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetUserProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserComments">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetUserComments" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

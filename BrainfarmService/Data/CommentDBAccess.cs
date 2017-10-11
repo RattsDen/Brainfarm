@@ -226,6 +226,7 @@ VALUES(@SynthesisCommentID
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
+      ,c.ProjectID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
@@ -334,6 +335,7 @@ SELECT c.CommentID
             string sql = @"
 SELECT c.CommentID
       ,c.UserID
+      ,c.ProjectID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
@@ -373,6 +375,7 @@ SELECT c.CommentID
 
             comment.CommentID = reader.GetInt32(reader.GetOrdinal("CommentID"));
             comment.UserID = reader.GetInt32(reader.GetOrdinal("UserID"));
+            comment.ProjectID = reader.GetInt32(reader.GetOrdinal("ProjectID"));
             if (!reader.IsDBNull(reader.GetOrdinal("ParentCommentID")))
                 comment.ParentCommentID = reader.GetInt32(reader.GetOrdinal("ParentCommentID"));
             else
@@ -389,6 +392,50 @@ SELECT c.CommentID
             comment.IsRemoved = reader.GetBoolean(reader.GetOrdinal("IsRemoved"));
 
             return comment;
+        }
+
+        public List<Comment> GetUserComments(int userID)
+        {
+            List<Comment> results = new List<Comment>();
+            string sql = @"
+SELECT c.CommentID
+      ,c.UserID
+      ,c.ProjectID
+      ,c.ParentCommentID
+      ,c.CreationDate
+      ,c.EditedDate
+      ,c.BodyText
+      ,c.IsSynthesis
+      ,c.IsContribution
+      ,c.IsSpecification
+      ,c.IsRemoved
+      ,u.Username
+  FROM Comment c
+ INNER JOIN [User] u
+    ON c.UserID = u.UserID
+ WHERE c.UserID = @UserID
+ ORDER BY CreationDate DESC
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Comment comment = ReadComment(reader);
+                        comment.Username = reader.GetString(reader.GetOrdinal("Username"));
+                        // Exclude synthesis and contribution file lists to make
+                        //it clearer that they are not included in these results
+                        comment.Syntheses = null;
+                        comment.ContributionFiles = null;
+
+                        results.Add(comment);
+                    }
+                }
+            }
+
+            return results;
         }
 
 
