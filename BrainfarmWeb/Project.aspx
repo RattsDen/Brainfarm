@@ -38,6 +38,7 @@
             <label><input type="checkbox" id="chk-filter-synth" />Synthesis</label>
             <label><input type="checkbox" id="chk-filter-spec" />Specification</label>
             <label><input type="checkbox" id="chk-filter-contrib" />Contribution</label>
+            <label><input type="checkbox" id="chk-filter-bookmarked" />Bookmarked</label>
         </div>
         <div id="div-filter-buttons">
             <a href="javascript:;" id="btn-filter-apply" class="btn">Apply Filter</a>

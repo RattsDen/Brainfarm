@@ -528,12 +528,14 @@ function commentMatchesFilter(comment) {
     var showSynth = $("#chk-filter-synth").is(":checked");
     var showSpec = $("#chk-filter-spec").is(":checked");
     var showContrib = $("#chk-filter-contrib").is(":checked");
+    var showBookmarked = $("#chk-filter-bookmarked").is(":checked");
 
     return comment.ParentCommentID == null // Allways show first comment
         || (showNormal && !comment.IsSynthesis && !comment.IsSpecification && !comment.IsContribution)
 		|| (showSynth && comment.IsSynthesis)
 		|| (showSpec && comment.IsSpecification)
-		|| (showContrib && comment.IsContribution);
+		|| (showContrib && comment.IsContribution)
+        || (showBookmarked && bookmarkedCommentIDs.includes(comment.CommentID));
 }
 
 function removeFiltersFromCommentTree(node) {
