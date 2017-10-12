@@ -47,16 +47,22 @@
                     {{/if}}
                 </div>
                 <div class="commentOptions">
-                    <a class="btnReply" href="javascript:;">Reply</a>
-                    <a class="btnEdit" href="javascript:;">Edit</a>
-                    <a class="btnRemove" href="javascript:;">Remove</a>
-                    <a class="btnBookmark" href="javascript:;">
-                        {{#isBookmarked CommentID}}
-                            Unbookmark
-                        {{else}}
-                            Bookmark
-                        {{/isBookmarked}}
-                    </a>
+				{{#isUserLoggedIn}}
+					<a class="btnReply" href="javascript:;">Reply</a>
+						<a class="btnBookmark" href="javascript:;">
+							{{#isBookmarked CommentID}}
+								Unbookmark
+							{{else}}
+								Bookmark
+							{{/isBookmarked}}
+						</a>
+					{{#isCurrentUser UserID}}
+						<a class="btnEdit" href="javascript:;">Edit</a>
+						<a class="btnRemove" href="javascript:;">Remove</a>
+					{{/isCurrentUser}}
+				{{else}}
+					<a class="btnLoginMessage" href="javascript:;">Log In to Reply</a>
+				{{/isUserLoggedIn}}
                 </div>
             </div>
         {{/unless}}
