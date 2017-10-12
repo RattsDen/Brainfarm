@@ -16,7 +16,6 @@ namespace BrainfarmWeb
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            sessionToken = (string)Session["ServiceSessionToken"];
             // Get project ID from the request
             if (!int.TryParse(Request.Params["ID"], out projectID))
             {
@@ -80,6 +79,11 @@ namespace BrainfarmWeb
                 tagLabel.CssClass = "chip";
                 panelProjectTags.Controls.Add(tagLabel);
             }
+        }
+
+        protected void Page_LoadComplete(object sender, EventArgs e)
+        {
+            sessionToken = (string)Session["ServiceSessionToken"];
         }
     }
 }

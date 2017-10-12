@@ -6,6 +6,7 @@ var allComments;
 var bookmarkedCommentIDs = [];
 var synthModeEnbled = false;
 var synthList;
+var currentUser;
 
 //*************** DOCUMENT.READY STATEMENTS ******************
 
@@ -14,8 +15,8 @@ var pendingFileUploads = [];
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
-    $.when(getCommentsFromService(), getBookmarksFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
-        .done(function (commentResp, bookmarksResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
+    $.when(getCommentsFromService(), getBookmarksFromService(), getCurrentUserFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
+        .done(function (commentResp, bookmarksResp, currentUserResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
             if (commentResp[1] == "success"
                     && commentTemplateResp[1] == "success"
                     && replyTemplateResp[1] == "success") {
@@ -24,6 +25,14 @@ $(document).ready(function () {
                 //(null will be given to the .when() if the call is not to be made)
                 if (bookmarksResp && bookmarksResp[1] == "success") {
                     bookmarkedCommentIDs = bookmarksResp[0];
+                }
+                //Same goes for currentUserResp
+                if (currentUserResp){
+                    if (currentUserResp[1] == "success") {
+                        currentUser = currentUserResp[0];
+                    }
+                }else {
+                    currentUser = currentUserResp;
                 }
 
                 prepareTemplate(commentTemplateResp[0]);
@@ -37,7 +46,6 @@ $(document).ready(function () {
                 parentCommentId = $this.closest(".comment").data("commentid");
                 $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
                 $("#lblParentCommentId").text(parentCommentId);
-                commentReplyOverlay.removeClass("hidden");
             });
 
         });
@@ -166,6 +174,10 @@ $(document).on("click", ".btn-submitEdit", function () {
     }
 });
 
+$(document).on("click", ".btnLoginMessage", function () {
+    $("#txtUsername").focus();
+})
+
 // BEGIN Contribution comment listeners
 
 // "Is Contribution Comment" checkbox click
@@ -258,6 +270,18 @@ function getBookmarksFromService() {
     }
 }
 
+function getCurrentUserFromService() {
+    if (sessionToken != null && sessionToken != "") {
+        var args = {
+            sessionToken: sessionToken
+        };
+        return serviceAjax("GetCurrentUser", args, null, handleServiceException);
+    } else {
+        console.log("NO TOKEN")
+        return null;
+    }
+}
+
 function createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses) {
     var args = {
         sessionToken: sessionToken,
@@ -330,6 +354,8 @@ function prepareTemplate(templateText) {
     Handlebars.registerHelper("layoutChildren", layoutComments);
     Handlebars.registerHelper("parseMSDate", parseMSDate);
     Handlebars.registerHelper("isBookmarked", isBookmarked);
+    Handlebars.registerHelper("isCurrentUser", isCurrentUser);
+    Handlebars.registerHelper("isUserLoggedIn", isUserLoggedIn);
     commentTemplate = Handlebars.compile(templateText);
 }
 
@@ -380,6 +406,30 @@ function parseMSDate(datestring) {
     mm = mm < 10 ? "0" + mm : mm;
 
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
+}
+
+function isUserLoggedIn(options) {
+    if (options) {
+        if (currentUser) {
+            return options.fn(this); //true
+        }
+        return options.inverse(this); // false
+    } else {
+        if (currentUser) {
+            return true;
+        }
+        return false;
+    }
+}
+
+function isCurrentUser(userID, options) {
+    if (isUserLoggedIn()) {
+        if (userID == currentUser.UserID) {
+            return options.fn(this); // true
+        }
+    }
+        
+    return options.inverse(this); // false
 }
 
 function isBookmarked(commentID, options) {
