@@ -118,6 +118,10 @@ namespace BrainfarmService
             {
                 throw new FaultException("Your session has expired", new FaultCode("SESSION_EXPIRED"));
             }
+            catch (EmptyTokenException)
+            {
+                throw new FaultException("No session token was provided. User is not logged in", new FaultCode("NO_SESSION_TOKEN"));
+            }
             catch (MalformedTokenException)
             {
                 throw new FaultException("Invalid session token", new FaultCode("INVALID_SESSION"));
@@ -192,6 +196,11 @@ namespace BrainfarmService
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
+            if (bodyText == null || bodyText == "")
+            {
+                throw new FaultException("Comment Body must not be empty");
+            }
+
             // Get user from session
             User user = GetCurrentUser(sessionToken);
 
@@ -215,6 +224,11 @@ namespace BrainfarmService
         public Comment EditComment(string sessionToken, int commentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
         {
+            if (bodyText == null || bodyText == "")
+            {
+                throw new FaultException("Comment Body must not be empty");
+            }
+
             // Get user from session
             User user = GetCurrentUser(sessionToken);
 
@@ -226,8 +240,8 @@ namespace BrainfarmService
                         bodyText, isSynthesis, isContribution, isSpecification);
                     if (rowsAffected == 0)
                     {
-                        throw new FaultException("Unable to edit comment #" + commentID + " by user "+user.Username,
-                            new FaultCode("COMMENT_NOT_FOUND"));
+                        throw new FaultException("Unable to edit comment",
+                            new FaultCode("COMMENT_NOT_EDITED"));
                     }
                     return commentDBAccess.GetComment(commentID);
                 }
@@ -394,6 +408,7 @@ namespace BrainfarmService
         public int RemoveComment(string sessionToken, int commentID)
         {
             User user = GetCurrentUser(sessionToken);
+
             try
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
@@ -409,7 +424,7 @@ namespace BrainfarmService
                     return rowsAffected;
                 }
             }
-            catch (SqlException e)
+            catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));

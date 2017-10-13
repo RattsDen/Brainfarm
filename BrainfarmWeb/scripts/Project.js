@@ -324,6 +324,9 @@ function getEditTemplate() {
 function handleServiceException(fault) {
     // TODO: Better exception handling
     console.log(fault);
+    var responseText = $.parseXML(fault.responseText);
+    var faultExceptionMessage = $(responseText).find("Text").text();
+    alert(faultExceptionMessage);
 }
 
 function prepareTemplate(templateText) {
@@ -568,7 +571,7 @@ $(document).on("click", ".btnBookmark", function () {
             // Update view
             commentView.find(".bookmark:first").text("");
             commentView.find(".btnBookmark:first").text("Bookmark");
-        }, null, "text");
+        }, handleServiceException, "text");
     } else {
         // Not bookmarked
         serviceAjax("BookmarkComment", args, function () {
@@ -577,6 +580,6 @@ $(document).on("click", ".btnBookmark", function () {
             // Update view
             commentView.find(".bookmark:first").text("Bookmarked");
             commentView.find(".btnBookmark:first").text("Unbookmark");
-        }, null, "text");
+        }, handleServiceException, "text");
     }
 });

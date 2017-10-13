@@ -64,6 +64,10 @@ namespace BrainfarmService
 
         public static int ValidateToken(string token)
         {
+            if(token == "")
+            {
+                throw new EmptyTokenException();
+            }
             try
             {
                 Dictionary<string, object> claims
@@ -124,4 +128,5 @@ namespace BrainfarmService
 
     public class TokenExpiredException : Exception { }
     public class MalformedTokenException : Exception { }
+    public class EmptyTokenException : Exception { }
 }
