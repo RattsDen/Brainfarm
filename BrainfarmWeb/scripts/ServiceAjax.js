@@ -1,4 +1,9 @@
-﻿var serviceEndpoint = "http://localhost:59006/BrainfarmService.svc/ajax/";
+﻿/*
+Function for contacting the Brainfarm web service.
+Allows service url to be defined in only one .js file
+*/
+
+var serviceEndpoint = "http://localhost:59006/BrainfarmService.svc/ajax/";
 
 function serviceAjax(route, args, success, error, dataType) {
 

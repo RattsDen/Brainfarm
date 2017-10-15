@@ -10,6 +10,9 @@ using System.Web.UI.WebControls;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Web page for creating a new project
+     */
     public partial class CreatePage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

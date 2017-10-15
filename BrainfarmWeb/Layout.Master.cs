@@ -9,6 +9,10 @@ using System.ServiceModel;
 
 namespace BrainfarmWeb
 {
+    /*
+     * The master page for the application, defining the site header
+     * and general UI layout
+     */
     public partial class Layout : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)

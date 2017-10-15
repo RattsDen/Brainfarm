@@ -5,6 +5,9 @@ using System.Web;
 
 namespace BrainfarmService.Data
 {
+    /*
+     * DTO class for attaching an already uploaded file to a new comment
+     */
     public class FileAttachmentRequest
     {
         public int ContributionFileID { get; set; }

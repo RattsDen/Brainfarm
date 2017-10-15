@@ -8,6 +8,9 @@ using System.Web;
 
 namespace BrainfarmService.Data
 {
+    /*
+     * Class providing database operations for ContributionFile entities
+     */
     public class ContributionFileDBAccess : DBAccess
     {
 

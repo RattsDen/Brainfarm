@@ -10,6 +10,10 @@ using System.ServiceModel;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Web page for displaying current user account information, such as a
+     * list of the user's projects, comments, and bookmarks
+     */
     public partial class Account : System.Web.UI.Page
     {
         protected string sessionToken;

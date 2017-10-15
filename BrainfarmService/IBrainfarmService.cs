@@ -17,18 +17,6 @@ namespace BrainfarmService
      * ASP.NET web server, Javascript AJAX calls, or mobile Java app 
      * it's method signiature must be listed here.
      * 
-     * This interface is kind of like the .h file of a C library
-     * 
-     * Generally you will want to mark methods here with the following
-     * two attributes.
-     * 
-     * [OperationContract]  This attribute is what makes a method
-     *                      accessable from another application
-     *                      (makes it part of the service)
-     * 
-     * [WebInvoke]          This attribute allows the method to be called
-     *                      using http POST requests
-     * 
      */
 
     [ServiceContract]  // This attribute marks the interface as containing service methods

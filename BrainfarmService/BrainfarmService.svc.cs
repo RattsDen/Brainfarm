@@ -17,8 +17,6 @@ namespace BrainfarmService
      * can be accessed by another application/process.
      * These methods have been declared in the interface that this
      * class implements.
-     * 
-     * This class is kind of like the .c file of a C library
      */
 
     public class BrainfarmService : IBrainfarmService

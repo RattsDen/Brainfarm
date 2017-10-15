@@ -280,6 +280,9 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         private System.Nullable<int> ParentCommentIDField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ProjectIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private BrainfarmWeb.BrainfarmServiceReference.SynthesisJunction[] SynthesesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -463,6 +466,19 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
                 if ((this.ParentCommentIDField.Equals(value) != true)) {
                     this.ParentCommentIDField = value;
                     this.RaisePropertyChanged("ParentCommentID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProjectID {
+            get {
+                return this.ProjectIDField;
+            }
+            set {
+                if ((this.ProjectIDField.Equals(value) != true)) {
+                    this.ProjectIDField = value;
+                    this.RaisePropertyChanged("ProjectID");
                 }
             }
         }
@@ -903,6 +919,24 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/SearchProjects", ReplyAction="http://tempuri.org/IBrainfarmService/SearchProjectsResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> SearchProjectsAsync(string searchKeywordsString, bool searchTags, bool searchTitles);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/BookmarkComment", ReplyAction="http://tempuri.org/IBrainfarmService/BookmarkCommentResponse")]
+        void BookmarkComment(string sessionToken, int commentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/BookmarkComment", ReplyAction="http://tempuri.org/IBrainfarmService/BookmarkCommentResponse")]
+        System.Threading.Tasks.Task BookmarkCommentAsync(string sessionToken, int commentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UnbookmarkComment", ReplyAction="http://tempuri.org/IBrainfarmService/UnbookmarkCommentResponse")]
+        void UnbookmarkComment(string sessionToken, int commentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/UnbookmarkComment", ReplyAction="http://tempuri.org/IBrainfarmService/UnbookmarkCommentResponse")]
+        System.Threading.Tasks.Task UnbookmarkCommentAsync(string sessionToken, int commentID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetBookmarksForProjectResponse")]
+        int[] GetBookmarksForProject(string sessionToken, int projectID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetBookmarksForProjectResponse")]
+        System.Threading.Tasks.Task<int[]> GetBookmarksForProjectAsync(string sessionToken, int projectID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1074,6 +1108,30 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project[]> SearchProjectsAsync(string searchKeywordsString, bool searchTags, bool searchTitles) {
             return base.Channel.SearchProjectsAsync(searchKeywordsString, searchTags, searchTitles);
+        }
+        
+        public void BookmarkComment(string sessionToken, int commentID) {
+            base.Channel.BookmarkComment(sessionToken, commentID);
+        }
+        
+        public System.Threading.Tasks.Task BookmarkCommentAsync(string sessionToken, int commentID) {
+            return base.Channel.BookmarkCommentAsync(sessionToken, commentID);
+        }
+        
+        public void UnbookmarkComment(string sessionToken, int commentID) {
+            base.Channel.UnbookmarkComment(sessionToken, commentID);
+        }
+        
+        public System.Threading.Tasks.Task UnbookmarkCommentAsync(string sessionToken, int commentID) {
+            return base.Channel.UnbookmarkCommentAsync(sessionToken, commentID);
+        }
+        
+        public int[] GetBookmarksForProject(string sessionToken, int projectID) {
+            return base.Channel.GetBookmarksForProject(sessionToken, projectID);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> GetBookmarksForProjectAsync(string sessionToken, int projectID) {
+            return base.Channel.GetBookmarksForProjectAsync(sessionToken, projectID);
         }
     }
 }

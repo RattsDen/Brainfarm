@@ -8,8 +8,10 @@ using System.Web;
 
 namespace BrainfarmService.Data
 {
-    // Static class to consolidate database access functions for Projects
-    // Also has some Tag access functions since they are so closely related
+    /*
+     * Class providing database operations for Project entities
+     * Also contains functions operations for project tags
+     */
     public class ProjectDBAccess : DBAccess
     {
         public ProjectDBAccess() : base() { }

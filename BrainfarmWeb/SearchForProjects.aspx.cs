@@ -7,6 +7,10 @@ using System.Web.UI.WebControls;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Page for sarching for projects. Projects can be searched for by 
+     * either tag, or keyword in title
+     */
     public partial class SearchForProjects : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

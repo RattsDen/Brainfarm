@@ -1,4 +1,8 @@
-﻿var newComments = null;
+﻿/*
+Scripts for allowing new comments to be automatically added to the Project page
+*/
+
+var newComments = null;
 var newCommentsDiff = null;
 
 $(document).ready(function () {

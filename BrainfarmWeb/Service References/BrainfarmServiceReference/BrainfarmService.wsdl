@@ -117,6 +117,24 @@
   <wsdl:message name="IBrainfarmService_SearchProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:SearchProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_BookmarkComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:BookmarkComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_BookmarkComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BookmarkCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_UnbookmarkComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnbookmarkComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_UnbookmarkComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnbookmarkCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetBookmarksForProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBookmarksForProject" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetBookmarksForProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBookmarksForProjectResponse" />
+  </wsdl:message>
   <wsdl:portType name="IBrainfarmService">
     <wsdl:operation name="GetTimestamp">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetTimestamp" message="tns:IBrainfarmService_GetTimestamp_InputMessage" />
@@ -189,6 +207,18 @@
     <wsdl:operation name="SearchProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjects" message="tns:IBrainfarmService_SearchProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/SearchProjectsResponse" message="tns:IBrainfarmService_SearchProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BookmarkComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/BookmarkComment" message="tns:IBrainfarmService_BookmarkComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/BookmarkCommentResponse" message="tns:IBrainfarmService_BookmarkComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnbookmarkComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/UnbookmarkComment" message="tns:IBrainfarmService_UnbookmarkComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/UnbookmarkCommentResponse" message="tns:IBrainfarmService_UnbookmarkComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBookmarksForProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProject" message="tns:IBrainfarmService_GetBookmarksForProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProjectResponse" message="tns:IBrainfarmService_GetBookmarksForProject_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBrainfarmService" type="tns:IBrainfarmService">
@@ -348,6 +378,33 @@
     </wsdl:operation>
     <wsdl:operation name="SearchProjects">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/SearchProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BookmarkComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/BookmarkComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnbookmarkComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/UnbookmarkComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBookmarksForProject">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetBookmarksForProject" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

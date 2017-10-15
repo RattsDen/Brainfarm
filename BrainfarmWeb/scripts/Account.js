@@ -1,4 +1,8 @@
-﻿var commentTemplate;
+﻿/*
+Scripts for providing interaction with the account page
+*/
+
+var commentTemplate;
 
 $(document).ready(function () {
 

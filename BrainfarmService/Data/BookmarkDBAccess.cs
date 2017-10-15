@@ -8,6 +8,9 @@ using BrainfarmService.Exceptions;
 
 namespace BrainfarmService.Data
 {
+    /*
+     * Class providing database operations for Bookmark entities
+     */
     public class BookmarkDBAccess : DBAccess
     {
 

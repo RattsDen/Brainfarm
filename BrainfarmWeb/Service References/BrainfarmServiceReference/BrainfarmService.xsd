@@ -278,4 +278,45 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="BookmarkComment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="commentID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BookmarkCommentResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnbookmarkComment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="commentID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnbookmarkCommentResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBookmarksForProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="projectID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBookmarksForProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetBookmarksForProjectResult" nillable="true" type="q19:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

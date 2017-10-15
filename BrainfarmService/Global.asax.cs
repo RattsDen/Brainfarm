@@ -8,7 +8,10 @@ using System.Web.SessionState;
 
 namespace BrainfarmService
 {
-    // This is where you override certain events such as the service starting up or shutting down.
+    /* 
+     * This class is used to override certain events such as the 
+     * service starting up or shutting down.
+     */
 
     public class Global : System.Web.HttpApplication
     {

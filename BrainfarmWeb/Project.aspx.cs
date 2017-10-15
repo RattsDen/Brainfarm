@@ -9,6 +9,9 @@ using System.Web.UI.WebControls;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Page for viewing a single project and it's comments
+     */
     public partial class Project : System.Web.UI.Page
     {
         protected int projectID;

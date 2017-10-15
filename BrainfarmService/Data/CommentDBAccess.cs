@@ -8,6 +8,9 @@ using BrainfarmService.Exceptions;
 
 namespace BrainfarmService.Data
 {
+    /*
+     * Class providing database operations for Comment entities
+     */
     public class CommentDBAccess : DBAccess
     {
 

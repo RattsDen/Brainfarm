@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿/*
+Scripts for providing interaction with the dashboard page
+*/
+
+$(document).ready(function () {
 
     $(document).on("click", ".div-project", function (event) {
         var projectID = $(event.target).closest(".div-project").data("project-id");

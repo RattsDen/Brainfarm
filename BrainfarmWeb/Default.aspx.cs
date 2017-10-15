@@ -10,6 +10,9 @@ using System.ServiceModel;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Homepage for the application. Displays a dashboard view.
+     */
     public partial class Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

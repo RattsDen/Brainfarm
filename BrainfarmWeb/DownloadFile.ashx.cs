@@ -8,9 +8,10 @@ using System.Web;
 
 namespace BrainfarmWeb
 {
-    /// <summary>
-    /// Summary description for DownloadFile
-    /// </summary>
+    /*
+     * Resource for downloading a specified Contribution File from the
+     * Brainfarm web service in a browser-compatible way
+     */
     public class DownloadFile : IHttpHandler
     {
         public bool IsReusable { get { return false; } }

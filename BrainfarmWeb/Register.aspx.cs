@@ -8,6 +8,9 @@ using BrainfarmWeb.BrainfarmServiceReference;
 
 namespace BrainfarmWeb
 {
+    /*
+     * Page for creating a new user account
+     */
     public partial class Register : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

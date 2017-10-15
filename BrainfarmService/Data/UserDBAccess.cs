@@ -8,7 +8,9 @@ using System.Web;
 
 namespace BrainfarmService.Data
 {
-    // Static class to consolidate database access functions for Users
+    /*
+     * Class providing database operations for User entities
+     */
     public class UserDBAccess : DBAccess
     {
         public UserDBAccess() : base() { }

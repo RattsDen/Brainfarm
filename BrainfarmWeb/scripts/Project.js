@@ -1,4 +1,14 @@
-﻿// Handlebars template stored in /scripts/Comment.txt
+﻿/*
+Scripts for providing interaction with the Project page incuding filtering
+*/
+
+// TODO: Refactor this file into several smaller ones
+//       -display comments
+//       -filtering
+//       -reply/edit/delete
+//       -bookmarking
+
+// Handlebars template stored in /scripts/Comment.txt
 var commentTemplate;
 var replyTemplate;
 var editTemplate;

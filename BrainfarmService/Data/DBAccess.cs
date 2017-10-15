@@ -8,6 +8,9 @@ using System.Web;
 
 namespace BrainfarmService
 {
+    /*
+     * Parent class for encapsulating connections to the database.
+     */
     public class DBAccess : IDisposable
     {
         // Connection string
