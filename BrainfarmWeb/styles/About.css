@@ -1,0 +1,40 @@
+﻿a {
+    color: #00c6d8;
+}
+    a:hover {
+        color: #00809c;
+    }
+
+.layout-row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+    .layout-row img {
+        margin: 10px;
+    }
+
+.highlight {
+    font-weight: bold;
+}
+
+.highlight-project {
+    color: #ffea00;
+    font-weight: bold;
+}
+
+.highlight-synth {
+    color: #9d00ff;
+    font-weight: bold;
+}
+
+.highlight-spec {
+    color: #ff9c00;
+    font-weight: bold;
+}
+
+.highlight-contrib {
+    color: #00d124;
+    font-weight: bold;
+}
