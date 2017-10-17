@@ -222,7 +222,8 @@ namespace BrainfarmService
         }
 
         public Comment EditComment(string sessionToken, int commentID,
-            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
+            SynthesisRequest[] syntheses)
         {
             if (bodyText == null || bodyText == "")
             {
@@ -237,7 +238,7 @@ namespace BrainfarmService
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
                     int rowsAffected = commentDBAccess.EditComment(commentID, user.UserID, 
-                        bodyText, isSynthesis, isContribution, isSpecification);
+                        bodyText, isSynthesis, isContribution, isSpecification, syntheses);
                     if (rowsAffected == 0)
                     {
                         throw new FaultException("Unable to edit comment",
