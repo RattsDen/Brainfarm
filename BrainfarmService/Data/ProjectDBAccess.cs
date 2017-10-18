@@ -185,7 +185,7 @@ SELECT Text
 SELECT TOP (@Top)
        p.ProjectID
 	  ,SUM(
-	     1 / CAST(POWER(2, (DATEDIFF(DAY, c.CreationDate, @Today) + 1)) AS DECIMAL)
+	     1 / POWER(2.0, (1.0 + DATEDIFF(DAY, c.CreationDate, @Today)) / 31)
 	   ) AS Activity
   FROM Project p
  INNER JOIN Comment c

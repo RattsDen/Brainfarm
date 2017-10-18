@@ -140,12 +140,21 @@ h1 {
     .btn.btn-wide {
         width: 100%;
     }
+    .btn.btn-small {
+        padding: 5px;
+    }
 
     .btn.btn-green {
         background-color: #00d124;
     }
         .btn.btn-green:hover {
             background-color: #008517;
+        }
+    .btn.btn-purple {
+        background-color: #9d00ff;
+    }
+        .btn.btn-purple:hover {
+            background-color: #5d0097;
         }
 
 .text-field {
