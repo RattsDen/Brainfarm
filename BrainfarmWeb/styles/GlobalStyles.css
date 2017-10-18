@@ -158,8 +158,10 @@ h1 {
         }
 
 .text-field {
-    width: calc(100% - 5px);
+    width: 100%;
     box-sizing: border-box;
+    border-radius: 2px;
+    border: 1px solid lightgray;
 }
 
 .error-message {
