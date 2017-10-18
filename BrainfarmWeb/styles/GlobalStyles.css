@@ -163,6 +163,10 @@ h1 {
     border-radius: 2px;
     border: 1px solid lightgray;
 }
+    .text-field.text-field-big {
+        font-size: 14pt;
+        padding: 5px;
+    }
 
 .error-message {
     color: white;
