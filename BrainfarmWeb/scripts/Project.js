@@ -40,14 +40,6 @@ $(document).ready(function () {
                 replyTemplate = replyTemplateResp[0];
                 editTemplate = editTemplateResp[0];
             }
-
-            $(".btnReply").click(function () {
-                $this = $(this);
-                parentCommentId = $this.closest(".comment").data("commentid");
-                $("#BodyContentPlaceHolder_parentCommentId").attr("value", parentCommentId);
-                $("#lblParentCommentId").text(parentCommentId);
-            });
-
         });
 
     $(document).on("click", ".attachments a", attachmentClicked);
@@ -66,12 +58,19 @@ $(document).on("click", ".btnReply", function () {
 
 $(document).on("click", ".btnEdit", function () {
     closeAllCommentForms();
-    var comment = $(this).closest(".commentContent");
-    if (!comment.hasClass("hasEditForm")) {
-        comment.append(editTemplate);
-        comment.addClass("hasEditForm");
+    var commentContent = $(this).closest(".commentContent");
+    if (!commentContent.hasClass("hasEditForm")) {
+        commentContent.append(editTemplate);
+        commentContent.addClass("hasEditForm");
     }
-    comment.find(".replyBox").find(".replyText")[0].value = comment.find(".commentBody>p").text();
+    commentContent.find(".replyBox").find(".replyText")[0].value = commentContent.find(".commentBody>p").text();
+    var comment = $(this).closest(".comment");
+    if (comment.hasClass("synth")) {
+        comment.find("input[name='chkIsSynthesis']").trigger("click");
+        comment.find(".commentBody li").each(function () {
+            addSynth($(this).data("commentid"), $(this).data("subject"));
+        });
+    }
 });
 
 $(document).on("click", ".btnRemove", function () {
@@ -303,6 +302,7 @@ function editCommentWithService(commentid, replyText, isSynthesis, isSpecificati
         sessionToken: sessionToken,
         commentID: commentid,
         bodyText: replyText,
+        syntheses: syntheses,
         isSynthesis: isSynthesis,
         isContribution: isSpecification,
         isSpecification: isContribution
@@ -474,7 +474,7 @@ function toggleSynthMode(override) {
     }
 }
 
-function addSynth(commentId) {
+function addSynth(commentId, placeholderText) {
     var duplicate = false;
     synthList.find("li").each(function () {
         if ($(this).data("commentid") == commentId) {
@@ -482,12 +482,15 @@ function addSynth(commentId) {
             return;
         }
     });
+    if (!placeholderText) {
+        placeholderText = "";
+    }
     if (!duplicate) {
         synthList.append(
             "<li data-commentid='" + commentId + "'>" +
                 "<a href='javascript:;' class='synthDelete btn btn-small btn-purple'>X</a>" +
                 "<span class='synthIdLabel'> #" + commentId + "</span>" +
-                "<input name='synthSubject' type='text' placeholder='Enter a Short Description'/>" +
+                "<input name='synthSubject' type='text' placeholder='Enter a Short Description' value='"+placeholderText+"'/>" +
             "</li>"
         );
     }

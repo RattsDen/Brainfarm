@@ -60,6 +60,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.aspx" />
     <Content Include="Account.aspx" />
     <Content Include="CreateProject.aspx" />
     <Content Include="error\400.html" />
@@ -131,6 +132,7 @@
     <Content Include="Register.aspx" />
     <Content Include="scripts\Register.js" />
     <Content Include="scripts\ServiceAjax.js" />
+    <Content Include="styles\About.css" />
     <Content Include="styles\Account.css" />
     <Content Include="styles\CreateProject.css" />
     <Content Include="styles\Dashboard.css" />
@@ -146,6 +148,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account.aspx.cs">
       <DependentUpon>Account.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

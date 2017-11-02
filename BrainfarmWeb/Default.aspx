@@ -15,15 +15,14 @@
         <div class="panel">
             <h2>Welcome to Brainfarm!</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Nulla rhoncus leo vel lacinia eleifend. Nullam nisl risus, viverra et diam in, 
-                efficitur scelerisque neque. Vivamus vel augue turpis. Fusce consequat libero 
-                ligula, id hendrerit felis ornare ut. Pellentesque tempor enim leo. 
-                Sed a tellus ac lorem semper interdum a bibendum ante. Donec vitae sapien 
-                id urna lacinia rutrum. Sed consectetur metus eu molestie tincidunt.
+                Brainfarm is a reddit-style board for discussing project ideas, 
+                and to motivate people who are good at building things to practice 
+                their building skills! Brainfarm has special features to help users 
+                gather the best ideas that appear in discussion, and to help 
+                builders find challenges to build and showcase their work.
             </p>
             <p>
-                <a href="javascript:;" class="btn">How do I use this site?</a>
+                <a href="/About.aspx" class="btn">How do I use this site?</a>
                 <a href="/Register.aspx" class="btn">Register a new account</a>
             </p>
         </div>

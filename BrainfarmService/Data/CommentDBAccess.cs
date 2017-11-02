@@ -112,8 +112,40 @@ VALUES(@ProjectID
 
         //returns number of rows affected by update
         public int EditComment(int commentID, int userID, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
+            SynthesisRequest[] syntheses)
+        {
+            int rowsAffected;
+
+            try
+            {
+                rowsAffected = UpdateComment(commentID, userID, bodyText, isSynthesis, isContribution, isSpecification);
+
+                if (isSynthesis)
+                {
+                    DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
+                    if (syntheses != null)
+                    {
+                        foreach (SynthesisRequest synthesis in syntheses)
+                        {
+                            InsertSynthesisJunction(commentID, synthesis.LinkedCommentID, synthesis.Subject);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
+            }
+
+            return rowsAffected;
+        }
+
+        public int UpdateComment(int commentID, int userID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification)
         {
+
             string sql = @"
 UPDATE Comment SET 
 BodyText = @BodyText,
@@ -124,7 +156,8 @@ IsSpecification = @IsSpecification
 WHERE CommentID = @CommentID AND UserID = @UserID;
 ";
 
-            using(SqlCommand command = GetNewCommand(sql)){
+            using (SqlCommand command = GetNewCommand(sql))
+            {
                 command.Parameters.AddWithValue("@BodyText", bodyText);
                 command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
                 command.Parameters.AddWithValue("@IsSynthesis", isSynthesis);
@@ -213,6 +246,19 @@ VALUES(@SynthesisCommentID
                 command.Parameters.AddWithValue("@LinkedCommentID", linkedCommentID);
                 command.Parameters.AddWithValue("@Subject", subject);
                 command.ExecuteNonQuery();
+            }
+        }
+
+        public int DeleteAllSynthesisJunctionsWithSynthCommentID(int synthCommentID)
+        {
+            string sql = @"
+DELETE FROM SynthesisJunction
+WHERE SynthesisCommentID = @SynthesisCommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@SynthesisCommentID", synthCommentID);
+                return Convert.ToInt32(command.ExecuteScalar());
             }
         }
 

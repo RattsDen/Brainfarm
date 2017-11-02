@@ -33,7 +33,7 @@
                     {{#if IsSynthesis}}
                         <ul>
                             {{#each this.Syntheses}}
-                                <li><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
+                                <li data-commentid="{{LinkedCommentID}}" data-subject="{{Subject}}"><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
                             {{/each}}
                         </ul>
                     {{/if}}

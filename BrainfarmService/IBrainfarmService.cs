@@ -67,7 +67,8 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         Comment EditComment(string sessionToken, int commentID,
-            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification);
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
+            SynthesisRequest[] syntheses);
 
         [OperationContract]
         [WebInvoke]
