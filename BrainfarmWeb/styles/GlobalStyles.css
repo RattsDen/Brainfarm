@@ -140,6 +140,9 @@ h1 {
     .btn.btn-wide {
         width: 100%;
     }
+    .btn.btn-small {
+        padding: 5px;
+    }
 
     .btn.btn-green {
         background-color: #00d124;
@@ -147,11 +150,23 @@ h1 {
         .btn.btn-green:hover {
             background-color: #008517;
         }
+    .btn.btn-purple {
+        background-color: #9d00ff;
+    }
+        .btn.btn-purple:hover {
+            background-color: #5d0097;
+        }
 
 .text-field {
-    width: calc(100% - 5px);
+    width: 100%;
     box-sizing: border-box;
+    border-radius: 2px;
+    border: 1px solid lightgray;
 }
+    .text-field.text-field-big {
+        font-size: 14pt;
+        padding: 5px;
+    }
 
 .error-message {
     color: white;

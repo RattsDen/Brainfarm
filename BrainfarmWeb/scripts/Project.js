@@ -488,9 +488,9 @@ function addSynth(commentId, placeholderText) {
     if (!duplicate) {
         synthList.append(
             "<li data-commentid='" + commentId + "'>" +
-                "<a href='javascript:;' class='synthDelete'>[X]</a>" +
-                commentId +
-                "<input name='synthSubject' type='text' placeholder='Enter A Short Description' value='"+placeholderText+"'/>" +
+                "<a href='javascript:;' class='synthDelete btn btn-small btn-purple'>X</a>" +
+                "<span class='synthIdLabel'> #" + commentId + "</span>" +
+                "<input name='synthSubject' type='text' placeholder='Enter a Short Description' value='"+placeholderText+"'/>" +
             "</li>"
         );
     }

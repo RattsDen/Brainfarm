@@ -23,7 +23,7 @@
             </div>
 
             <div id="div-login">
-                <asp:Panel runat="server" ID="panelLogin" CssClass="div-login-panel">
+                <asp:Panel runat="server" ID="panelLogin" CssClass="div-login-panel" DefaultButton="btnLogin">
                     <div class="div-login-row">
                         <asp:TextBox runat="server" ID="txtUsername" placeholder="Username" CssClass="text-field login-control login-control-left"></asp:TextBox>
                         <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" placeholder="Password" CssClass="text-field login-control login-control-right"></asp:TextBox>
@@ -46,7 +46,8 @@
                     </div>
                     <div class="div-login-row">
                         <a href="/Account.aspx" class="btn btn-wide btn-dark login-control">Manage Account</a>
-                        <asp:Button runat="server" ID="btnLogout" Text="Logout" OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark login-control" />
+                        <asp:Button runat="server" ID="btnLogout" Text="Logout" 
+                            OnClick="btnLogout_Click" CssClass="btn btn-wide btn-dark login-control" UseSubmitBehavior="false" />
                     </div>
                 </asp:Panel>
             </div>

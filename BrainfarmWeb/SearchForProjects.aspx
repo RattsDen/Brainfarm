@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout.Master" AutoEventWireup="true" CodeBehind="SearchForProjects.aspx.cs" Inherits="BrainfarmWeb.SearchForProjects" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="/styles/Search.css"/>
     <link rel="stylesheet" href="/styles/ProjectList.css"/>
     <script src="/scripts/SearchForProjects.js"></script>
 </asp:Content>
@@ -16,13 +17,16 @@
             Seperate keywords using spaces. <br />
         </p>
 
-        <div>    
-            <asp:TextBox runat="server" id="txtSearchKeywords" placeholder="Ënter keywords here..">
-            </asp:TextBox>
+        <div>
+            <div id="div-search-bar">
+                <asp:TextBox runat="server" id="txtSearchKeywords" placeholder="Enter keywords here.." 
+                             CssClass="text-field text-field-big">
+                </asp:TextBox>
         
-            <asp:Button runat="server" id="btnSearch" Text="SEARCH"
-                        CssClass="btn" OnClick="btnSearch_Click">
-            </asp:Button>
+                <asp:Button runat="server" id="btnSearch" Text="Search"
+                            CssClass="btn" OnClick="btnSearch_Click">
+                </asp:Button>
+            </div>
 
             <asp:Label runat="server" id="lblErrorMessage" CssClass="error-message" Visible="false">
             </asp:Label>

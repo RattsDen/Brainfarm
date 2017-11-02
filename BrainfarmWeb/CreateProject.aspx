@@ -31,15 +31,15 @@
 
             <asp:TextBox runat="server" ID="txtCreateProjectDescription"
                          placeholder="Type a description of your project here..."
-                         CssClass="text-field commentContent">
+                         CssClass="text-field commentContent" TextMode="MultiLine">
 
             </asp:TextBox>
         </div>
     </div>
 
     <div class="panel">
-        <asp:Button runat="server" ID="btnCreateNewProject" Text="CREATE NEW PROJECT"
-                    CssClass="btn" OnClick="btnCreateNewProject_Click">
+        <asp:Button runat="server" ID="btnCreateNewProject" Text="Create Project"
+                    CssClass="btn btn-wide" OnClick="btnCreateNewProject_Click">
         </asp:Button>
 
         <asp:Label runat="server" ID="lblError" Visible="false" CssClass="error-message">
