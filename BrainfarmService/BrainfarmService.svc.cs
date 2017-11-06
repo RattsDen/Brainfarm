@@ -198,7 +198,8 @@ namespace BrainfarmService
         {
             if (bodyText == null || bodyText == "")
             {
-                throw new FaultException("Comment Body must not be empty");
+                throw new FaultException("Comment Body must not be empty",
+                    new FaultCode("MISSING_COMMENT_BODY"));
             }
 
             // Get user from session
@@ -223,11 +224,12 @@ namespace BrainfarmService
 
         public Comment EditComment(string sessionToken, int commentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             if (bodyText == null || bodyText == "")
             {
-                throw new FaultException("Comment Body must not be empty");
+                throw new FaultException("Comment Body must not be empty",
+                    new FaultCode("MISSING_COMMENT_BODY"));
             }
 
             // Get user from session
@@ -238,7 +240,8 @@ namespace BrainfarmService
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
                     int rowsAffected = commentDBAccess.EditComment(commentID, user.UserID, 
-                        bodyText, isSynthesis, isContribution, isSpecification, syntheses);
+                        bodyText, isSynthesis, isContribution, isSpecification, 
+                        syntheses, attachments);
                     if (rowsAffected == 0)
                     {
                         throw new FaultException("Unable to edit comment",

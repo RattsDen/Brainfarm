@@ -113,7 +113,7 @@ VALUES(@ProjectID
         //returns number of rows affected by update
         public int EditComment(int commentID, int userID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             int rowsAffected;
 
@@ -121,9 +121,11 @@ VALUES(@ProjectID
             {
                 rowsAffected = UpdateComment(commentID, userID, bodyText, isSynthesis, isContribution, isSpecification);
 
+                // Remove any existing syntheses
+                DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
+                // (re)create any syntheses specified
                 if (isSynthesis)
                 {
-                    DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
                     if (syntheses != null)
                     {
                         foreach (SynthesisRequest synthesis in syntheses)
@@ -132,14 +134,44 @@ VALUES(@ProjectID
                         }
                     }
                 }
+
+                // Do not make changes to contribution files if the comment is still a 
+                //contribution comment and no attachments were specified.
+                using (ContributionFileDBAccess contributionFileDBAccess
+                    = new ContributionFileDBAccess(this))
+                {
+                    if (isContribution)
+                    {
+                        if (attachments != null && attachments.Length > 0)
+                        {
+                            // Comment is a contribution and new files have been specified
+
+                            // Remove existing contribution files
+                            contributionFileDBAccess.DeleteAllFilesForComment(commentID);
+                            // Attach each contribution file
+                            foreach (FileAttachmentRequest attachment in attachments)
+                            {
+                                contributionFileDBAccess.AttachFileToComment(
+                                    attachment.ContributionFileID, commentID, attachment.Filename);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Comment is not a contribution
+                        // Remove existing contribution files
+                        contributionFileDBAccess.DeleteAllFilesForComment(commentID);
+                    }
+                }
+
+                Commit();
+                return rowsAffected;
             }
             catch (Exception ex)
             {
                 Rollback();
                 throw ex;
             }
-
-            return rowsAffected;
         }
 
         public int UpdateComment(int commentID, int userID,
