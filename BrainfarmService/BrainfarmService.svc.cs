@@ -239,6 +239,11 @@ namespace BrainfarmService
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
+                    // Throw exception if user is not comment owner
+                    if (commentDBAccess.GetComment(commentID).UserID != user.UserID)
+                        throw new FaultException("You do not have permission to do that",
+                            new FaultCode("INVALID_PERMISSIONS"));
+
                     int rowsAffected = commentDBAccess.EditComment(commentID, user.UserID, 
                         bodyText, isSynthesis, isContribution, isSpecification, 
                         syntheses, attachments);
@@ -417,7 +422,12 @@ namespace BrainfarmService
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
-                    int rowsAffected = commentDBAccess.RemoveComment(commentID, user.UserID);
+                    // Throw exception if user is not comment owner
+                    if (commentDBAccess.GetComment(commentID).UserID != user.UserID)
+                        throw new FaultException("You do not have permission to do that",
+                            new FaultCode("INVALID_PERMISSIONS"));
+
+                    int rowsAffected = commentDBAccess.RemoveComment(commentID);
 
                     if (rowsAffected == 0)
                     {

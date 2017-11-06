@@ -239,21 +239,40 @@ SELECT SCOPE_IDENTITY();
             }
         }
 
-        public int RemoveComment(int commentID, int userID)
+        public int RemoveComment(int commentID)
         {
-            string sql = @"
-UPDATE Comment SET
-EditedDate = @EditedDate,
-IsRemoved = 1
-WHERE CommentID = @CommentID AND UserID = @UserID
-";
-            using (SqlCommand command = GetNewCommand(sql))
+            try
             {
-                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
-                command.Parameters.AddWithValue("@CommentID", commentID);
-                command.Parameters.AddWithValue("@UserID", userID);
+                BeginTransaction();
+                int rowsAffected;
 
-                return Convert.ToInt32(command.ExecuteNonQuery());
+                // Remove synthesis junctions
+                DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
+                // Remove contribution files
+                new ContributionFileDBAccess(this).DeleteAllFilesForComment(commentID);
+
+                // Update comment
+                string sql = @"
+UPDATE Comment 
+   SET EditedDate = @EditedDate,
+       IsRemoved = 1
+ WHERE CommentID = @CommentID
+";
+
+                using (SqlCommand command = GetNewCommand(sql))
+                {
+                    command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                    command.Parameters.AddWithValue("@CommentID", commentID);
+                    rowsAffected = Convert.ToInt32(command.ExecuteNonQuery());
+                }
+
+                Commit();
+                return rowsAffected;
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
             }
         }
 
