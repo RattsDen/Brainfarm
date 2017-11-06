@@ -85,6 +85,8 @@
     <Content Include="scripts\CommentAccount.html" />
     <Content Include="scripts\Dashboard.js" />
     <Content Include="scripts\ProjectAutoFetch.js" />
+    <Content Include="scripts\ProjectContribution.js" />
+    <Content Include="scripts\ProjectFiltering.js" />
     <Content Include="scripts\SearchForProjects.js" />
     <Content Include="SearchForProjects.aspx" />
     <Content Include="scripts\Edit.html" />

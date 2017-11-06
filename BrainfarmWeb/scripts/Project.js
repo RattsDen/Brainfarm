@@ -15,235 +15,231 @@ var pendingFileUploads = [];
 $(document).ready(function () {
     // Make AJAX calls to get comments from service and to get the comment template
     // Wait for both to finish before processing the responses
-    $.when(getCommentsFromService(), getBookmarksFromService(), getCurrentUserFromService(), getCommentTemplate(), getReplyTemplate(), getEditTemplate())
-        .done(function (commentResp, bookmarksResp, currentUserResp, commentTemplateResp, replyTemplateResp, editTemplateResp) {
-            if (commentResp[1] == "success"
-                    && commentTemplateResp[1] == "success"
-                    && replyTemplateResp[1] == "success") {
 
-                // bookmarksResp will be null if the call is not made
-                //(null will be given to the .when() if the call is not to be made)
-                if (bookmarksResp && bookmarksResp[1] == "success") {
-                    bookmarkedCommentIDs = bookmarksResp[0];
-                }
-                //Same goes for currentUserResp
-                if (currentUserResp){
-                    if (currentUserResp[1] == "success") {
-                        currentUser = currentUserResp[0];
-                    }
-                }else {
-                    currentUser = currentUserResp;
-                }
-
-                prepareTemplate(commentTemplateResp[0]);
-                processComments(commentResp[0]);
-                replyTemplate = replyTemplateResp[0];
-                editTemplate = editTemplateResp[0];
+    // Make several AJAX calls to get data such as comments and HTML templates
+    // Wait for all calls to complete before processing the responses
+    $.when(getCommentsFromService(), // Comments
+        getBookmarksFromService(),   // Current user's bookmarks (optional)
+        getCurrentUserFromService(), // Current user info (optional)
+        getCommentTemplate(),        // Comment HTML template
+        getReplyTemplate(),          // Reply box HTML template
+        getEditTemplate()            // Edit box HTML template
+        ).done(function (commentResp, bookmarksResp, currentUserResp, commentTemplateResp, replyTemplateResp, editTemplateResp)
+    {
+        if (commentResp[1] == "success"
+                && commentTemplateResp[1] == "success"
+                && replyTemplateResp[1] == "success") {
+        
+            // bookmarksResp will be null if the call is not made
+            //(null will be given to the .when() if the call is not to be made)
+            if (bookmarksResp && bookmarksResp[1] == "success") {
+                bookmarkedCommentIDs = bookmarksResp[0];
             }
-        });
+            //Same goes for currentUserResp
+            if (currentUserResp){
+                if (currentUserResp[1] == "success") {
+                    currentUser = currentUserResp[0];
+                }
+            }else {
+                currentUser = currentUserResp;
+            }
+        
+            prepareTemplate(commentTemplateResp[0]);
+            processComments(commentResp[0]);
+            replyTemplate = replyTemplateResp[0];
+            editTemplate = editTemplateResp[0];
 
-    $(document).on("click", ".attachments a", attachmentClicked);
-});
-
-$(document).on("click", ".btnReply", function () {
-    closeAllCommentForms();
-    var comment = $(this).closest(".commentContent");
-    if (!comment.hasClass("hasReplyForm")) {
-        comment.append(replyTemplate);
-        comment.addClass("hasReplyForm");
-
-        pendingFileUploads = []; // Reinitialize the pending file upload list
-    }
-});
-
-$(document).on("click", ".btnEdit", function () {
-    closeAllCommentForms();
-    var commentContent = $(this).closest(".commentContent");
-    if (!commentContent.hasClass("hasEditForm")) {
-        commentContent.append(editTemplate);
-        commentContent.addClass("hasEditForm");
-    }
-    commentContent.find(".replyBox").find(".replyText")[0].value = commentContent.find(".commentBody>p").text();
-    var comment = $(this).closest(".comment");
-    if (comment.hasClass("synth")) {
-        comment.find("input[name='chkIsSynthesis']").trigger("click");
-        comment.find(".commentBody li").each(function () {
-            addSynth($(this).data("commentid"), $(this).data("subject"));
-        });
-    }
-});
-
-$(document).on("click", ".btnRemove", function () {
-    var comment = $(this).closest(".comment");
-    var commentid = comment.data("commentid");
-    if (confirm("Are you sure?")) {
-        removeCommentWithService(commentid);
-    }
-});
-
-$(document).on("click", ".btn-cancelReply", function () {
-    toggleSynthMode(false);
-    var comment = $(this).closest(".commentContent");
-    comment.find(".replyBox").remove();
-    comment.removeClass("hasReplyForm");
-});
-
-$(document).on("click", ".btn-cancelEdit", function () {
-    toggleSynthMode(false);
-    var comment = $(this).closest(".commentContent");
-    comment.find(".replyBox").remove();
-    comment.removeClass("hasEditForm");
-});
-
-$(document).on("click", ".btn-submitReply", function () {
-    var comment = $(this).closest(".comment");
-    var commentid = comment.data("commentid");
-    var replyBox = $(this).closest(".replyBox");
-    var replyText = replyBox.find(".replyText")[0].value;
-    var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
-    var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
-    var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
-    var errorDisplay = replyBox.find(".msg-error");
-    var syntheses = null;
-    errorDisplay.html("");
-    $(".missingField").remove();
-
-    if (isSynthesis) {
-        syntheses = getSyntheses();
-        if (syntheses.length < 2) {
-            errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
-            return;
-        }
-        if (syntheses.hasErrors) {
-            errorDisplay.append("Please include a subject for each sythesized comment</br>");
-            return;
-        }
-    }
-
-    if(validateComment(errorDisplay, replyText)){
-        createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
-    }
-});
-
-$(document).on("click", ".synthDelete", function () {
-    $(this).parent().remove();
-})
-
-$(document).on("click", "input[name='chkIsSynthesis']", function () {
-    var replyBox = $(this).closest(".replyBox");
-    //replyBox.find(".synth-list").append("<li>comment</li>");
-    replyBox.find(".synthOptions").toggle();
-    synthList = replyBox.find(".synthList");
-    toggleSynthMode();
-})
-
-$(document).on("click", ".commentHead", function () {
-    if (synthModeEnbled) {
-        addSynth($(this).closest(".comment").data("commentid"));
-    }
-})
-
-$(document).on("click", ".btn-submitEdit", function () {
-    var comment = $(this).closest(".comment");
-    var commentid = comment.data("commentid");
-    var replyBox = $(this).closest(".replyBox");
-    var replyText = replyBox.find(".replyText")[0].value;
-    var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
-    var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
-    var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
-    var errorDisplay = replyBox.find(".msg-error");
-    var syntheses = null;
-    errorDisplay.html("");
-    $(".missingField").remove();
-
-    if (isSynthesis) {
-        syntheses = getSyntheses();
-        if (syntheses.length < 2) {
-            errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
-            return;
-        }
-        if (syntheses.hasErrors) {
-            errorDisplay.append("Please include a subject for each sythesized comment</br>");
-            return;
-        }
-    }
-
-    if (validateComment(errorDisplay, replyText)) {
-        editCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
-    }
-});
-
-$(document).on("click", ".btnLoginMessage", function () {
-    $("#txtUsername").focus();
-})
-
-// BEGIN Contribution comment listeners
-
-// "Is Contribution Comment" checkbox click
-$(document).on("click", ".chk-is-contribution", function () {
-    var checkbox = $(event.target);
-    var divFileUpload = $(".div-file-upload");
-    divFileUpload.toggleClass("reply-box-hidden", checkbox.checked);
-});
-
-// "Add a file" button clicked
-$(document).on("click", ".btn-add-file", function () {
-    var control = "<input type='file' class='input-file-upload btn btn-green' />";
-    var divFileUploadInputs = $(".div-file-upload-inputs");
-    divFileUploadInputs.append(control);
-    divFileUploadInputs.append("<br />");
-
-    return false; //Prevent ASP.NET postback
-});
-
-// File selected
-$(document).on("change", ".file-upload", function () {
-    var fileInputControl = $(event.target);
-    var fileInputLabel = $(".file-upload-label");
-
-    pendingFileUploads = [];
-    var requests = [];
-    var labelText = "";
-
-    for (var i = 0; i < fileInputControl[0].files.length; i++) {
-        var file = fileInputControl[0].files[i];
-
-        // Build label text
-        if (i > 0)
-            labelText += ", ";
-        labelText += file.name;
-
-        // start the upload and add it to list of requests
-        requests.push(uploadFile(file))
-    }
-
-    fileInputLabel.text("Uploading...")
-
-    $.when.apply(undefined, requests).then(function () {
-        fileInputLabel.text(labelText);
-    });
-});
-
-function uploadFile(file) {
-    return $.ajax({
-        url: serviceEndpoint + "UploadFile",
-        type: "POST",
-        data: file,
-        processData: false,
-        success: function (response) {
-            console.log("upload done");
-            pendingFileUploads.push({
-                ContributionFileID: response.ContributionFileID,
-                Filename: file.name
+            // Scroll to comment once loaded, if so specified in the query parameters
+            var queryParams = {};
+            location.search.substr(1).split("&").forEach(function (item) {
+                queryParams[item.split("=")[0]] = item.split("=")[1]
             });
-        },
-        error: function () {
-            console.log("upload error");
+            if (queryParams["Comment"]) { // If parameter is specified
+                $("#" + queryParams["Comment"])[0].scrollIntoView(true); // Scroll to comment
+            }
         }
     });
-}
 
-// END Contribution comment listeners
+
+    // Reply button pressed
+    $(document).on("click", ".btnReply", function () {
+        closeAllCommentForms();
+        var comment = $(this).closest(".commentContent");
+        if (!comment.hasClass("hasReplyForm")) {
+            comment.append(replyTemplate);
+            comment.addClass("hasReplyForm");
+
+            pendingFileUploads = []; // Reinitialize the pending file upload list
+        }
+    });
+
+    // Edit button pressed
+    $(document).on("click", ".btnEdit", function () {
+        closeAllCommentForms();
+        var commentContent = $(this).closest(".commentContent");
+        if (!commentContent.hasClass("hasEditForm")) {
+            commentContent.append(editTemplate);
+            commentContent.addClass("hasEditForm");
+        }
+        commentContent.find(".replyBox").find(".replyText")[0].value = commentContent.find(".commentBody>p").text();
+        var comment = $(this).closest(".comment");
+        if (comment.hasClass("synth")) {
+            comment.find("input[name='chkIsSynthesis']").trigger("click");
+            comment.find(".commentBody .synth-links a").each(function () {
+                addSynth($(this).data("commentid"), $(this).data("subject"));
+            });
+        }
+    });
+
+    // Remove button pressed
+    $(document).on("click", ".btnRemove", function () {
+        var comment = $(this).closest(".comment");
+        var commentid = comment.data("commentid");
+        if (confirm("Are you sure?")) {
+            removeCommentWithService(commentid);
+        }
+    });
+
+    // Bookmark button pressed
+    $(document).on("click", ".btnBookmark", function () {
+        var commentView = $(this).closest(".comment");
+        var commentID = commentView.data("commentid");
+        var args = {
+            sessionToken: sessionToken,
+            commentID: commentID
+        };
+
+        if (bookmarkedCommentIDs && bookmarkedCommentIDs.includes(commentID)) {
+            // Is currently bookmarked
+            serviceAjax("UnbookmarkComment", args, function () {
+                // Update stored model
+                // remove from array
+                bookmarkedCommentIDs.splice(bookmarkedCommentIDs.indexOf(commentID), 1);
+                // Update view
+                commentView.find(".bookmark:first").text("");
+                commentView.find(".btnBookmark:first").text("Bookmark");
+            }, handleServiceException, "text");
+        } else {
+            // Not bookmarked
+            serviceAjax("BookmarkComment", args, function () {
+                // Update stored model
+                bookmarkedCommentIDs.push(commentID);
+                // Update view
+                commentView.find(".bookmark:first").text("Bookmarked");
+                commentView.find(".btnBookmark:first").text("Unbookmark");
+            }, handleServiceException, "text");
+        }
+    });
+
+    // "Log in to reply" button pressed
+    $(document).on("click", ".btnLoginMessage", function () {
+        $("#txtUsername").focus();
+    });
+
+
+    //Cancel Reply button pressed
+    $(document).on("click", ".btn-cancelReply", function () {
+        toggleSynthMode(false);
+        var comment = $(this).closest(".commentContent");
+        comment.find(".replyBox").remove();
+        comment.removeClass("hasReplyForm");
+    });
+
+    // Cancel Edit button pressed
+    $(document).on("click", ".btn-cancelEdit", function () {
+        toggleSynthMode(false);
+        var comment = $(this).closest(".commentContent");
+        comment.find(".replyBox").remove();
+        comment.removeClass("hasEditForm");
+    });
+
+    // Submit reply button pressed
+    $(document).on("click", ".btn-submitReply", function () {
+        var comment = $(this).closest(".comment");
+        var commentid = comment.data("commentid");
+        var replyBox = $(this).closest(".replyBox");
+        var replyText = replyBox.find(".replyText")[0].value;
+        var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
+        var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
+        var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+        var errorDisplay = replyBox.find(".msg-error");
+        var syntheses = null;
+        errorDisplay.html("");
+        $(".missingField").remove();
+
+        if (isSynthesis) {
+            syntheses = getSyntheses();
+            if (syntheses.length < 2) {
+                errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
+                return;
+            }
+            if (syntheses.hasErrors) {
+                errorDisplay.append("Please include a subject for each sythesized comment</br>");
+                return;
+            }
+        }
+
+        if (validateComment(errorDisplay, replyText)) {
+            createCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
+        }
+    });
+
+    // Submit edit pressed
+    $(document).on("click", ".btn-submitEdit", function () {
+        var comment = $(this).closest(".comment");
+        var commentid = comment.data("commentid");
+        var replyBox = $(this).closest(".replyBox");
+        var replyText = replyBox.find(".replyText")[0].value;
+        var isSpecification = replyBox.find("input[name='chkIsSpecification']")[0].checked;
+        var isSynthesis = replyBox.find("input[name='chkIsSynthesis']")[0].checked;
+        var isContribution = replyBox.find("input[name='chkIsContribution']")[0].checked;
+        var errorDisplay = replyBox.find(".msg-error");
+        var syntheses = null;
+        errorDisplay.html("");
+        $(".missingField").remove();
+
+        if (isSynthesis) {
+            syntheses = getSyntheses();
+            if (syntheses.length < 2) {
+                errorDisplay.append("Cannot synthesize fewer than 2 comments<br/>");
+                return;
+            }
+            if (syntheses.hasErrors) {
+                errorDisplay.append("Please include a subject for each sythesized comment</br>");
+                return;
+            }
+        }
+
+        if (validateComment(errorDisplay, replyText)) {
+            editCommentWithService(commentid, replyText, isSynthesis, isSpecification, isContribution, syntheses);
+        }
+    });
+
+    // "Is Synthesis" checkbox pressed
+    $(document).on("click", "input[name='chkIsSynthesis']", function () {
+        var replyBox = $(this).closest(".replyBox");
+        //replyBox.find(".synth-list").append("<li>comment</li>");
+        replyBox.find(".synthOptions").toggle();
+        synthList = replyBox.find(".synthList");
+        toggleSynthMode();
+    });
+
+    // Comment header pressed
+    // (for synthesis) TODO: change to either checkbox or button for choosing comments to synthesise
+    $(document).on("click", ".commentHead", function () {
+        if (synthModeEnbled) {
+            addSynth($(this).closest(".comment").data("commentid"));
+        }
+    });
+
+    // Remove synthesis button pressed
+    $(document).on("click", ".synthDelete", function () {
+        $(this).parent().remove();
+    })
+
+});
+
+
 
 //****************** HELPER FUNCTIONS ********************
 
@@ -443,16 +439,6 @@ function isBookmarked(commentID, options) {
     }
 }
 
-function attachmentClicked(event) {
-    // Get file id and filename from clicked tag
-    var contributionFileId = $(event.target).data("contribution-file-id");
-    var filename = $(event.target).data("filename");
-
-    // Direct to download controller
-    location.href = "/DownloadFile.ashx?ID=" + contributionFileId + "&Filename=" + filename;
-
-}
-
 //TODO: Add better validation?
 function validateComment(errorDisplay, replyText) {
     if (replyText.length == 0) {
@@ -525,114 +511,3 @@ function closeAllCommentForms(){
 }
 
 
-
-$(document).on("click", "#btn-filter-apply", function () {
-    // All comments is technically an array, even though 
-    //it should only have one element being the root of the tree
-    for (var i = 0; i < allComments.length; i++) {
-        filterCommentTree(allComments[i]);
-    }
-});
-
-$(document).on("click", "#btn-filter-remove", function () {
-    // All comments is technically an array, even though 
-    //it should only have one element being the root of the tree
-    for (var i = 0; i < allComments.length; i++) {
-        removeFiltersFromCommentTree(allComments[i]);
-    }
-});
-
-
-// Applies filter styling to a tree of comments
-// input: root of the tree
-// returns: 
-function filterCommentTree(node) {
-    // Recurse through tree, leaf-first
-
-    var anyChildIsVisible = false;
-    if (node.Children != null) {
-        for (var i = 0; i < node.Children.length; i++) {
-            var thisChildIsVisible = filterCommentTree(node.Children[i]);
-            anyChildIsVisible = anyChildIsVisible || thisChildIsVisible;
-        }
-    }
-
-    var commentElement = $("#" + node.CommentID);
-
-    // Process node
-    if (commentMatchesFilter(node)) {
-        // Set classes for visible
-        commentElement.removeClass("filter-hidden");
-        commentElement.removeClass("filter-faded");
-        return true;
-    } else if (anyChildIsVisible) {
-        // Set classes for faded
-        commentElement.removeClass("filter-hidden");
-        commentElement.addClass("filter-faded");
-        return true;
-    } else {
-        // Set classes for hidden
-        commentElement.addClass("filter-hidden");
-        commentElement.removeClass("filter-faded");
-        return false;
-    }
-}
-
-function commentMatchesFilter(comment) {
-    // Get filter settings from checkboxes
-    var showNormal = $("#chk-filter-normal").is(":checked");
-    var showSynth = $("#chk-filter-synth").is(":checked");
-    var showSpec = $("#chk-filter-spec").is(":checked");
-    var showContrib = $("#chk-filter-contrib").is(":checked");
-    var showBookmarked = $("#chk-filter-bookmarked").is(":checked");
-
-    return comment.ParentCommentID == null // Allways show first comment
-        || (showNormal && !comment.IsSynthesis && !comment.IsSpecification && !comment.IsContribution)
-		|| (showSynth && comment.IsSynthesis)
-		|| (showSpec && comment.IsSpecification)
-		|| (showContrib && comment.IsContribution)
-        || (showBookmarked && bookmarkedCommentIDs.includes(comment.CommentID));
-}
-
-function removeFiltersFromCommentTree(node) {
-    // Recurse through tree
-    if (node.Children != null) {
-        for (var i = 0; i < node.Children.length; i++) {
-            removeFiltersFromCommentTree(node.Children[i]);
-        }
-    }
-    // Set comments to visible
-    var commentElement = $("#" + node.CommentID);
-    commentElement.removeClass("filter-hidden");
-    commentElement.removeClass("filter-faded");
-}
-
-$(document).on("click", ".btnBookmark", function () {
-    var commentView = $(this).closest(".comment");
-    var commentID = commentView.data("commentid");
-    var args = {
-        sessionToken: sessionToken,
-        commentID: commentID
-    };
-
-    if (bookmarkedCommentIDs && bookmarkedCommentIDs.includes(commentID)) {
-        // Is currently bookmarked
-        serviceAjax("UnbookmarkComment", args, function () {
-            // Update stored model
-            // remove from array
-            bookmarkedCommentIDs.splice(bookmarkedCommentIDs.indexOf(commentID), 1);
-            // Update view
-            commentView.find(".bookmark:first").text("");
-            commentView.find(".btnBookmark:first").text("Bookmark");
-        }, handleServiceException, "text");
-    } else {
-        // Not bookmarked
-        serviceAjax("BookmarkComment", args, function () {
-            // Update stored model
-            bookmarkedCommentIDs.push(commentID);
-            // Update view
-            commentView.find(".bookmark:first").text("Bookmarked");
-            commentView.find(".btnBookmark:first").text("Unbookmark");
-        }, handleServiceException, "text");
-    }
-});

@@ -31,11 +31,14 @@
                 <div class="commentBody">
                     <p>{{BodyText}}</p>
                     {{#if IsSynthesis}}
-                        <ul>
+                        <div class="synth-links">
                             {{#each this.Syntheses}}
-                                <li data-commentid="{{LinkedCommentID}}" data-subject="{{Subject}}"><a href="#{{LinkedCommentID}}">[{{LinkedCommentID}}] {{Subject}}</a></li>
+								<a href="#{{LinkedCommentID}}" data-commentid="{{LinkedCommentID}}" data-subject="{{Subject}}">
+									[{{LinkedCommentID}}] {{Subject}}
+								</a>
+								<br/>
                             {{/each}}
-                        </ul>
+                        </div>
                     {{/if}}
                     {{#if IsContribution}}
                         <div class="attachments">

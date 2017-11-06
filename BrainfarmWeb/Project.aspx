@@ -13,6 +13,8 @@
     <script src="/scripts/ServiceAjax.js"></script>
     <script src="/scripts/Project.js"></script>
     <script src="/scripts/ProjectAutoFetch.js"></script>
+    <script src="/scripts/ProjectContribution.js"></script>
+    <script src="/scripts/ProjectFiltering.js"></script>
 
 </asp:Content>
 
