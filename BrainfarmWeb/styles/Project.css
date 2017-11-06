@@ -96,6 +96,17 @@
         font-weight:bolder;
     }
 
+    .comment .synth-links {
+        padding-left: 20px;
+    }
+    .comment .synth-links a, .comment .synth-links a:active {
+        color: #9d00ff; 
+        text-decoration: none;
+    }
+    .comment .synth-links a:hover {
+        font-weight:bolder;
+    }
+
     .comment.filter-hidden {
         display: none;
     }

@@ -85,7 +85,7 @@ $(document).ready(function () {
         var comment = $(this).closest(".comment");
         if (comment.hasClass("synth")) {
             comment.find("input[name='chkIsSynthesis']").trigger("click");
-            comment.find(".commentBody li").each(function () {
+            comment.find(".commentBody .synth-links a").each(function () {
                 addSynth($(this).data("commentid"), $(this).data("subject"));
             });
         }
