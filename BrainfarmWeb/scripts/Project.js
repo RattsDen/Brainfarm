@@ -298,10 +298,11 @@ function editCommentWithService(commentid, replyText, isSynthesis, isSpecificati
         sessionToken: sessionToken,
         commentID: commentid,
         bodyText: replyText,
-        syntheses: syntheses,
         isSynthesis: isSynthesis,
-        isContribution: isSpecification,
-        isSpecification: isContribution
+        isContribution: isContribution,
+        isSpecification: isSpecification,
+        syntheses: syntheses,
+        attachments: isContribution ? pendingFileUploads : null
     }
 
     serviceAjax("EditComment", args, reloadAndDisplayAllComments, handleServiceException);

@@ -54,8 +54,6 @@ VALUES(@ProjectID
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
-            // TODO: Implement this method
-
             BeginTransaction();
 
             try
@@ -115,6 +113,7 @@ VALUES(@ProjectID
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
+            BeginTransaction();
             int rowsAffected;
 
             try
@@ -137,31 +136,29 @@ VALUES(@ProjectID
 
                 // Do not make changes to contribution files if the comment is still a 
                 //contribution comment and no attachments were specified.
-                using (ContributionFileDBAccess contributionFileDBAccess
-                    = new ContributionFileDBAccess(this))
+                ContributionFileDBAccess contributionFileDBAccess
+                    = new ContributionFileDBAccess(this);
+                if (isContribution)
                 {
-                    if (isContribution)
+                    if (attachments != null && attachments.Length > 0)
                     {
-                        if (attachments != null && attachments.Length > 0)
-                        {
-                            // Comment is a contribution and new files have been specified
+                        // Comment is a contribution and new files have been specified
 
-                            // Remove existing contribution files
-                            contributionFileDBAccess.DeleteAllFilesForComment(commentID);
-                            // Attach each contribution file
-                            foreach (FileAttachmentRequest attachment in attachments)
-                            {
-                                contributionFileDBAccess.AttachFileToComment(
-                                    attachment.ContributionFileID, commentID, attachment.Filename);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Comment is not a contribution
                         // Remove existing contribution files
                         contributionFileDBAccess.DeleteAllFilesForComment(commentID);
+                        // Attach each contribution file
+                        foreach (FileAttachmentRequest attachment in attachments)
+                        {
+                            contributionFileDBAccess.AttachFileToComment(
+                                attachment.ContributionFileID, commentID, attachment.Filename);
+                        }
                     }
+                }
+                else
+                {
+                    // Comment is not a contribution
+                    // Remove existing contribution files
+                    contributionFileDBAccess.DeleteAllFilesForComment(commentID);
                 }
 
                 Commit();
