@@ -22,6 +22,7 @@ namespace BrainfarmWeb
                 try
                 {
                     svc.RegisterUser(txtUsername.Text, txtNewPassword.Text, txtEmail.Text);
+                    Session["ServiceSessionToken"] = svc.Login(txtUsername.Text, txtNewPassword.Text, false);
                     Response.Redirect("Default.aspx");
                 }
                 catch (Exception ex)

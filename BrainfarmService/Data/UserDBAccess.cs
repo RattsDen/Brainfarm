@@ -67,7 +67,7 @@ SELECT COUNT(*)
             string sql = @"
 SELECT COUNT(*)
   FROM [User]
- WHERE Email = @Email
+ WHERE Email = @Email AND Email != ''
 ";
             using (SqlCommand command = GetNewCommand(sql))
             {

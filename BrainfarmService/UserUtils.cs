@@ -20,6 +20,10 @@ namespace BrainfarmService
 
         public static bool CheckEmailRequirements(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return true;
+            }
             // Regex is easy to read isn't it?
             // address@domain.tld
             string pattern = @"^.+?@.+?\..+?$";
