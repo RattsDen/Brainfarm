@@ -198,7 +198,8 @@ namespace BrainfarmService
         {
             if (bodyText == null || bodyText == "")
             {
-                throw new FaultException("Comment Body must not be empty");
+                throw new FaultException("Comment Body must not be empty",
+                    new FaultCode("MISSING_COMMENT_BODY"));
             }
 
             // Get user from session
@@ -223,11 +224,12 @@ namespace BrainfarmService
 
         public Comment EditComment(string sessionToken, int commentID,
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
             if (bodyText == null || bodyText == "")
             {
-                throw new FaultException("Comment Body must not be empty");
+                throw new FaultException("Comment Body must not be empty",
+                    new FaultCode("MISSING_COMMENT_BODY"));
             }
 
             // Get user from session
@@ -237,8 +239,14 @@ namespace BrainfarmService
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
+                    // Throw exception if user is not comment owner
+                    if (commentDBAccess.GetComment(commentID).UserID != user.UserID)
+                        throw new FaultException("You do not have permission to do that",
+                            new FaultCode("INVALID_PERMISSIONS"));
+
                     int rowsAffected = commentDBAccess.EditComment(commentID, user.UserID, 
-                        bodyText, isSynthesis, isContribution, isSpecification, syntheses);
+                        bodyText, isSynthesis, isContribution, isSpecification, 
+                        syntheses, attachments);
                     if (rowsAffected == 0)
                     {
                         throw new FaultException("Unable to edit comment",
@@ -414,7 +422,12 @@ namespace BrainfarmService
             {
                 using (CommentDBAccess commentDBAccess = new CommentDBAccess())
                 {
-                    int rowsAffected = commentDBAccess.RemoveComment(commentID, user.UserID);
+                    // Throw exception if user is not comment owner
+                    if (commentDBAccess.GetComment(commentID).UserID != user.UserID)
+                        throw new FaultException("You do not have permission to do that",
+                            new FaultCode("INVALID_PERMISSIONS"));
+
+                    int rowsAffected = commentDBAccess.RemoveComment(commentID);
 
                     if (rowsAffected == 0)
                     {

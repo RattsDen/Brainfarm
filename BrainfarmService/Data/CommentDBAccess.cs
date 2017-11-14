@@ -54,8 +54,6 @@ VALUES(@ProjectID
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
-            // TODO: Implement this method
-
             BeginTransaction();
 
             try
@@ -113,17 +111,20 @@ VALUES(@ProjectID
         //returns number of rows affected by update
         public int EditComment(int commentID, int userID, 
             string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses)
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments)
         {
+            BeginTransaction();
             int rowsAffected;
 
             try
             {
                 rowsAffected = UpdateComment(commentID, userID, bodyText, isSynthesis, isContribution, isSpecification);
 
+                // Remove any existing syntheses
+                DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
+                // (re)create any syntheses specified
                 if (isSynthesis)
                 {
-                    DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
                     if (syntheses != null)
                     {
                         foreach (SynthesisRequest synthesis in syntheses)
@@ -132,14 +133,42 @@ VALUES(@ProjectID
                         }
                     }
                 }
+
+                // Do not make changes to contribution files if the comment is still a 
+                //contribution comment and no attachments were specified.
+                ContributionFileDBAccess contributionFileDBAccess
+                    = new ContributionFileDBAccess(this);
+                if (isContribution)
+                {
+                    if (attachments != null && attachments.Length > 0)
+                    {
+                        // Comment is a contribution and new files have been specified
+
+                        // Remove existing contribution files
+                        contributionFileDBAccess.DeleteAllFilesForComment(commentID);
+                        // Attach each contribution file
+                        foreach (FileAttachmentRequest attachment in attachments)
+                        {
+                            contributionFileDBAccess.AttachFileToComment(
+                                attachment.ContributionFileID, commentID, attachment.Filename);
+                        }
+                    }
+                }
+                else
+                {
+                    // Comment is not a contribution
+                    // Remove existing contribution files
+                    contributionFileDBAccess.DeleteAllFilesForComment(commentID);
+                }
+
+                Commit();
+                return rowsAffected;
             }
             catch (Exception ex)
             {
                 Rollback();
                 throw ex;
             }
-
-            return rowsAffected;
         }
 
         public int UpdateComment(int commentID, int userID,
@@ -210,21 +239,40 @@ SELECT SCOPE_IDENTITY();
             }
         }
 
-        public int RemoveComment(int commentID, int userID)
+        public int RemoveComment(int commentID)
         {
-            string sql = @"
-UPDATE Comment SET
-EditedDate = @EditedDate,
-IsRemoved = 1
-WHERE CommentID = @CommentID AND UserID = @UserID
-";
-            using (SqlCommand command = GetNewCommand(sql))
+            try
             {
-                command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
-                command.Parameters.AddWithValue("@CommentID", commentID);
-                command.Parameters.AddWithValue("@UserID", userID);
+                BeginTransaction();
+                int rowsAffected;
 
-                return Convert.ToInt32(command.ExecuteNonQuery());
+                // Remove synthesis junctions
+                DeleteAllSynthesisJunctionsWithSynthCommentID(commentID);
+                // Remove contribution files
+                new ContributionFileDBAccess(this).DeleteAllFilesForComment(commentID);
+
+                // Update comment
+                string sql = @"
+UPDATE Comment 
+   SET EditedDate = @EditedDate,
+       IsRemoved = 1
+ WHERE CommentID = @CommentID
+";
+
+                using (SqlCommand command = GetNewCommand(sql))
+                {
+                    command.Parameters.AddWithValue("@EditedDate", DateTime.Now);
+                    command.Parameters.AddWithValue("@CommentID", commentID);
+                    rowsAffected = Convert.ToInt32(command.ExecuteNonQuery());
+                }
+
+                Commit();
+                return rowsAffected;
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
             }
         }
 

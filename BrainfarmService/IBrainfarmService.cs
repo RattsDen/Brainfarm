@@ -63,16 +63,6 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         Project CreateProject(string sessionToken, string title, string[] tags, string firstCommentBody);
-
-        [OperationContract]
-        [WebInvoke]
-        Comment EditComment(string sessionToken, int commentID,
-            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
-            SynthesisRequest[] syntheses);
-
-        [OperationContract]
-        [WebInvoke]
-        int RemoveComment(string sessionToken, int commentID);
         
         [OperationContract]
         [WebInvoke]
@@ -81,15 +71,40 @@ namespace BrainfarmService
         [OperationContract]
         [WebInvoke]
         Comment CreateComment(string sessionToken, int projectID, int parentCommentID, 
-            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification, 
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
             SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments);
+
+        /// <summary>
+        /// Edit an existing comment.
+        /// </summary>
+        /// <param name="sessionToken">Token identifying current user. Obtained from Login method.</param>
+        /// <param name="commentID">ID of comment to edit</param>
+        /// <param name="bodyText">New body text of comment</param>
+        /// <param name="isSynthesis">Bool specifying if comment is a synthesis</param>
+        /// <param name="isContribution">Bool specifying if comment is a contribution</param>
+        /// <param name="isSpecification">Bool specifying if comment is a specification</param>
+        /// <param name="syntheses">Array of SynthesisRequest objects specifying links to other comments</param>
+        /// <param name="attachments">
+        /// Array of FileAttachmentRequest objects specifying contribution files to be attached to this comment. 
+        /// Pass null or an empty array to leave file attachments unchanged.
+        /// </param>
+        /// <returns></returns>
+        [OperationContract]
+        [WebInvoke]
+        Comment EditComment(string sessionToken, int commentID,
+            string bodyText, bool isSynthesis, bool isContribution, bool isSpecification,
+            SynthesisRequest[] syntheses, FileAttachmentRequest[] attachments);
+
+        [OperationContract]
+        [WebInvoke]
+        int RemoveComment(string sessionToken, int commentID);
 
         [OperationContract]
         [WebInvoke]
         ContributionFile UploadFile(Stream stream);
 
         [OperationContract]
-        [WebInvoke] // WebInvoke might not work here without some tinkering
+        [WebInvoke]
         Stream DownloadFile(int contributionFileID);
 
         [OperationContract]

@@ -137,5 +137,17 @@ SELECT ContributionFileID
             return contributionFiles;
         }
 
+        public int DeleteAllFilesForComment(int commentID) {
+            string sql = @"
+DELETE ContributionFile
+ WHERE CommentID = @CommentID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@CommentID", commentID);
+                return command.ExecuteNonQuery();
+            }
+        }
+
     }
 }

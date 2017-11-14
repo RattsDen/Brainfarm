@@ -12,31 +12,31 @@
                 #{{CommentID}}
             </span>
         </div>
-        <div class="commentRibbons">
-            {{#unless ParentCommentID}}
-                <div class="ribbon initial">PROJECT</div>
-            {{/unless}}
-            {{#if IsSynthesis}}
-                <div class="ribbon synth">SYNTHESIS</div>
-            {{/if}}
-            {{#if IsSpecification}}
-                <div class="ribbon spec">SPECIFICATION</div>
-            {{/if}}
-            {{#if IsContribution}}
-                <div class="ribbon contrib">CONTRIBUTION</div>
-            {{/if}}
-        </div>
         {{#unless IsRemoved}}
+            <div class="commentRibbons">
+                {{#unless ParentCommentID}}
+                    <div class="ribbon initial">PROJECT</div>
+                {{/unless}}
+                {{#if IsSynthesis}}
+                    <div class="ribbon synth">SYNTHESIS</div>
+                {{/if}}
+                {{#if IsSpecification}}
+                    <div class="ribbon spec">SPECIFICATION</div>
+                {{/if}}
+                {{#if IsContribution}}
+                    <div class="ribbon contrib">CONTRIBUTION</div>
+                {{/if}}
+            </div>
             <div class="commentContent">
                 <div class="commentBody">
                     <p>{{BodyText}}</p>
                     {{#if IsSynthesis}}
                         <div class="synth-links">
                             {{#each this.Syntheses}}
-								<a href="#{{LinkedCommentID}}" data-commentid="{{LinkedCommentID}}" data-subject="{{Subject}}">
-									[{{LinkedCommentID}}] {{Subject}}
-								</a>
-								<br/>
+                                <a href="#{{LinkedCommentID}}" data-commentid="{{LinkedCommentID}}" data-subject="{{Subject}}">
+                                    [{{LinkedCommentID}}] {{Subject}}
+                                </a>
+                                <br/>
                             {{/each}}
                         </div>
                     {{/if}}
@@ -50,22 +50,22 @@
                     {{/if}}
                 </div>
                 <div class="commentOptions">
-				{{#isUserLoggedIn}}
-					<a class="btnReply" href="javascript:;">Reply</a>
-						<a class="btnBookmark" href="javascript:;">
-							{{#isBookmarked CommentID}}
-								Unbookmark
-							{{else}}
-								Bookmark
-							{{/isBookmarked}}
-						</a>
-					{{#isCurrentUser UserID}}
-						<a class="btnEdit" href="javascript:;">Edit</a>
-						<a class="btnRemove" href="javascript:;">Remove</a>
-					{{/isCurrentUser}}
-				{{else}}
-					<a class="btnLoginMessage" href="javascript:;">Log In to Reply</a>
-				{{/isUserLoggedIn}}
+                {{#isUserLoggedIn}}
+                    <a class="btnReply" href="javascript:;">Reply</a>
+                        <a class="btnBookmark" href="javascript:;">
+                            {{#isBookmarked CommentID}}
+                                Unbookmark
+                            {{else}}
+                                Bookmark
+                            {{/isBookmarked}}
+                        </a>
+                    {{#isCurrentUser UserID}}
+                        <a class="btnEdit" href="javascript:;">Edit</a>
+                        <a class="btnRemove" href="javascript:;">Remove</a>
+                    {{/isCurrentUser}}
+                {{else}}
+                    <a class="btnLoginMessage" href="javascript:;">Log In to Reply</a>
+                {{/isUserLoggedIn}}
                 </div>
             </div>
         {{/unless}}
