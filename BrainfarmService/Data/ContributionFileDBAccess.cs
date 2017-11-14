@@ -50,7 +50,7 @@ SELECT Data
                     if (reader.Read())
                         return reader.GetStream(reader.GetOrdinal("Data"));
                     else
-                        throw new EntityNotFoundException();
+                        throw new EntityNotFoundException(typeof(ContributionFile));
                 }
             }
         }
@@ -72,7 +72,7 @@ SELECT ContributionFileID
                     if (reader.Read())
                         return ReadContributionFile(reader);
                     else
-                        throw new EntityNotFoundException();
+                        throw new EntityNotFoundException(typeof(ContributionFile));
                 }
             }
         }
@@ -108,7 +108,7 @@ UPDATE ContributionFile
 
                 // Throw exception if nothing was updated
                 if (rowsAffected == 0)
-                    throw new EntityNotFoundException();
+                    throw new EntityNotFoundException(typeof(ContributionFile));
             }
         }
 

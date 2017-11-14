@@ -143,5 +143,17 @@ namespace BrainfarmService
         [WebInvoke]
         List<int> GetBookmarksForProject(string sessionToken, int projectID);
 
+        [OperationContract]
+        [WebInvoke]
+        Rating AddRating(string sessionToken, int commentID);
+
+        [OperationContract]
+        [WebInvoke]
+        Rating RemoveRating(string sessionToken, int commentID);
+
+        [OperationContract]
+        [WebInvoke]
+        List<Rating> GetUserRatings(string sessionToken, int? projectID);
+
     }
 }

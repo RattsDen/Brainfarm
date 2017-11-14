@@ -482,7 +482,7 @@ namespace BrainfarmService
                     bookmarkDBAccess.UnbookmarkComment(user.UserID, commentID);
                 }
             }
-            catch (SqlException e)
+            catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
@@ -503,6 +503,95 @@ namespace BrainfarmService
                 {
                     return bookmarkDBAccess.GetBookmarksForProject(user.UserID, projectID);
                 }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public Rating AddRating(string sessionToken, int commentID)
+        {
+            User user = GetCurrentUser(sessionToken);
+
+            try
+            {
+                using (DBAccess dbAccess = new DBAccess())
+                {
+                    CommentDBAccess commentDBAccess = new CommentDBAccess(dbAccess);
+                    RatingDBAccess ratingDBAccess = new RatingDBAccess(dbAccess);
+
+                    // Test to see if comment exists - will throw exception if not
+                    commentDBAccess.GetComment(commentID);
+
+                    // Test to see if rating already exists
+                    if (ratingDBAccess.RatingExists(user.UserID, commentID))
+                        throw new FaultException("Rating already exists",
+                        new FaultCode("DUPLICATE_RATING"));
+
+                    ratingDBAccess.AddRating(user.UserID, commentID, 1);
+                    return ratingDBAccess.GetRating(user.UserID, commentID);
+                }
+            }
+            catch (EntityNotFoundException ex)
+            {
+                if (ex.EntityType == typeof(Comment))
+                {
+                    throw new FaultException("Comment does not exist",
+                        new FaultCode("UNKNOWN_COMMENT"));
+                }
+                else // ex.EntityType == typeof(Rating)
+                {
+                    throw new FaultException("Rating could not be added",
+                        new FaultCode("RATING_NOT_CREATED"));
+                }
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public Rating RemoveRating(string sessionToken, int commentID)
+        {
+            User user = GetCurrentUser(sessionToken);
+            try
+            {
+                using (RatingDBAccess ratingDBAccess = new RatingDBAccess())
+                {
+                    Rating rating = ratingDBAccess.GetRating(user.UserID, commentID);
+                    ratingDBAccess.RemoveRating(user.UserID, commentID);
+                    return rating;
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("Rating could not be removed because it does not exist",
+                    new FaultCode("UNKNOWN_RATING"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public List<Rating> GetUserRatings(string sessionToken, int? projectID)
+        {
+            User user = GetCurrentUser(sessionToken);
+            try
+            {
+                using (RatingDBAccess ratingDBAccess = new RatingDBAccess())
+                {
+                    return ratingDBAccess.GetUserRatings(user.UserID, projectID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("Rating does not exist",
+                    new FaultCode("UNKNOWN_RATING"));
             }
             catch (SqlException)
             {

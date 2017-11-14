@@ -32,7 +32,7 @@ SELECT UserID
                     if (reader.Read())
                         return ReadUser(reader);
                     else
-                        throw new EntityNotFoundException();
+                        throw new EntityNotFoundException(typeof(User));
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace BrainfarmService.Data
 
         // Extra fields
         public string Username { get; set; }
-        public bool IsBookmarked { get; set; }
+        public int Score { get; set; }
         public List<Comment> Children { get; set; }
         public List<int> LinkingCommentIDs { get; set; } // Synthesis comments that link to this
         public List<SynthesisJunction> Syntheses { get; set; } // Comments that this synthesis links to

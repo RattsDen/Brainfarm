@@ -92,6 +92,8 @@
     <Compile Include="Data\ContributionFile.cs" />
     <Compile Include="Data\FileAttachmentRequest.cs" />
     <Compile Include="Data\Project.cs" />
+    <Compile Include="Data\Rating.cs" />
+    <Compile Include="Data\RatingDBAccess.cs" />
     <Compile Include="Data\SynthesisJunction.cs" />
     <Compile Include="Data\SynthesisRequest.cs" />
     <Compile Include="Data\User.cs" />
