@@ -127,5 +127,37 @@ SELECT UserID
                 }
             }
         }
+
+        public int UpdateUserEmail(int userID, string newEmail)
+        {
+            string sql = @"
+UPDATE [User]
+SET Email = @Email
+WHERE UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@Email", newEmail);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+
+        public int UpdateUserPassword(int userID, string newPassword)
+        {
+            string sql = @"
+UPDATE [User]
+SET PasswordHash = @Password
+WHERE UserID = @UserID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@Password", newPassword);
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                return Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
     }
 }

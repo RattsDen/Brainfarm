@@ -26,7 +26,7 @@ namespace BrainfarmService
             }
             // Regex is easy to read isn't it?
             // address@domain.tld
-            string pattern = @"^.+?@.+?\..+?$";
+            string pattern = @"^[a-zA-Z0-9_.-]+?@[a-zA-Z0-9-_.]+?\..{2,}?$";
             return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
         }
 

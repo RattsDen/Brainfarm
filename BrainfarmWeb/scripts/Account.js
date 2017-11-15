@@ -1,7 +1,7 @@
 ﻿var commentTemplate;
 
 $(document).ready(function () {
-
+    
     $.when(getUserComments(), getCommentTemplate())
         .done(function (commentsResp, templateResp) {
             if (commentsResp[1] == "success" && templateResp[1] == "success") {
@@ -17,6 +17,10 @@ $(document).ready(function () {
 
     $(document).on("click", "#btn-user-comments", function () {
         showTab("#btn-user-comments", "#div-comments");
+    });
+
+    $(document).on("click", "#btn-edit-account", function () {
+        showTab("#btn-edit-account", "#div-edit-account");
     });
 
     // Project clicked - go to project

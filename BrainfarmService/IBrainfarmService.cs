@@ -45,6 +45,14 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
+        User UpdateUserEmail(string sessionToken, string newEmail);
+
+        [OperationContract]
+        [WebInvoke]
+        User ChangePassword(string sessionToken, string oldPassword, string newPassword);
+
+        [OperationContract]
+        [WebInvoke]
         string Login(string username, string password, bool keepLoggedIn);
 
         [OperationContract]
