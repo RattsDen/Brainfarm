@@ -14,6 +14,22 @@
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+
+    <script>
+        // Make sidebar scroll with window but attach to header
+        $(document).ready(function () {
+            var sidebar = $("#div-sidebar");
+            var header = $("#div-header");
+            $(window).on("scroll", function () {
+                var y = header.height() - window.pageYOffset + 10;
+                if (y < 0)
+                    y = 0;
+                sidebar.css("top", y + "px");
+                console.log(header.height());
+            });
+        });
+        
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
