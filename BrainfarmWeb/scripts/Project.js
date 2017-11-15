@@ -296,7 +296,7 @@ $(document).ready(function () {
     // Remove synthesis button pressed
     $(document).on("click", ".synthDelete", function () {
         $(this).parent().remove();
-    })
+    });
 
 });
 
@@ -611,5 +611,3 @@ function closeAllCommentForms(){
         $(this).find(".btn-cancelEdit").trigger("click");
     });
 }
-
-

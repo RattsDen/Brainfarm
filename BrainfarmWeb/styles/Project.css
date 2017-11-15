@@ -204,7 +204,7 @@
     margin: 5px;
 }
 
-#div-filter-options {
+#div-filter-options, #div-sort-options {
     display: flex;
     flex-direction: column;
     margin-bottom: 5px;
