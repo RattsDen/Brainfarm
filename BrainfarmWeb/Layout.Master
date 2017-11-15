@@ -5,7 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Brainfarm</title>
+    <!-- Site-wide stylesheet -->
     <link rel="stylesheet" href="/styles/GlobalStyles.css"/>
+    <!-- Fontawesome stylesheet from Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <script src="/plugins/jquery-3.2.1.min.js"></script>
 
