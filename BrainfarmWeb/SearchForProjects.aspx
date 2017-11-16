@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout.Master" AutoEventWireup="true" CodeBehind="SearchForProjects.aspx.cs" Inherits="BrainfarmWeb.SearchForProjects" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" href="/styles/Search.css"/>
     <link rel="stylesheet" href="/styles/ProjectList.css"/>
     <script src="/scripts/SearchForProjects.js"></script>
 </asp:Content>

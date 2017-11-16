@@ -14,15 +14,17 @@ namespace BrainfarmWeb
     {
         protected string sessionToken;
         protected int userID;
+        private User currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            currentUser = GetCurrentUser();
+            // Set instance variables to be injected into javascript
+            sessionToken = (string)Session["ServiceSessionToken"];
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
-            User currentUser = GetCurrentUser();
             if (currentUser == null)
             {
                 Response.StatusCode = 400;
@@ -44,6 +46,12 @@ namespace BrainfarmWeb
             {
 
             }
+
+            lblUserName.Text = currentUser.Username;
+            txtSetEmail.Text = currentUser.Email;
+
+            lblMessage.Visible = (lblMessage.Text != "");
+            lblError.Visible = (lblError.Text != "");
 
             // Set instance variables to be injected into javascript
             sessionToken = (string)Session["ServiceSessionToken"];
@@ -92,8 +100,6 @@ namespace BrainfarmWeb
 
         private User GetCurrentUser()
         {
-            User currentUser = null;
-
             // Get current user
             if (Session["ServiceSessionToken"] != null)
             {
@@ -104,10 +110,6 @@ namespace BrainfarmWeb
                     {
                         currentUser = svc.GetCurrentUser((string)Session["ServiceSessionToken"]);
                     }
-                }
-                catch (FaultException ex)
-                {
-                    currentUser = null;
                 }
                 catch
                 {
@@ -129,6 +131,45 @@ namespace BrainfarmWeb
             }
 
             return currentUser;
+        }
+
+        protected void btnUpdateEmail_Click(object sender, EventArgs e)
+        {
+            if (currentUser != null)
+            {
+                try
+                {
+                    using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
+                    {
+                        currentUser = svc.UpdateUserEmail(sessionToken, txtSetEmail.Text);
+                        lblMessage.Text = "Email changed successfully";
+                        lblError.Text = "";
+                    }
+                }
+                catch (FaultException ex)
+                {
+                    lblError.Text = ex.Message;
+                    lblMessage.Text = "";
+                }
+            }
+        }
+
+        protected void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
+                {
+                    currentUser = svc.ChangePassword(sessionToken, txtOldPasswordAuth.Text, txtNewPassword.Text);
+                    lblMessage.Text = "Password changed successfully";
+                    lblError.Text = "";
+                }
+            }
+            catch (FaultException ex)
+            {
+                lblError.Text = ex.Message;
+                lblMessage.Text = "";
+            }
         }
     }
 }
