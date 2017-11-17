@@ -11,6 +11,6 @@ namespace BrainfarmService.Data
         // Database fields
         public int UserID { get; set; }
         public int CommentID { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }
