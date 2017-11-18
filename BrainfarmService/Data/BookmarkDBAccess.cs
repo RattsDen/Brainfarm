@@ -148,8 +148,11 @@ SELECT CommentID
                 command.Parameters.AddWithValue("UserID", userID);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    int commentID = (int)reader["CommentID"];
-                    results.Add(GetBookmark(userID, commentID));
+                    while (reader.Read())
+                    {
+                        int commentID = (int)reader["CommentID"];
+                        results.Add(GetBookmark(userID, commentID));
+                    }
                 }
             }
             return results;

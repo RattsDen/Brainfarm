@@ -3,9 +3,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link rel="stylesheet" href="/styles/Dashboard.css"/>
+    <link rel="stylesheet" href="/styles/Project.css"/>
     <link rel="stylesheet" href="/styles/ProjectList.css"/>
-
+    
+    <script src="/plugins/handlebars-v4.0.10.js"></script>
+    <script src="/scripts/ServiceAjax.js"></script>
     <script src="/scripts/Dashboard.js"></script>
+
+    <script>
+        var sessionToken = "<%= sessionToken %>";
+    </script>
 
 </asp:Content>
 
@@ -34,7 +41,7 @@
         </div>
     </asp:Panel>
 
-    <div id="div-dashboard">
+    <div class="div-dashboard">
 
         <asp:Panel runat="server" ID="panelPopular" CssClass="panel div-dashboard-column">
             <h3>Popular Projects</h3>
@@ -44,8 +51,13 @@
             <h3>Recommended Projects</h3>
         </asp:Panel>
 
+    </div>
+    <div class="div-dashboard">
+
         <asp:Panel runat="server" ID="panelBookmarks" CssClass="panel div-dashboard-column">
-            <h3>Your Bookmarks</h3>
+            <h3>Your Recent Bookmarks</h3>
+            <div id="div-bookmarks-list">
+            </div>
         </asp:Panel>
 
     </div>

@@ -2,12 +2,13 @@
 
 $(document).ready(function () {
 
-    $.when(getUserComments(), getCommentTemplate())
-        .done(function (commentsResp, templateResp) {
-            if (commentsResp[1] == "success" && templateResp[1] == "success") {
+    $.when(getUserComments(), getUserBookmarkedComments(), getCommentTemplate())
+        .done(function (commentsResp, bookmarksResp, templateResp) {
+            if (commentsResp[1] == "success" && bookmarksResp[1] == "success" && templateResp[1] == "success") {
                 console.log(commentsResp);
                 prepareCommentTemplate(templateResp[0]);
-                processComments(commentsResp[0]);
+                processComments(commentsResp[0], "#div-comments-list");
+                processComments(bookmarksResp[0], "#div-bookmarks-list");
             }
         });
 
@@ -17,6 +18,10 @@ $(document).ready(function () {
 
     $(document).on("click", "#btn-user-comments", function () {
         showTab("#btn-user-comments", "#div-comments");
+    });
+
+    $(document).on("click", "#btn-user-bookmarks", function () {
+        showTab("#btn-user-bookmarks", "#div-bookmarks");
     });
 
     // Project clicked - go to project
@@ -42,6 +47,13 @@ function getUserComments() {
     return serviceAjax("GetUserComments", args, null, null);
 }
 
+function getUserBookmarkedComments() {
+    var args = {
+        sessionToken: sessionToken
+    };
+    return serviceAjax("GetUserBookmarkedComments", args, null, null);
+}
+
 function getCommentTemplate() {
     return $.ajax({
         "type": "GET",
@@ -54,11 +66,11 @@ function prepareCommentTemplate(templateText) {
     commentTemplate = Handlebars.compile(templateText);
 }
 
-function processComments(comments) {
-    var target = $("#div-comments-list");
+function processComments(comments, targetId) {
+    var target = $(targetId);
     var commentHTML = layoutComments(comments);
     $(target).html(commentHTML);
-    console.log(comments);
+    //console.log(comments);
 }
 
 function layoutComments(comments) {

@@ -12,6 +12,8 @@ namespace BrainfarmWeb
 {
     public partial class Default : System.Web.UI.Page
     {
+        protected string sessionToken;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -19,6 +21,7 @@ namespace BrainfarmWeb
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
+            sessionToken = (string)Session["ServiceSessionToken"];
             User currentUser = GetCurrentUser();
 
             // Display propper dashboard content

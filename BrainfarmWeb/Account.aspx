@@ -22,6 +22,7 @@
     <div id="div-tabs" class="panel">
         <a href="javascript:;" id="btn-user-projects" class="btn btn-dark">My Projects</a>
         <a href="javascript:;" id="btn-user-comments" class="btn">My Comments</a>
+        <a href="javascript:;" id="btn-user-bookmarks" class="btn">My Bookmarks</a>
     </div>
 
     <div id="div-projects" class="panel tab">
@@ -33,6 +34,12 @@
     <div id="div-comments" class="panel tab hidden-default">
         <h3>My Comments</h3>
         <div id="div-comments-list">
+        </div>
+    </div>
+
+    <div id="div-bookmarks" class="panel tab hidden-default">
+        <h3>My Bookmarks</h3>
+        <div id="div-bookmarks-list">
         </div>
     </div>
 
