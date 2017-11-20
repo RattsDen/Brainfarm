@@ -10,14 +10,14 @@ using System.ServiceModel;
 
 namespace BrainfarmWeb
 {
-    public partial class Account : System.Web.UI.Page
+    public partial class Account : BrainfarmPage
     {
         protected string sessionToken;
         protected int userID;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-
+            base.Page_Load(sender, e);
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace BrainfarmWeb
             }
 
             // Set instance variables to be injected into javascript
-            sessionToken = (string)Session["ServiceSessionToken"];
+            sessionToken = GetServiceSessionToken();
             userID = currentUser.UserID;
         }
 
@@ -88,47 +88,6 @@ namespace BrainfarmWeb
                 projectPanels.Add(projectPanel);
             }
             return projectPanels;
-        }
-
-        private User GetCurrentUser()
-        {
-            User currentUser = null;
-
-            // Get current user
-            if (Session["ServiceSessionToken"] != null)
-            {
-                // Service session token exists - user should be logged in
-                try
-                {
-                    using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                    {
-                        currentUser = svc.GetCurrentUser((string)Session["ServiceSessionToken"]);
-                    }
-                }
-                catch (FaultException ex)
-                {
-                    currentUser = null;
-                }
-                catch
-                {
-                    Response.StatusCode = 500;
-                    Response.Redirect("/error/500.html");
-                }
-                // If service responds with null, clear the attempted session token and return to the homepage
-                // Essentially, if the session is no longer valid, make it look like a logout
-                if (currentUser == null)
-                {
-                    Session.Remove("ServiceSessionToken");
-                    Response.Redirect("/Default.aspx");
-                }
-            }
-            else
-            {
-                // Service session token does not exist - user not logged in
-                currentUser = null;
-            }
-
-            return currentUser;
         }
     }
 }

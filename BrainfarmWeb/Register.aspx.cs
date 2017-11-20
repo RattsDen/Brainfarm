@@ -8,11 +8,11 @@ using BrainfarmWeb.BrainfarmServiceReference;
 
 namespace BrainfarmWeb
 {
-    public partial class Register : System.Web.UI.Page
+    public partial class Register : BrainfarmPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-
+            base.Page_Load(sender, e);
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)

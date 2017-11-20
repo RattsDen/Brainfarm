@@ -164,6 +164,9 @@
     <Compile Include="Account.aspx.designer.cs">
       <DependentUpon>Account.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BrainfarmPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="CreateProject.aspx.cs">
       <DependentUpon>CreateProject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

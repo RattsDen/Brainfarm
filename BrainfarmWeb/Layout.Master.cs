@@ -24,40 +24,12 @@ namespace BrainfarmWeb
         private void SetHeaderContent()
         {
             User currentUser;
-
-            // Get current user
-            if (Session["ServiceSessionToken"] != null)
+            if (this.Page is BrainfarmPage)
             {
-                // Service session token exists - user should be logged in
-                using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                {
-                    try
-                    {
-                        currentUser = svc.GetCurrentUser((string)Session["ServiceSessionToken"]);
-                    }
-                    catch (FaultException ex)
-                    {
-                        currentUser = null;
-                    }
-                    catch
-                    {
-                        Response.StatusCode = 500;
-                        Response.Redirect("/error/500.html");
-                        return;
-                    }
-                }
-                // If service responds with null, clear the attempted session token and return to the homepage
-                // Essentially, if the session is no longer valid, make it look like a logout
-                if (currentUser == null)
-                {
-                    Session.Remove("ServiceSessionToken");
-                    Response.Redirect("/Default.aspx");
-                    return;
-                }
+                currentUser = ((BrainfarmPage)this.Page).GetCurrentUser();
             }
             else
             {
-                // Service session token does not exist - user not logged in
                 currentUser = null;
             }
 
@@ -88,7 +60,7 @@ namespace BrainfarmWeb
                 try
                 {
                     string serviceSessionToken = svc.Login(username, password, remember);
-                    Session["ServiceSessionToken"] = serviceSessionToken;
+                    ((BrainfarmPage)this.Page).SetServiceSessionToken(serviceSessionToken);
                 }
                 catch (FaultException ex)
                 {
@@ -111,11 +83,11 @@ namespace BrainfarmWeb
 
         private void Logout()
         {
-            if (Session["ServiceSessionToken"] != null)
+            if (((BrainfarmPage)this.Page) != null)
             {
                 // Service uses JWTs to track state. 
                 // Logging out using JWTs simply meants throwing away your token.
-                Session.Remove("ServiceSessionToken");
+                ((BrainfarmPage)this.Page).SetServiceSessionToken(null);
             }
         }
 

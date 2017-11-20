@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace BrainfarmWeb
 {
-    public partial class SearchForProjects : System.Web.UI.Page
+    public partial class SearchForProjects : BrainfarmPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-
+            base.Page_Load(sender, e);
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
