@@ -1,24 +1,36 @@
-﻿$(document).ready(function () {
+﻿var filterIsApplied = false;
+
+$(document).ready(function () {
 
     // Apply filter clicked
     $(document).on("click", "#btn-filter-apply", function () {
-        // All comments is technically an array, even though 
-        //it should only have one element being the root of the tree
-        for (var i = 0; i < allComments.length; i++) {
-            filterCommentTree(allComments[i]);
-        }
+        applyFilter();
     });
 
     // Remove filter clicked
     $(document).on("click", "#btn-filter-remove", function () {
-        // All comments is technically an array, even though 
-        //it should only have one element being the root of the tree
-        for (var i = 0; i < allComments.length; i++) {
-            removeFiltersFromCommentTree(allComments[i]);
-        }
+        removeFilter();
     });
 
 });
+
+function applyFilter() {
+    filterIsApplied = true;
+    // All comments is technically an array, even though 
+    //it should only have one element being the root of the tree
+    for (var i = 0; i < allComments.length; i++) {
+        filterCommentTree(allComments[i]);
+    }
+}
+
+function removeFilter() {
+    filterIsApplied = false;
+    // All comments is technically an array, even though 
+    //it should only have one element being the root of the tree
+    for (var i = 0; i < allComments.length; i++) {
+        removeFiltersFromCommentTree(allComments[i]);
+    }
+}
 
 
 // Applies filter styling to a tree of comments

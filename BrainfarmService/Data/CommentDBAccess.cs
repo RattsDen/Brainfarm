@@ -367,6 +367,7 @@ SELECT c.CommentID
                         // Create the comment object
                         Comment comment = ReadComment(reader);
                         comment.Username = reader.GetString(reader.GetOrdinal("Username"));
+                        comment.Score = new RatingDBAccess(this).GetScoreForComment(comment.CommentID);
 
                         // If this comment has children...
                         bool hasChildren = reader.GetBoolean(reader.GetOrdinal("HasChildren"));
@@ -433,7 +434,10 @@ SELECT c.CommentID
       ,c.ParentCommentID
       ,c.CreationDate
       ,c.EditedDate
-      ,c.BodyText
+      ,CASE WHEN (c.IsRemoved = CAST(1 AS BIT))
+				THEN '[COMMENT REMOVED]'
+				ELSE c.BodyText
+	   END AS BodyText
       ,c.IsSynthesis
       ,c.IsContribution
       ,c.IsSpecification
@@ -453,10 +457,11 @@ SELECT c.CommentID
                     {
                         result = ReadComment(reader);
                         result.Username = reader.GetString(reader.GetOrdinal("Username"));
+                        result.Score = new RatingDBAccess(this).GetScoreForComment(commentId);
                     }
                     else
                     {
-                        throw new EntityNotFoundException();
+                        throw new EntityNotFoundException(typeof(Comment));
                     }
                 }
             }

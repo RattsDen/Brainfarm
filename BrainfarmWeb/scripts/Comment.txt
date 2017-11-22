@@ -8,7 +8,7 @@
                 <span class="timestamp">{{parseMSDate CreationDate}}  {{#if EditedDate}}Edited at: {{parseMSDate EditedDate}} {{/if}}</span>
             {{/if}}
             <span class="commentNumber">
-                <span class="bookmark">{{#isBookmarked CommentID}}Bookmarked{{/isBookmarked}}</span>
+                <span class="bookmark {{#isBookmarked CommentID}}fa fa-bookmark{{/isBookmarked}}"></span>
                 #{{CommentID}}
             </span>
         </div>
@@ -51,17 +51,28 @@
                 </div>
                 <div class="commentOptions">
                 {{#isUserLoggedIn}}
-                    <a class="btnReply" href="javascript:;">Reply</a>
-                        <a class="btnBookmark" href="javascript:;">
-                            {{#isBookmarked CommentID}}
-                                Unbookmark
-                            {{else}}
-                                Bookmark
-                            {{/isBookmarked}}
-                        </a>
+                    <a class="btnLike {{#isLiked CommentID}}pressed{{/isLiked}}" href="javascript:;">
+                        <span class="fa fa-star"></span>
+                        <span class="score">{{#if Score}}{{Score}}{{/if}}</span>
+                        Like
+                    </a>
+                    <a class="btnReply" href="javascript:;">
+                        <span class="fa fa-comment"></span>
+                        Reply
+                    </a>
+                    <a class="btnBookmark {{#isBookmarked CommentID}}pressed{{/isBookmarked}}" href="javascript:;">
+                        <span class="fa fa-bookmark"></span>
+                        Bookmark
+                    </a>
                     {{#isCurrentUser UserID}}
-                        <a class="btnEdit" href="javascript:;">Edit</a>
-                        <a class="btnRemove" href="javascript:;">Remove</a>
+                        <a class="btnEdit" href="javascript:;">
+                            <span class="fa fa-pencil"></span>
+                            Edit
+                        </a>
+                        <a class="btnRemove" href="javascript:;">
+                            <span class="fa fa-remove"></span>
+                            Remove
+                        </a>
                     {{/isCurrentUser}}
                 {{else}}
                     <a class="btnLoginMessage" href="javascript:;">Log In to Reply</a>

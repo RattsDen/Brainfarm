@@ -1,3 +1,9 @@
 ﻿.hidden-default {
     display: none;
 }
+
+h3 {
+    margin: 10px;
+    margin-bottom: 15px;
+    font-size: 18pt;
+}

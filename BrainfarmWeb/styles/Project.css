@@ -44,9 +44,17 @@
         color: rgba(128, 128, 128, 0.75);
         font-size: small;
     }
-        .comment .commentOptions a:hover {
-            font-weight: bold;
+        .comment .commentOptions a {
+            padding-right: 5px;
         }
+        .comment .commentOptions a.pressed {
+            color: #404040;
+        }
+        .comment .commentOptions a:hover {
+            /*font-weight: bold;*/
+            color: #606060;
+        }
+    
     
     .comment .commentChildren {
         padding-left: 5px;
@@ -196,7 +204,7 @@
     margin: 5px;
 }
 
-#div-filter-options {
+#div-filter-options, #div-sort-options {
     display: flex;
     flex-direction: column;
     margin-bottom: 5px;

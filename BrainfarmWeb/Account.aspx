@@ -24,6 +24,7 @@
         <a href="javascript:;" id="btn-edit-account" class="btn btn-dark">Edit Account</a>
         <a href="javascript:;" id="btn-user-projects" class="btn">My Projects</a>
         <a href="javascript:;" id="btn-user-comments" class="btn">My Comments</a>
+        <a href="javascript:;" id="btn-user-bookmarks" class="btn">My Bookmarks</a>
     </div>
 
     <div id="div-projects" class="panel tab hidden-default">
@@ -35,6 +36,12 @@
     <div id="div-comments" class="panel tab hidden-default">
         <h3>My Comments</h3>
         <div id="div-comments-list">
+        </div>
+    </div>
+
+    <div id="div-bookmarks" class="panel tab hidden-default">
+        <h3>My Bookmarks</h3>
+        <div id="div-bookmarks-list">
         </div>
     </div>
 
@@ -60,7 +67,6 @@
             <asp:TextBox runat="server" ID="txtPasswordConfirm" TextMode="Password" CssClass="text-field text-field-big"></asp:TextBox>
             <asp:Button runat="server" class="btn" Text="Change Password" ID="btnChangePassword" OnClick="btnChangePassword_Click"></asp:Button>
         </div>
-
     </div>
 
 </asp:Content>

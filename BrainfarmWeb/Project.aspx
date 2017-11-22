@@ -15,6 +15,7 @@
     <script src="/scripts/ProjectAutoFetch.js"></script>
     <script src="/scripts/ProjectContribution.js"></script>
     <script src="/scripts/ProjectFiltering.js"></script>
+    <script src="/scripts/ProjectSorting.js"></script>
 
 </asp:Content>
 
@@ -50,6 +51,21 @@
         <div id="div-filter-buttons">
             <a href="javascript:;" id="btn-filter-apply" class="btn">Apply Filter</a>
             <a href="javascript:;" id="btn-filter-remove" class="btn">Remove Filter</a>
+        </div>
+        <h4 class="sidebar-header">Sort Comments</h4>
+        <div id="div-sort-options">
+            <label>
+                <input type="radio" name="sortBy" class="rad-sort" id="rad-sort-date-asc" checked="checked" />
+                Oldest First
+            </label>
+            <label>
+                <input type="radio" name="sortBy" class="rad-sort" id="rad-sort-date-desc" />
+                Newest First
+            </label>
+            <label>
+                <input type="radio" name="sortBy" class="rad-sort" id="rad-sort-score" />
+                Score
+            </label>
         </div>
     </div>
 </asp:Content>

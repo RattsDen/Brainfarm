@@ -137,7 +137,7 @@ SELECT p.ProjectID
                     }
                     else
                     {
-                        throw new EntityNotFoundException();
+                        throw new EntityNotFoundException(typeof(Project));
                     }
                 }
             }

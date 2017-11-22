@@ -4,6 +4,7 @@ var replyTemplate;
 var editTemplate;
 var allComments;
 var bookmarkedCommentIDs = [];
+var userRatings = [];
 var synthModeEnbled = false;
 var synthList;
 var currentUser;
@@ -18,13 +19,22 @@ $(document).ready(function () {
 
     // Make several AJAX calls to get data such as comments and HTML templates
     // Wait for all calls to complete before processing the responses
-    $.when(getCommentsFromService(), // Comments
+    $.when(
+        getCommentsFromService(),    // Comments
         getBookmarksFromService(),   // Current user's bookmarks (optional)
+        getUserRatingsFromService(), // Current user's rated comments (optional)
         getCurrentUserFromService(), // Current user info (optional)
         getCommentTemplate(),        // Comment HTML template
         getReplyTemplate(),          // Reply box HTML template
         getEditTemplate()            // Edit box HTML template
-        ).done(function (commentResp, bookmarksResp, currentUserResp, commentTemplateResp, replyTemplateResp, editTemplateResp)
+    ).done(function (
+        commentResp,
+        bookmarksResp,
+        userRatingsResp,
+        currentUserResp,
+        commentTemplateResp,
+        replyTemplateResp,
+        editTemplateResp)
     {
         if (commentResp[1] == "success"
                 && commentTemplateResp[1] == "success"
@@ -35,12 +45,16 @@ $(document).ready(function () {
             if (bookmarksResp && bookmarksResp[1] == "success") {
                 bookmarkedCommentIDs = bookmarksResp[0];
             }
+            //Same goes for userRatingsResp
+            if (userRatingsResp && userRatingsResp[1] == "success") {
+                userRatings = userRatingsResp[0];
+            }
             //Same goes for currentUserResp
             if (currentUserResp){
                 if (currentUserResp[1] == "success") {
                     currentUser = currentUserResp[0];
                 }
-            }else {
+            } else {
                 currentUser = currentUserResp;
             }
         
@@ -116,8 +130,9 @@ $(document).ready(function () {
                 // remove from array
                 bookmarkedCommentIDs.splice(bookmarkedCommentIDs.indexOf(commentID), 1);
                 // Update view
-                commentView.find(".bookmark:first").text("");
-                commentView.find(".btnBookmark:first").text("Bookmark");
+                commentView.find(".bookmark:first").removeClass("fa");
+                commentView.find(".bookmark:first").removeClass("fa-bookmark");
+                commentView.find(".btnBookmark:first").removeClass("pressed");
             }, handleServiceException, "text");
         } else {
             // Not bookmarked
@@ -125,10 +140,56 @@ $(document).ready(function () {
                 // Update stored model
                 bookmarkedCommentIDs.push(commentID);
                 // Update view
-                commentView.find(".bookmark:first").text("Bookmarked");
-                commentView.find(".btnBookmark:first").text("Unbookmark");
+                commentView.find(".bookmark:first").addClass("fa");
+                commentView.find(".bookmark:first").addClass("fa-bookmark");
+                commentView.find(".btnBookmark:first").addClass("pressed");
             }, handleServiceException, "text");
         }
+    });
+
+    // Like button pressed
+    $(document).on("click", ".btnLike", function () {
+        var commentView = $(this).closest(".comment");
+        var commentID = commentView.data("commentid");
+        var commentModel = getCommentByID(allComments, commentID);
+        var args = {
+            sessionToken: sessionToken,
+            commentID: commentID
+        };
+
+        var ratingPosition = null; // Position of rating in the userRatings array
+        if (userRatings) {
+            for (var i = 0; i < userRatings.length; i++) {
+                if (userRatings[i].CommentID == commentID) {
+                    ratingPosition = i;
+                    break;
+                }
+            }
+        }
+
+        // ratingPosition will be null if the comment is not liked yet
+        if (ratingPosition != null) {
+            // Is currently liked
+            serviceAjax("RemoveRating", args, function (removedRating) {
+                // Update stored model
+                userRatings.splice(ratingPosition, 1); // Remove from array
+                commentModel.Score -= removedRating.Weight;
+                // Update view
+                commentView.find(".btnLike:first").removeClass("pressed");
+                commentView.find(".score:first").text(commentModel.Score != 0 ? commentModel.Score : "");
+            }, handleServiceException);
+        } else {
+            // Is not currently liked
+            serviceAjax("AddRating", args, function (addedRating) {
+                // Update stored model
+                userRatings.push(addedRating);
+                commentModel.Score += addedRating.Weight;
+                // Update view
+                commentView.find(".btnLike:first").addClass("pressed");
+                commentView.find(".score:first").text(commentModel.Score != 0 ? commentModel.Score : "");
+            }, handleServiceException);
+        }
+
     });
 
     // "Log in to reply" button pressed
@@ -235,7 +296,7 @@ $(document).ready(function () {
     // Remove synthesis button pressed
     $(document).on("click", ".synthDelete", function () {
         $(this).parent().remove();
-    })
+    });
 
 });
 
@@ -260,7 +321,7 @@ function getBookmarksFromService() {
         };
         return serviceAjax("GetBookmarksForProject", args, null, handleServiceException);
     } else {
-        console.log("NO TOKEN")
+        //console.log("NO TOKEN");
         return null;
     }
 }
@@ -272,7 +333,19 @@ function getCurrentUserFromService() {
         };
         return serviceAjax("GetCurrentUser", args, null, handleServiceException);
     } else {
-        console.log("NO TOKEN")
+        //console.log("NO TOKEN");
+        return null;
+    }
+}
+
+function getUserRatingsFromService() {
+    if (sessionToken != null && sessionToken != "") {
+        var args = {
+            sessionToken: sessionToken,
+            projectID: projectID
+        };
+        return serviceAjax("GetUserRatings", args, null, handleServiceException);
+    } else {
         return null;
     }
 }
@@ -342,6 +415,7 @@ function getEditTemplate() {
     });
 }
 
+// Handle an exception thrown by the web service during an AJAX call
 function handleServiceException(fault) {
     // TODO: Better exception handling
     console.log(fault);
@@ -350,12 +424,14 @@ function handleServiceException(fault) {
     alert(faultExceptionMessage);
 }
 
+// Prepare the Handlebars comment template
 function prepareTemplate(templateText) {
     Handlebars.registerHelper("layoutChildren", layoutComments);
     Handlebars.registerHelper("parseMSDate", parseMSDate);
     Handlebars.registerHelper("isBookmarked", isBookmarked);
     Handlebars.registerHelper("isCurrentUser", isCurrentUser);
     Handlebars.registerHelper("isUserLoggedIn", isUserLoggedIn);
+    Handlebars.registerHelper("isLiked", isLiked);
     commentTemplate = Handlebars.compile(templateText);
 }
 
@@ -377,6 +453,7 @@ function getCommentByID(comments, id) {
     return result;
 }
 
+// Place comments on the page
 function processComments(comments) {
     allComments = comments;
     var target = $("#div-project-comments");
@@ -384,10 +461,13 @@ function processComments(comments) {
     $(target).html(commentHTML);
 }
 
+// Create HTML for an array of comments using the Handlebars template
+// returns: an HTML string
 function layoutComments(comments) {
     return commentTemplate(comments);
 }
 
+// Handlebars helper for parsing Microsoft JSON date format
 function parseMSDate(datestring) {
     var millis = parseInt(datestring.substring(6));
     var date = new Date(millis);
@@ -408,6 +488,7 @@ function parseMSDate(datestring) {
     return yyyy + "-" + MM + "-" + dd + " " + h + ":" + mm + " " + p;
 }
 
+// Handlebars helper function for checking if the user is logged in
 function isUserLoggedIn(options) {
     if (options) {
         if (currentUser) {
@@ -422,6 +503,7 @@ function isUserLoggedIn(options) {
     }
 }
 
+// Handlebars helper function for checking whether a specified user ID is that of the current user
 function isCurrentUser(userID, options) {
     if (isUserLoggedIn()) {
         if (userID == currentUser.UserID) {
@@ -432,6 +514,7 @@ function isCurrentUser(userID, options) {
     return options.inverse(this); // false
 }
 
+// Handlebars helper function for checking whether a comment is bookmarked by the current user
 function isBookmarked(commentID, options) {
     if (bookmarkedCommentIDs && bookmarkedCommentIDs.includes(commentID)) {
         return options.fn(this); // true
@@ -440,6 +523,20 @@ function isBookmarked(commentID, options) {
     }
 }
 
+// Handlebars helper function for checking whether a comment has been liked by the current user
+function isLiked(commentID, options) {
+    if (userRatings) {
+        for (var i = 0; i < userRatings.length; i++) {
+            if (userRatings[i].CommentID == commentID) {
+                return options.fn(this); // true
+            }
+        }
+    }
+    return options.inverse(this); // false
+}
+
+// Check if content of comment is valid before attempting to create it
+// returns: true if valid, false otherwise
 //TODO: Add better validation?
 function validateComment(errorDisplay, replyText) {
     if (replyText.length == 0) {
@@ -461,6 +558,7 @@ function toggleSynthMode(override) {
     }
 }
 
+// Add a synthesis field to the reply box
 function addSynth(commentId, placeholderText) {
     var duplicate = false;
     synthList.find("li").each(function () {
@@ -483,6 +581,8 @@ function addSynth(commentId, placeholderText) {
     }
 }
 
+// Create an array of SynthesisRequest objects from the synthesis fields in the reply box
+// returns: an array of SynthesisRequest data transfer objects
 function getSyntheses() {
     var syntheses = [];
     synthList.find("li").each(function (k) {
@@ -502,6 +602,7 @@ function getSyntheses() {
     return syntheses;
 }
 
+// Close any existing reply or edit box
 function closeAllCommentForms(){
     $(".hasReplyForm").each(function () {
         $(this).find(".btn-cancelReply").trigger("click");
@@ -510,5 +611,3 @@ function closeAllCommentForms(){
         $(this).find(".btn-cancelEdit").trigger("click");
     });
 }
-
-

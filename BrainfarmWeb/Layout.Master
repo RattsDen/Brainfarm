@@ -5,12 +5,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Brainfarm</title>
+    <!-- Site-wide stylesheet -->
     <link rel="stylesheet" href="/styles/GlobalStyles.css"/>
+    <!-- Fontawesome stylesheet from Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <script src="/plugins/jquery-3.2.1.min.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+
+    <script>
+        // Make sidebar scroll with window but attach to header
+        $(document).ready(function () {
+            var sidebar = $("#div-sidebar");
+            var header = $("#div-header");
+            $(window).on("scroll", function () {
+                var y = header.height() - window.pageYOffset + 10;
+                if (y < 0)
+                    y = 0;
+                sidebar.css("top", y + "px");
+                console.log(header.height());
+            });
+        });
+        
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
