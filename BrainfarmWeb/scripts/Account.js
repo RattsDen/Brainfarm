@@ -1,7 +1,6 @@
 ﻿var commentTemplate;
 
 $(document).ready(function () {
-
     $.when(getUserComments(), getUserBookmarkedComments(), getCommentTemplate())
         .done(function (commentsResp, bookmarksResp, templateResp) {
             if (commentsResp[1] == "success" && bookmarksResp[1] == "success" && templateResp[1] == "success") {
@@ -22,6 +21,10 @@ $(document).ready(function () {
 
     $(document).on("click", "#btn-user-bookmarks", function () {
         showTab("#btn-user-bookmarks", "#div-bookmarks");
+    });
+
+    $(document).on("click", "#btn-edit-account", function () {
+        showTab("#btn-edit-account", "#div-edit-account");
     });
 
     // Project clicked - go to project

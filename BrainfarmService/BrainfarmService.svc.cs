@@ -71,6 +71,53 @@ namespace BrainfarmService
             }
         }
 
+        public User UpdateUserEmail(string sessionToken, string newEmail)
+        {
+            // If not valid email address, throw exception
+            if (!UserUtils.CheckEmailRequirements(newEmail))
+                throw new FaultException("Invalid email address", new FaultCode("BAD_EMAIL"));
+
+            User currentUser = GetCurrentUser(sessionToken);
+            
+            using (UserDBAccess userDBAccess = new UserDBAccess())
+            {
+                userDBAccess.UpdateUserEmail(currentUser.UserID, newEmail);
+            }
+
+            return GetCurrentUser(sessionToken);
+        }
+
+        public User ChangePassword(string sessionToken, string oldPassword, string newPassword)
+        {
+            if (!UserUtils.CheckPasswordRequirements(newPassword))
+                throw new FaultException("Password does not meet requirements", new FaultCode("BAD_PASSWORD"));
+
+            string oldPasswordHash = UserUtils.HashPassword(oldPassword);
+            string newPasswordHash = UserUtils.HashPassword(newPassword);
+            
+            User user = GetCurrentUser(sessionToken);
+
+            try
+            {
+                using (UserDBAccess userDBAccess = new UserDBAccess())
+                {
+                    userDBAccess.AuthenticateUser(user.Username, oldPasswordHash);
+                    userDBAccess.UpdateUserPassword(user.UserID, newPasswordHash);
+                    return GetCurrentUser(sessionToken);
+                }
+            }
+            catch (UserAuthenticationException)
+            {
+                throw new FaultException("Incorrect username or password",
+                    new FaultCode("BAD_CREDENTIALS"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
         public string Login(string username, string password, bool keepLoggedIn)
         {
             string passwordHash = UserUtils.HashPassword(password);
