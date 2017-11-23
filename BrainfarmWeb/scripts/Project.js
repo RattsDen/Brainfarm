@@ -5,7 +5,7 @@ var editTemplate;
 var allComments;
 var bookmarkedCommentIDs = [];
 var userRatings = [];
-var synthModeEnbled = false;
+var synthModeEnabled = false;
 var synthList;
 var currentUser;
 
@@ -99,7 +99,8 @@ $(document).ready(function () {
         var comment = $(this).closest(".comment");
         if (comment.hasClass("synth")) {
             comment.find("input[name='chkIsSynthesis']").trigger("click");
-            comment.find(".commentBody .synth-links a").each(function () {
+            //find the synth links elements, but only use the first one. otherwise any child synth comments will be included
+            comment.find(".commentBody .synth-links").first().find("a").each(function () {
                 addSynth($(this).data("commentid"), $(this).data("subject"));
             });
         }
@@ -287,9 +288,10 @@ $(document).ready(function () {
 
     // Comment header pressed
     // (for synthesis) TODO: change to either checkbox or button for choosing comments to synthesise
-    $(document).on("click", ".commentHead", function () {
-        if (synthModeEnbled) {
+    $(document).on("click", ".btnSynthesizeComment", function () {
+        if (synthModeEnabled) {
             addSynth($(this).closest(".comment").data("commentid"));
+            $(this).addClass("pressed");
         }
     });
 
@@ -391,6 +393,7 @@ function removeCommentWithService(commentid) {
 }
 
 function reloadAndDisplayAllComments() {
+    toggleSynthMode(false);
     getCommentsFromService(processComments);
 }
 
@@ -548,13 +551,21 @@ function validateComment(errorDisplay, replyText) {
 
 function toggleSynthMode(override) {
     if (override === true || override === false) {
-        synthModeEnbled = override;
-        return;
+        synthModeEnabled = override;
     }
-    if (synthModeEnbled === false) {
-        synthModeEnbled = true;
-    } else {
-        synthModeEnbled = false;
+    else {
+        synthModeEnabled = !synthModeEnabled;
+    }
+    showSynthButtons();
+}
+
+function showSynthButtons() {
+    var commentOptions = $(".commentOptions");
+    if (synthModeEnabled) {
+        commentOptions.append("<a class='btnSynthesizeComment' href='javascript:;'><span class='fa fa-list-ul'></span> Synth this comment</a>")
+    }
+    else {
+        $(".btnSynthesizeComment").remove();
     }
 }
 
