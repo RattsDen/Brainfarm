@@ -57,18 +57,6 @@
   <wsdl:message name="IBrainfarmService_CreateProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
   </wsdl:message>
-  <wsdl:message name="IBrainfarmService_EditComment_InputMessage">
-    <wsdl:part name="parameters" element="tns:EditComment" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_EditComment_OutputMessage">
-    <wsdl:part name="parameters" element="tns:EditCommentResponse" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_RemoveComment_InputMessage">
-    <wsdl:part name="parameters" element="tns:RemoveComment" />
-  </wsdl:message>
-  <wsdl:message name="IBrainfarmService_RemoveComment_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RemoveCommentResponse" />
-  </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetProject_InputMessage">
     <wsdl:part name="parameters" element="tns:GetProject" />
   </wsdl:message>
@@ -80,6 +68,18 @@
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_CreateComment_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditCommentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveComment_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveComment" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveComment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveCommentResponse" />
   </wsdl:message>
   <wsdl:message name="IBrainfarmService_UploadFile_InputMessage">
     <wsdl:part name="parameters" element="tns:UploadFile" />
@@ -147,6 +147,30 @@
   <wsdl:message name="IBrainfarmService_GetBookmarksForProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetBookmarksForProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserBookmarkedComments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserBookmarkedComments" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserBookmarkedComments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserBookmarkedCommentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_AddRating_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddRating" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_AddRating_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddRatingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveRating_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveRating" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_RemoveRating_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveRatingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserRatings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserRatings" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_GetUserRatings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserRatingsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IBrainfarmService">
     <wsdl:operation name="GetTimestamp">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetTimestamp" message="tns:IBrainfarmService_GetTimestamp_InputMessage" />
@@ -180,14 +204,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProject" message="tns:IBrainfarmService_CreateProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProjectResponse" message="tns:IBrainfarmService_CreateProject_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="EditComment">
-      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/EditComment" message="tns:IBrainfarmService_EditComment_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/EditCommentResponse" message="tns:IBrainfarmService_EditComment_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="RemoveComment">
-      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveComment" message="tns:IBrainfarmService_RemoveComment_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveCommentResponse" message="tns:IBrainfarmService_RemoveComment_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="GetProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetProject" message="tns:IBrainfarmService_GetProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetProjectResponse" message="tns:IBrainfarmService_GetProject_OutputMessage" />
@@ -195,6 +211,14 @@
     <wsdl:operation name="CreateComment">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateComment" message="tns:IBrainfarmService_CreateComment_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateCommentResponse" message="tns:IBrainfarmService_CreateComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EditComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/EditComment" message="tns:IBrainfarmService_EditComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/EditCommentResponse" message="tns:IBrainfarmService_EditComment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveComment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveComment" message="tns:IBrainfarmService_RemoveComment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveCommentResponse" message="tns:IBrainfarmService_RemoveComment_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="UploadFile">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/UploadFile" message="tns:IBrainfarmService_UploadFile_InputMessage" />
@@ -239,6 +263,22 @@
     <wsdl:operation name="GetBookmarksForProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProject" message="tns:IBrainfarmService_GetBookmarksForProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetBookmarksForProjectResponse" message="tns:IBrainfarmService_GetBookmarksForProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserBookmarkedComments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserBookmarkedComments" message="tns:IBrainfarmService_GetUserBookmarkedComments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserBookmarkedCommentsResponse" message="tns:IBrainfarmService_GetUserBookmarkedComments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRating">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/AddRating" message="tns:IBrainfarmService_AddRating_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/AddRatingResponse" message="tns:IBrainfarmService_AddRating_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRating">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveRating" message="tns:IBrainfarmService_RemoveRating_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/RemoveRatingResponse" message="tns:IBrainfarmService_RemoveRating_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRatings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserRatings" message="tns:IBrainfarmService_GetUserRatings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetUserRatingsResponse" message="tns:IBrainfarmService_GetUserRatings_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBrainfarmService" type="tns:IBrainfarmService">
@@ -315,24 +355,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="EditComment">
-      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/EditComment" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemoveComment">
-      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/RemoveComment" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetProject">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetProject" style="document" />
       <wsdl:input>
@@ -344,6 +366,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateComment">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/CreateComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/EditComment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveComment">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/RemoveComment" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -443,6 +483,42 @@
     </wsdl:operation>
     <wsdl:operation name="GetBookmarksForProject">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetBookmarksForProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserBookmarkedComments">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetUserBookmarkedComments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRating">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/AddRating" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRating">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/RemoveRating" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRatings">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/GetUserRatings" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -99,5 +99,44 @@ namespace BrainfarmWeb
             }
             return projectPanels;
         }
+
+        protected void btnUpdateEmail_Click(object sender, EventArgs e)
+        {
+            if (currentUser != null)
+            {
+                try
+                {
+                    using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
+                    {
+                        currentUser = svc.UpdateUserEmail(sessionToken, txtSetEmail.Text);
+                        lblMessage.Text = "Email changed successfully";
+                        lblError.Text = "";
+                    }
+                }
+                catch (FaultException ex)
+                {
+                    lblError.Text = ex.Message;
+                    lblMessage.Text = "";
+                }
+            }
+        }
+
+        protected void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
+                {
+                    currentUser = svc.ChangePassword(sessionToken, txtOldPasswordAuth.Text, txtNewPassword.Text);
+                    lblMessage.Text = "Password changed successfully";
+                    lblError.Text = "";
+                }
+            }
+            catch (FaultException ex)
+            {
+                lblError.Text = ex.Message;
+                lblMessage.Text = "";
+            }
+        }
     }
 }

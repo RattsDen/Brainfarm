@@ -61,7 +61,7 @@ namespace BrainfarmWeb
                     {
                         // Get reccomended projects for current user
                         ProjectEntity[] recommendedProjects
-                            = svc.GetRecommendedProjects(currentUser.UserID, 5);
+                            = svc.GetRecommendedProjects(sessionToken, 5);
                         // Display recommended projects
                         foreach (Panel panel in LayoutProjectList(recommendedProjects))
                         {
