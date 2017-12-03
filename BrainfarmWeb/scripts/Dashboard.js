@@ -2,7 +2,7 @@
 
     $.when(getUserBookmarkedComments(), getCommentTemplate())
         .done(function (bookmarksResp, templateResp) {
-            if (bookmarksResp[1] == "success" && templateResp[1] == "success") {
+            if (bookmarksResp && bookmarksResp[1] == "success" && templateResp[1] == "success") {
                 prepareCommentTemplate(templateResp[0]);
                 mostRecentBookmarks = bookmarksResp[0].slice(0, 5); // Show only top 5
                 processComments(mostRecentBookmarks, "#div-bookmarks-list");
@@ -18,6 +18,10 @@
 });
 
 function getUserBookmarkedComments() {
+    // Don't make request if user is not logged in
+    if (sessionToken == null || sessionToken == "")
+        return null;
+
     var args = {
         sessionToken: sessionToken
     };

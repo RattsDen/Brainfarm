@@ -10,17 +10,19 @@ using System.ServiceModel;
 
 namespace BrainfarmWeb
 {
-    public partial class Account : System.Web.UI.Page
+    public partial class Account : BrainfarmPage
     {
         protected string sessionToken;
         protected int userID;
         private User currentUser;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
+            base.Page_Load(sender, e);
+            
             currentUser = GetCurrentUser();
             // Set instance variables to be injected into javascript
-            sessionToken = (string)Session["ServiceSessionToken"];
+            sessionToken = GetServiceSessionToken();
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
@@ -54,7 +56,7 @@ namespace BrainfarmWeb
             lblError.Visible = (lblError.Text != "");
 
             // Set instance variables to be injected into javascript
-            sessionToken = (string)Session["ServiceSessionToken"];
+            sessionToken = GetServiceSessionToken();
             userID = currentUser.UserID;
         }
 
@@ -96,80 +98,6 @@ namespace BrainfarmWeb
                 projectPanels.Add(projectPanel);
             }
             return projectPanels;
-        }
-
-        private User GetCurrentUser()
-        {
-            // Get current user
-            if (Session["ServiceSessionToken"] != null)
-            {
-                // Service session token exists - user should be logged in
-                try
-                {
-                    using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                    {
-                        currentUser = svc.GetCurrentUser((string)Session["ServiceSessionToken"]);
-                    }
-                }
-                catch
-                {
-                    Response.StatusCode = 500;
-                    Response.Redirect("/error/500.html");
-                }
-                // If service responds with null, clear the attempted session token and return to the homepage
-                // Essentially, if the session is no longer valid, make it look like a logout
-                if (currentUser == null)
-                {
-                    Session.Remove("ServiceSessionToken");
-                    Response.Redirect("/Default.aspx");
-                }
-            }
-            else
-            {
-                // Service session token does not exist - user not logged in
-                currentUser = null;
-            }
-
-            return currentUser;
-        }
-
-        protected void btnUpdateEmail_Click(object sender, EventArgs e)
-        {
-            if (currentUser != null)
-            {
-                try
-                {
-                    using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                    {
-                        currentUser = svc.UpdateUserEmail(sessionToken, txtSetEmail.Text);
-                        lblMessage.Text = "Email changed successfully";
-                        lblError.Text = "";
-                    }
-                }
-                catch (FaultException ex)
-                {
-                    lblError.Text = ex.Message;
-                    lblMessage.Text = "";
-                }
-            }
-        }
-
-        protected void btnChangePassword_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (BrainfarmServiceClient svc = new BrainfarmServiceClient())
-                {
-                    currentUser = svc.ChangePassword(sessionToken, txtOldPasswordAuth.Text, txtNewPassword.Text);
-                    lblMessage.Text = "Password changed successfully";
-                    lblError.Text = "";
-                }
-            }
-            catch (FaultException ex)
-            {
-                lblError.Text = ex.Message;
-                lblMessage.Text = "";
-            }
         }
     }
 }

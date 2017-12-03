@@ -10,11 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace BrainfarmWeb
 {
-    public partial class CreatePage : System.Web.UI.Page
+    public partial class CreatePage : BrainfarmPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-
+            base.Page_Load(sender, e);
         }
 
         protected void btnCreateNewProject_Click(object sender, EventArgs e)
@@ -27,13 +27,13 @@ namespace BrainfarmWeb
             // -- get service session token information
             string serviceSessionToken = null;
 
-            if (Session["ServiceSessionToken"] == null) {
+            if (GetServiceSessionToken() == null) {
                 lblError.Text = "You must be logged in to create a new project. <br />";
                 lblError.Visible = true;
                 return;    
             }
             else {
-                serviceSessionToken = (string) Session["ServiceSessionToken"];
+                serviceSessionToken = GetServiceSessionToken();
             }
 
 
