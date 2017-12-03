@@ -34,6 +34,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+  <xs:complexType name="ArrayOfFileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileAttachmentRequest" nillable="true" type="tns:ArrayOfFileAttachmentRequest" />
+  <xs:complexType name="FileAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
+      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
   <xs:complexType name="Comment">
     <xs:sequence>
       <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />
@@ -42,7 +55,6 @@
       <xs:element minOccurs="0" name="ContributionFiles" nillable="true" type="tns:ArrayOfContributionFile" />
       <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="EditedDate" nillable="true" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="IsBookmarked" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsContribution" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsRemoved" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsSpecification" type="xs:boolean" />
@@ -50,6 +62,7 @@
       <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LinkingCommentIDs" nillable="true" type="q2:ArrayOfint" />
       <xs:element minOccurs="0" name="ParentCommentID" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="ProjectID" type="xs:int" />
+      <xs:element minOccurs="0" name="Score" type="xs:int" />
       <xs:element minOccurs="0" name="Syntheses" nillable="true" type="tns:ArrayOfSynthesisJunction" />
       <xs:element minOccurs="0" name="UserID" type="xs:int" />
       <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
@@ -90,23 +103,33 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
-  <xs:complexType name="ArrayOfFileAttachmentRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfFileAttachmentRequest" nillable="true" type="tns:ArrayOfFileAttachmentRequest" />
-  <xs:complexType name="FileAttachmentRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ContributionFileID" type="xs:int" />
-      <xs:element minOccurs="0" name="Filename" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />
   <xs:complexType name="ArrayOfProject">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Project" nillable="true" type="tns:Project" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfProject" nillable="true" type="tns:ArrayOfProject" />
+  <xs:complexType name="Bookmark">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Bookmark" nillable="true" type="tns:Bookmark" />
+  <xs:complexType name="Rating">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="CreationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+      <xs:element minOccurs="0" name="Weight" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Rating" nillable="true" type="tns:Rating" />
+  <xs:complexType name="ArrayOfRating">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Rating" nillable="true" type="tns:Rating" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRating" nillable="true" type="tns:ArrayOfRating" />
 </xs:schema>

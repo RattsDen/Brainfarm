@@ -380,13 +380,14 @@ namespace BrainfarmService
             }
         }
 
-        public List<Project> GetRecommendedProjects(int userID, int top)
+        public List<Project> GetRecommendedProjects(string sessionToken, int top)
         {
+            User user = GetCurrentUser(sessionToken);
             try
             {
                 using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
                 {
-                    return projectDBAccess.GetRecommendedProjects(userID, top);
+                    return projectDBAccess.GetRecommendedProjects(user.UserID, top);
                 }
             }
             catch (SqlException)

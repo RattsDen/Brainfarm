@@ -125,7 +125,7 @@ namespace BrainfarmService
 
         [OperationContract]
         [WebInvoke]
-        List<Project> GetRecommendedProjects(int userID, int top);
+        List<Project> GetRecommendedProjects(string sessionToken, int top);
 
         [OperationContract]
         [WebInvoke]
