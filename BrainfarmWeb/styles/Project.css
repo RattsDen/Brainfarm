@@ -49,6 +49,7 @@
         }
         .comment .commentOptions a.pressed {
             color: #404040;
+            font-weight:bold;
         }
         .comment .commentOptions a:hover {
             /*font-weight: bold;*/
@@ -214,4 +215,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.btnSynthesizeComment {
+    color:#9d00ff;
 }
