@@ -14,15 +14,19 @@ namespace BrainfarmWeb
     {
         protected string sessionToken;
         protected int userID;
+        private User currentUser;
 
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
+            
+            currentUser = GetCurrentUser();
+            // Set instance variables to be injected into javascript
+            sessionToken = GetServiceSessionToken();
         }
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
-            User currentUser = GetCurrentUser();
             if (currentUser == null)
             {
                 Response.StatusCode = 400;
@@ -44,6 +48,12 @@ namespace BrainfarmWeb
             {
 
             }
+
+            lblUserName.Text = currentUser.Username;
+            txtSetEmail.Text = currentUser.Email;
+
+            lblMessage.Visible = (lblMessage.Text != "");
+            lblError.Visible = (lblError.Text != "");
 
             // Set instance variables to be injected into javascript
             sessionToken = GetServiceSessionToken();

@@ -21,6 +21,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Project" nillable="true" type="tns:Project" />
+  <xs:complexType name="ArrayOfSynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSynthesisRequest" nillable="true" type="tns:ArrayOfSynthesisRequest" />
+  <xs:complexType name="SynthesisRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
   <xs:complexType name="Comment">
     <xs:sequence>
       <xs:element minOccurs="0" name="BodyText" nillable="true" type="xs:string" />
@@ -36,6 +49,7 @@
       <xs:element minOccurs="0" name="IsSynthesis" type="xs:boolean" />
       <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LinkingCommentIDs" nillable="true" type="q2:ArrayOfint" />
       <xs:element minOccurs="0" name="ParentCommentID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProjectID" type="xs:int" />
       <xs:element minOccurs="0" name="Syntheses" nillable="true" type="tns:ArrayOfSynthesisJunction" />
       <xs:element minOccurs="0" name="UserID" type="xs:int" />
       <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
@@ -76,19 +90,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SynthesisJunction" nillable="true" type="tns:SynthesisJunction" />
-  <xs:complexType name="ArrayOfSynthesisRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSynthesisRequest" nillable="true" type="tns:ArrayOfSynthesisRequest" />
-  <xs:complexType name="SynthesisRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="LinkedCommentID" type="xs:int" />
-      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SynthesisRequest" nillable="true" type="tns:SynthesisRequest" />
   <xs:complexType name="ArrayOfFileAttachmentRequest">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="FileAttachmentRequest" nillable="true" type="tns:FileAttachmentRequest" />

@@ -1,7 +1,0 @@
-﻿#div-search-bar {
-    display: flex;
-}
-    #div-search-bar text-field {
-        width: initial;
-        flex-grow: 1;
-    }
