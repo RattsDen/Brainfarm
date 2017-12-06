@@ -202,6 +202,19 @@ namespace BrainfarmService
 
             try
             {
+                // Validate title
+                if (string.IsNullOrEmpty(title.Trim()))
+                {
+                    throw new FaultException("Title must not be empty",
+                        new FaultCode("MISSING_TITLE"));
+                }
+                // Validate comment body
+                if (string.IsNullOrEmpty(firstCommentBody.Trim()))
+                {
+                    throw new FaultException("Comment body must not be empty",
+                        new FaultCode("MISSING_COMMENT_BODY"));
+                }
+
                 using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
                 {
                     // Insert project, its tags, and its first comment
@@ -214,6 +227,43 @@ namespace BrainfarmService
             catch (SqlException)
             {
                 throw new FaultException("Error while communicating with database", 
+                    new FaultCode("DATABASE_ERROR"));
+            }
+        }
+
+        public Project EditProject(string sessionToken, int projectID, string title, string[] tags)
+        {
+            User user = GetCurrentUser(sessionToken);
+            try
+            {
+                // Validate title
+                if (string.IsNullOrEmpty(title.Trim()))
+                {
+                    throw new FaultException("Title must not be empty",
+                        new FaultCode("MISSING_TITLE"));
+                }
+
+                using (ProjectDBAccess projectDBAccess = new ProjectDBAccess())
+                {
+                    // Throw exception if user is not the project owner
+                    if (projectDBAccess.GetProject(projectID).UserID != user.UserID)
+                        throw new FaultException("You do not have permission to do that",
+                            new FaultCode("INVALID_PERMISSIONS"));
+
+                    projectDBAccess.EditProject(projectID, title, tags);
+
+                    // Return updated project
+                    return projectDBAccess.GetProject(projectID);
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                throw new FaultException("Project could not be found",
+                    new FaultCode("UNKNOWN_PROJECT"));
+            }
+            catch (SqlException)
+            {
+                throw new FaultException("Error while communicating with database",
                     new FaultCode("DATABASE_ERROR"));
             }
         }
@@ -275,7 +325,7 @@ namespace BrainfarmService
         {
             if (bodyText == null || bodyText == "")
             {
-                throw new FaultException("Comment Body must not be empty",
+                throw new FaultException("Comment body must not be empty",
                     new FaultCode("MISSING_COMMENT_BODY"));
             }
 
