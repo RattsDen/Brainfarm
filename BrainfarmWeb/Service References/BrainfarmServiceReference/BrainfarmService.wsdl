@@ -57,6 +57,12 @@
   <wsdl:message name="IBrainfarmService_CreateProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditProject" />
+  </wsdl:message>
+  <wsdl:message name="IBrainfarmService_EditProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="IBrainfarmService_GetProject_InputMessage">
     <wsdl:part name="parameters" element="tns:GetProject" />
   </wsdl:message>
@@ -204,6 +210,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProject" message="tns:IBrainfarmService_CreateProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/CreateProjectResponse" message="tns:IBrainfarmService_CreateProject_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="EditProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/EditProject" message="tns:IBrainfarmService_EditProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/EditProjectResponse" message="tns:IBrainfarmService_EditProject_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetProject">
       <wsdl:input wsaw:Action="http://tempuri.org/IBrainfarmService/GetProject" message="tns:IBrainfarmService_GetProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBrainfarmService/GetProjectResponse" message="tns:IBrainfarmService_GetProject_OutputMessage" />
@@ -348,6 +358,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreateProject">
       <soap:operation soapAction="http://tempuri.org/IBrainfarmService/CreateProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditProject">
+      <soap:operation soapAction="http://tempuri.org/IBrainfarmService/EditProject" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

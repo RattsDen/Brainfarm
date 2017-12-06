@@ -201,7 +201,7 @@ SELECT Text
         {
             string sql = @"
 DELETE ProjectTag
-  WHERE ProjectID = @ProjectID
+ WHERE ProjectID = @ProjectID
 ";
             using (SqlCommand command = GetNewCommand(sql))
             {
@@ -214,7 +214,7 @@ DELETE ProjectTag
         {
             string sql = @"
 UPDATE Project
-   SET(Title = @Title)
+   SET Title = @Title
  WHERE ProjectID = @ProjectID
 ";
             using (SqlCommand command = GetNewCommand(sql))
