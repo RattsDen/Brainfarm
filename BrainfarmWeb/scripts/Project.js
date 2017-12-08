@@ -64,10 +64,9 @@ $(document).ready(function () {
             editTemplate = editTemplateResp[0];
 
             // Scroll to comment once loaded, if so specified in the query parameters
-            var queryParams = {};
-            location.search.substr(1).split("&").forEach(function (item) {
-                queryParams[item.split("=")[0]] = item.split("=")[1]
-            });
+            
+            var queryParams = getQueryParams();
+
             if (queryParams["Comment"]) { // If parameter is specified
                 $("#" + queryParams["Comment"])[0].scrollIntoView(true); // Scroll to comment
             }
@@ -82,7 +81,7 @@ $(document).ready(function () {
         if (!comment.hasClass("hasReplyForm")) {
             comment.append(replyTemplate);
             comment.addClass("hasReplyForm");
-
+            comment.find(".replyText").focus();
             pendingFileUploads = []; // Reinitialize the pending file upload list
         }
     });
@@ -94,6 +93,7 @@ $(document).ready(function () {
         if (!commentContent.hasClass("hasEditForm")) {
             commentContent.append(editTemplate);
             commentContent.addClass("hasEditForm");
+            commentContent.find(".replyText").focus();
         }
         commentContent.find(".replyBox").find(".replyText")[0].value = commentContent.find(".commentBody>p").text();
         var comment = $(this).closest(".comment");
@@ -392,7 +392,11 @@ function removeCommentWithService(commentid) {
     serviceAjax("RemoveComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
-function reloadAndDisplayAllComments() {
+function reloadAndDisplayAllComments(newCommment) {
+    if (newCommment) {
+        setQueryParamAndGo("Comment", newCommment.CommentID);
+    }
+    //if there is a new comment this code should never run
     toggleSynthMode(false);
     getCommentsFromService(processComments);
 }
@@ -621,4 +625,26 @@ function closeAllCommentForms(){
     $(".hasEditForm").each(function () {
         $(this).find(".btn-cancelEdit").trigger("click");
     });
+}
+
+
+function getQueryParams() {
+    var queryParams = {};
+    location.search.substr(1).split("&").forEach(function (item) {
+        queryParams[item.split("=")[0]] = item.split("=")[1]
+    });
+    return queryParams;
+}
+
+function setQueryParamAndGo(key, value) {
+    var params = getQueryParams();
+    var queryString = "?";
+    params[key] = value;
+    
+    Object.keys(params).forEach(function (paramKey) {
+        //because it was adding "undefined" to the query string sometimes
+        if (paramKey)
+            queryString += paramKey + "=" + params[paramKey] + "&";
+    });
+    location.search = queryString;
 }
