@@ -1030,6 +1030,12 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/CreateProject", ReplyAction="http://tempuri.org/IBrainfarmService/CreateProjectResponse")]
         System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/EditProject", ReplyAction="http://tempuri.org/IBrainfarmService/EditProjectResponse")]
+        BrainfarmWeb.BrainfarmServiceReference.Project EditProject(string sessionToken, int projectID, string title, string[] tags);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/EditProject", ReplyAction="http://tempuri.org/IBrainfarmService/EditProjectResponse")]
+        System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> EditProjectAsync(string sessionToken, int projectID, string title, string[] tags);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBrainfarmService/GetProject", ReplyAction="http://tempuri.org/IBrainfarmService/GetProjectResponse")]
         BrainfarmWeb.BrainfarmServiceReference.Project GetProject(int projectID);
         
@@ -1234,6 +1240,14 @@ namespace BrainfarmWeb.BrainfarmServiceReference {
         
         public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> CreateProjectAsync(string sessionToken, string title, string[] tags, string firstCommentBody) {
             return base.Channel.CreateProjectAsync(sessionToken, title, tags, firstCommentBody);
+        }
+        
+        public BrainfarmWeb.BrainfarmServiceReference.Project EditProject(string sessionToken, int projectID, string title, string[] tags) {
+            return base.Channel.EditProject(sessionToken, projectID, title, tags);
+        }
+        
+        public System.Threading.Tasks.Task<BrainfarmWeb.BrainfarmServiceReference.Project> EditProjectAsync(string sessionToken, int projectID, string title, string[] tags) {
+            return base.Channel.EditProjectAsync(sessionToken, projectID, title, tags);
         }
         
         public BrainfarmWeb.BrainfarmServiceReference.Project GetProject(int projectID) {

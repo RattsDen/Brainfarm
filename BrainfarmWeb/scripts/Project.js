@@ -300,6 +300,21 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
+    // Edit Project button pressed
+    $(document).on("click", ".btn-edit-project", function () {
+        // Hide project info div
+        $("#div-project-title").hide();
+        // Show edit project div
+        $("#div-project-edit").show();
+    });
+
+    // Cancel Edit Project button Pressed
+    $(document).on("click", "#btnEditProjectCancel", function () {
+        // Hide edit project div
+        $("#div-project-edit").hide();
+        // Show project info div
+        $("#div-project-title").show();
+    });
 });
 
 
