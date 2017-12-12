@@ -29,7 +29,7 @@
             </div>
             <div class="commentContent">
                 <div class="commentBody">
-                    <p>{{BodyText}}</p>
+                    <p>{{processCommentBody BodyText}}</p>
                     {{#if IsSynthesis}}
                         <div class="synth-links">
                             {{#each this.Syntheses}}
