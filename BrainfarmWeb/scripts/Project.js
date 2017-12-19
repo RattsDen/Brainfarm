@@ -458,6 +458,7 @@ function handleServiceException(fault) {
 
 // Prepare the Handlebars comment template
 function prepareTemplate(templateText) {
+    Handlebars.registerHelper("processCommentBody", processCommentBody);
     Handlebars.registerHelper("layoutChildren", layoutComments);
     Handlebars.registerHelper("parseMSDate", parseMSDate);
     Handlebars.registerHelper("isBookmarked", isBookmarked);
@@ -501,6 +502,15 @@ function processComments(comments) {
 // returns: an HTML string
 function layoutComments(comments) {
     return commentTemplate(comments);
+}
+
+// Handlebars helper for processing the comment body
+// Escapes special HTML characters and replaces newlines with <br/> tags
+function processCommentBody(body) {
+    body = Handlebars.Utils.escapeExpression(body);
+    body = body.replace(/\r\n/gm, "\n");
+    body = body.replace(/\n+/gm, "<br/>")
+    return new Handlebars.SafeString(body);
 }
 
 // Handlebars helper for parsing Microsoft JSON date format

@@ -81,7 +81,9 @@ function commentMatchesFilter(comment) {
 		|| (showSynth && comment.IsSynthesis)
 		|| (showSpec && comment.IsSpecification)
 		|| (showContrib && comment.IsContribution)
-        || (showBookmarked && bookmarkedCommentIDs.includes(comment.CommentID));
+        || (showBookmarked && bookmarkedCommentIDs.includes(comment.CommentID)
+           // None selected: show all
+        || !(showNormal || showSynth || showSpec || showContrib || showBookmarked));
 }
 
 function removeFiltersFromCommentTree(node) {
