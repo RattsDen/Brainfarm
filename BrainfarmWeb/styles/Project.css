@@ -220,3 +220,11 @@
 .btnSynthesizeComment {
     color:#9d00ff;
 }
+
+.btnCollapse {
+    margin-right:5px;
+}
+
+.comment.collapsed .commentContent, .comment.collapsed .commentChildren, .comment.collapsed .ribbon  {
+    display:none;
+}

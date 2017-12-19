@@ -8,6 +8,8 @@ var userRatings = [];
 var synthModeEnabled = false;
 var synthList;
 var currentUser;
+var globNewCommentID;
+
 
 //*************** DOCUMENT.READY STATEMENTS ******************
 
@@ -300,6 +302,12 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
+    // Remove synthesis button pressed
+    $(document).on("click", ".btnCollapse", function () {
+        $(this).closest(".comment").toggleClass("collapsed");
+        $(this).toggleClass("fa-plus");
+        $(this).toggleClass("fa-minus");
+    });
 });
 
 
@@ -392,9 +400,10 @@ function removeCommentWithService(commentid) {
     serviceAjax("RemoveComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
-function reloadAndDisplayAllComments(newCommment) {
-    if (newCommment) {
-        setQueryParamAndGo("Comment", newCommment.CommentID);
+function reloadAndDisplayAllComments(newComment) {
+    if (newComment) {
+        //set the global comment id var, so it can be scrolled to later
+        globNewCommentID = newComment.CommentID;
     }
     //if there is a new comment this code should never run
     toggleSynthMode(false);
@@ -466,6 +475,10 @@ function processComments(comments) {
     var target = $("#div-project-comments");
     var commentHTML = layoutComments(comments);
     $(target).html(commentHTML);
+    if (globNewCommentID) {
+        $("#"+globNewCommentID)[0].scrollIntoView(true);
+        globNewCommentID = undefined;
+    }
 }
 
 // Create HTML for an array of comments using the Handlebars template
@@ -613,7 +626,6 @@ function getSyntheses() {
             syntheses.hasErrors = true;
         }
     });
-    console.log(syntheses);
     return syntheses;
 }
 
@@ -634,17 +646,4 @@ function getQueryParams() {
         queryParams[item.split("=")[0]] = item.split("=")[1]
     });
     return queryParams;
-}
-
-function setQueryParamAndGo(key, value) {
-    var params = getQueryParams();
-    var queryString = "?";
-    params[key] = value;
-    
-    Object.keys(params).forEach(function (paramKey) {
-        //because it was adding "undefined" to the query string sometimes
-        if (paramKey)
-            queryString += paramKey + "=" + params[paramKey] + "&";
-    });
-    location.search = queryString;
 }
