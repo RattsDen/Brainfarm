@@ -2,6 +2,7 @@
 using JWT;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -31,12 +32,12 @@ namespace BrainfarmService
     public static class LoginTokenManager
     {
         private static DateTime unixEpoch = new DateTime(1970, 1, 1);
-        private static int shortExpireTime = 60; // Minutes
-        private static int shortRefreshTime = 90;
-        private static int longExpireTime = 1440; // 1 day
-        private static int longRefreshTime = 43200; // 30 days
+        private static int shortExpireTime = int.Parse(ConfigurationManager.AppSettings["shortExpireTime"]);
+        private static int shortRefreshTime = int.Parse(ConfigurationManager.AppSettings["shortRefreshTime"]);
+        private static int longExpireTime = int.Parse(ConfigurationManager.AppSettings["longExpireTime"]);
+        private static int longRefreshTime = int.Parse(ConfigurationManager.AppSettings["longRefreshTime"]);
 
-        private static string secret = "RicciAndrewTaylorThompsonApostropheScottDavidEricNijjar";
+        private static string secret = ConfigurationManager.AppSettings["jwtSecret"];
 
         public static string GenerateToken(int userID, bool isPersistent)
         {
