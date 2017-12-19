@@ -302,11 +302,27 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
-    // Remove synthesis button pressed
+    // Collapse button pressed
     $(document).on("click", ".btnCollapse", function () {
         $(this).closest(".comment").toggleClass("collapsed");
         $(this).toggleClass("fa-plus");
         $(this).toggleClass("fa-minus");
+    });
+
+    // Edit Project button pressed
+    $(document).on("click", ".btn-edit-project", function () {
+        // Hide project info div
+        $("#div-project-title").hide();
+        // Show edit project div
+        $("#div-project-edit").show();
+    });
+
+    // Cancel Edit Project button Pressed
+    $(document).on("click", "#btnEditProjectCancel", function () {
+        // Hide edit project div
+        $("#div-project-edit").hide();
+        // Show project info div
+        $("#div-project-title").show();
     });
 });
 

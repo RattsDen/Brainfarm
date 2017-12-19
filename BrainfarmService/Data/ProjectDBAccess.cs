@@ -172,6 +172,59 @@ SELECT Text
             return tags;
         }
 
+        public void EditProject(int projectID, string title, string[] tags)
+        {
+            BeginTransaction();
+            try
+            {
+                // Remove existing tags
+                ClearProjectTags(projectID);
+                // Update project
+                UpdateProject(projectID, title);
+                // Add updated tags
+                foreach (string tag in tags)
+                {
+                    int tagID = GetOrCreateTagID(tag);
+                    InsertProjectTag(projectID, tagID);
+                }
+
+                Commit();
+            }
+            catch (Exception ex)
+            {
+                Rollback();
+                throw ex;
+            }
+        }
+
+        private void ClearProjectTags(int projectID)
+        {
+            string sql = @"
+DELETE ProjectTag
+ WHERE ProjectID = @ProjectID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@ProjectID", projectID);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private void UpdateProject(int projectID, string title)
+        {
+            string sql = @"
+UPDATE Project
+   SET Title = @Title
+ WHERE ProjectID = @ProjectID
+";
+            using (SqlCommand command = GetNewCommand(sql))
+            {
+                command.Parameters.AddWithValue("@ProjectID", projectID);
+                command.Parameters.AddWithValue("@Title", title);
+                command.ExecuteNonQuery();
+            }
+        }
+
         public List<Project> GetPopularProjects(int top)
         {
             List<Project> results = new List<Project>();

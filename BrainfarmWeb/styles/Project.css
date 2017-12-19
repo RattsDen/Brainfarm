@@ -228,3 +228,19 @@
 .comment.collapsed .commentContent, .comment.collapsed .commentChildren, .comment.collapsed .ribbon  {
     display:none;
 }
+
+.btn-edit-project {
+    float: right;
+    color: #00c6d8;
+}
+    .btn-edit-project:hover {
+        color: #00809c;
+    }
+
+#div-project-edit {
+    display: none;
+}
+
+#div-project-edit-buttons {
+    margin-top: 5px;
+}

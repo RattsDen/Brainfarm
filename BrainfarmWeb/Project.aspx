@@ -21,11 +21,38 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentPlaceHolder" runat="server">
     <div id="div-project-title" class="panel">
+
+        <asp:Label runat="server" ID="lblEditProjectError" CssClass="error-message" Visible="false">
+        </asp:Label>
+
+        <asp:Panel runat="server" ID="panelEditButton" Visible="false">
+            <a href="javascript:;" class="btn-edit-project">
+                <span class="fa fa-pencil"></span> Edit
+            </a>
+        </asp:Panel>
+
         <h1>
             <asp:Label runat="server" ID="lblProjectTitle"></asp:Label>
         </h1>
         <asp:Panel runat="server" ID="panelProjectTags">
         </asp:Panel>
+
+    </div>
+
+    <div id="div-project-edit" class="panel">
+        <div>
+            <asp:TextBox runat="server" ID="txtProjectTitle" CssClass="text-field text-field-big"
+                         placeholder="Project Title">
+            </asp:TextBox>
+            <asp:TextBox runat="server" ID="txtProjectTags" CssClass="text-field"
+                         placeholder="Project tags">
+            </asp:TextBox>
+        </div>
+        <div id="div-project-edit-buttons">
+            <asp:Button runat="server" ID="btnEditProjectSubmit" Text="Edit Project" CssClass="btn"
+                        OnClick="btnEditProjectSubmit_Click"/>
+            <a id="btnEditProjectCancel" class="btn">Cancel</a>
+        </div>
     </div>
 
     <div id="div-project-comments" class="panel">
