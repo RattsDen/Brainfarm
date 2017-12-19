@@ -1,6 +1,7 @@
 ﻿{{#each this}}
     <div id="{{CommentID}}" data-commentId="{{CommentID}}" class="comment {{#unless ParentCommentID}}initial{{/unless}} {{#if IsSynthesis}}synth{{/if}} {{#if IsSpecification}}spec{{/if}} {{#if IsContribution}}contrib{{/if}}">
-        <div class="commentHead">
+		<div class="commentHead">
+		<span class="fa fa-minus btnCollapse"></span>
             {{#if IsRemoved}}
                 [Comment Removed]
             {{else}}

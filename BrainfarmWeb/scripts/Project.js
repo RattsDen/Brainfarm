@@ -8,6 +8,8 @@ var userRatings = [];
 var synthModeEnabled = false;
 var synthList;
 var currentUser;
+var globNewCommentID;
+
 
 //*************** DOCUMENT.READY STATEMENTS ******************
 
@@ -64,10 +66,9 @@ $(document).ready(function () {
             editTemplate = editTemplateResp[0];
 
             // Scroll to comment once loaded, if so specified in the query parameters
-            var queryParams = {};
-            location.search.substr(1).split("&").forEach(function (item) {
-                queryParams[item.split("=")[0]] = item.split("=")[1]
-            });
+            
+            var queryParams = getQueryParams();
+
             if (queryParams["Comment"]) { // If parameter is specified
                 $("#" + queryParams["Comment"])[0].scrollIntoView(true); // Scroll to comment
             }
@@ -82,7 +83,7 @@ $(document).ready(function () {
         if (!comment.hasClass("hasReplyForm")) {
             comment.append(replyTemplate);
             comment.addClass("hasReplyForm");
-
+            comment.find(".replyText").focus();
             pendingFileUploads = []; // Reinitialize the pending file upload list
         }
     });
@@ -94,6 +95,7 @@ $(document).ready(function () {
         if (!commentContent.hasClass("hasEditForm")) {
             commentContent.append(editTemplate);
             commentContent.addClass("hasEditForm");
+            commentContent.find(".replyText").focus();
         }
         commentContent.find(".replyBox").find(".replyText")[0].value = commentContent.find(".commentBody>p").text();
         var comment = $(this).closest(".comment");
@@ -300,6 +302,13 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
+    // Collapse button pressed
+    $(document).on("click", ".btnCollapse", function () {
+        $(this).closest(".comment").toggleClass("collapsed");
+        $(this).toggleClass("fa-plus");
+        $(this).toggleClass("fa-minus");
+    });
+
     // Edit Project button pressed
     $(document).on("click", ".btn-edit-project", function () {
         // Hide project info div
@@ -407,7 +416,12 @@ function removeCommentWithService(commentid) {
     serviceAjax("RemoveComment", args, reloadAndDisplayAllComments, handleServiceException);
 }
 
-function reloadAndDisplayAllComments() {
+function reloadAndDisplayAllComments(newComment) {
+    if (newComment) {
+        //set the global comment id var, so it can be scrolled to later
+        globNewCommentID = newComment.CommentID;
+    }
+    //if there is a new comment this code should never run
     toggleSynthMode(false);
     getCommentsFromService(processComments);
 }
@@ -477,6 +491,10 @@ function processComments(comments) {
     var target = $("#div-project-comments");
     var commentHTML = layoutComments(comments);
     $(target).html(commentHTML);
+    if (globNewCommentID) {
+        $("#"+globNewCommentID)[0].scrollIntoView(true);
+        globNewCommentID = undefined;
+    }
 }
 
 // Create HTML for an array of comments using the Handlebars template
@@ -624,7 +642,6 @@ function getSyntheses() {
             syntheses.hasErrors = true;
         }
     });
-    console.log(syntheses);
     return syntheses;
 }
 
@@ -636,4 +653,13 @@ function closeAllCommentForms(){
     $(".hasEditForm").each(function () {
         $(this).find(".btn-cancelEdit").trigger("click");
     });
+}
+
+
+function getQueryParams() {
+    var queryParams = {};
+    location.search.substr(1).split("&").forEach(function (item) {
+        queryParams[item.split("=")[0]] = item.split("=")[1]
+    });
+    return queryParams;
 }
